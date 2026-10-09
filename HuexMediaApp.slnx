@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="huexmediaapp.client/huexmediaapp.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="HuexMediaApp.Server/HuexMediaApp.Server.csproj" />
+</Solution>

@@ -1,0 +1,554 @@
+/* ========================================================================== */
+/* 1. PANTALLAS PEQUEÑAS / MÓVILES (Hasta 900px) */
+/* ========================================================================== */
+@media (max-width: 900px) {
+    .huex-container {
+        padding: 15px 20px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .huex-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-title {
+        color: #00e676;
+        letter-spacing: 2px;
+        font-size: 1.2rem;
+        margin: 0;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-divider {
+        border-color: #2a2a2a;
+        border-style: solid;
+        border-width: 1px 0 0 0;
+        margin-bottom: 15px;
+    }
+
+    .huex-content-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .huex-sidebar {
+        width: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+        border-right: none;
+        border-bottom: 1px solid #2a2a2a;
+        padding-bottom: 15px;
+        padding-right: 0;
+    }
+
+    .huex-item {
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: #8c8c8c;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .huex-main-panel {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .huex-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    .huex-grid-vertical {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin: 1.5rem
+    }
+
+    .huex-card-title {
+        font-size: 0.7rem;
+    }
+}
+
+/* ========================================================================== */
+/* 2. LAPTOPS COMPACTAS / TABLETS (De 901px a 1023px) */
+/* ========================================================================== */
+@media (min-width: 901px) and (max-width: 1023px) {
+    .huex-container {
+        padding: 15px 20px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .huex-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-title {
+        color: #00e676;
+        letter-spacing: 1.2px;
+        font-size: 1.5rem;
+        margin: 0;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-divider {
+        border-color: #2a2a2a;
+        border-style: solid;
+        border-width: 1px 0 0 0;
+        margin-bottom: 15px;
+    }
+
+    .huex-content-layout {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .huex-sidebar {
+        width: 150px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        border-right: 1px solid #2a2a2a;
+        padding-right: 10px;
+    }
+
+    .huex-item {
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: #8c8c8c;
+        font-size: 0.85rem;
+    }
+
+    .huex-main-panel {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .huex-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    .huex-grid-vertical {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin: 1.5rem
+    }
+
+    .huex-card-title {
+        font-size: 0.8rem;
+    }
+}
+
+/* ========================================================================== */
+/* 3. PORTÁTILES ESTÁNDAR / INTERMEDIAS (De 1024px a 1440px) */
+/* ========================================================================== */
+@media (min-width: 1024px) and (max-width: 1440px) {
+    .huex-container {
+        padding: 15px 25px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .huex-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-title {
+        color: #00e676;
+        letter-spacing: 1.4px;
+        font-size: 1.5rem;
+        margin: 0;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-divider {
+        border-color: #2a2a2a;
+        border-style: solid;
+        border-width: 1px 0 0 0;
+        margin-bottom: 18px;
+    }
+
+    .huex-content-layout {
+        display: flex;
+        gap: 25px;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .huex-sidebar {
+        width: 170px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        border-right: 1px solid #2a2a2a;
+        padding-right: 12px;
+    }
+
+    .huex-item {
+        padding: 7px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: #8c8c8c;
+        font-size: 0.9rem;
+    }
+
+    .huex-main-panel {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .huex-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .huex-grid-vertical {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin: 1.5rem
+    }
+
+    .huex-card-title {
+        font-size: 0.7rem;
+    }
+}
+
+/* ========================================================================== */
+/* 4. PANTALLA FULL HD / 1080p (De 1441px a 1920px) - TU MONITOR */
+/* ========================================================================== */
+@media (min-width: 1441px) and (max-width: 1920px) {
+    .huex-container {
+        padding: 20px 30px;
+        max-width: 1700px;
+        margin: 0 auto;
+    }
+
+    .huex-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    }
+
+    .huex-title {
+        color: #00e676;
+        letter-spacing: 1.5px;
+        font-size: 1.9rem;
+        margin: 0;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-divider {
+        border-color: #2a2a2a;
+        border-style: solid;
+        border-width: 1px 0 0 0;
+        margin-bottom: 20px;
+    }
+
+    .huex-content-layout {
+        display: flex;
+        gap: 30px;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .huex-sidebar {
+        width: 190px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        border-right: 1px solid #2a2a2a;
+        padding-right: 15px;
+    }
+
+    .huex-item {
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: #8c8c8c;
+        font-size: 1rem;
+    }
+
+    .huex-main-panel {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .huex-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    .huex-grid-vertical {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin: 1.5rem
+    }
+
+    .huex-card-title {
+        font-size: 1rem;
+    }
+}
+
+/* ========================================================================== */
+/* 5. PANTALLAS 2K / 4K O SUPERIORES (Más de 1920px) */
+/* ========================================================================== */
+@media (min-width: 1921px) {
+    .huex-container {
+        padding: 25px 40px;
+        max-width: 2200px;
+        margin: 0 auto;
+    }
+
+    .huex-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-title {
+        color: #00e676;
+        letter-spacing: 2px;
+        font-size: 1.8rem;
+        margin: 0;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .huex-divider {
+        border-color: #2a2a2a;
+        border-style: solid;
+        border-width: 1px 0 0 0;
+        margin-bottom: 25px;
+    }
+
+    .huex-content-layout {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .huex-sidebar {
+        width: 220px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        border-right: 1px solid #2a2a2a;
+        padding-right: 20px;
+    }
+
+    .huex-item {
+        padding: 10px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: #8c8c8c;
+        font-size: 1rem;
+    }
+
+    .huex-main-panel {
+        flex: 1;
+        min-width: 0;
+       
+    }
+
+    .huex-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .huex-grid-vertical {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin: 1.5rem
+    }
+
+    .huex-card-title {
+        font-size: 1rem;
+    }
+}
+
+/* ========================================================================== */
+/* CLASES COMUNES DE ESTADO Y DISEÑO */
+/* ========================================================================== */
+.loading-text, .empty-state {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    background: linear-gradient(145deg, #181818, #111111);
+    border: 2px dashed #333;
+    border-radius: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.empty-state:hover {
+    border-color: #555;
+}
+
+/* Estados de los elementos del menú lateral de temporadas */
+.huex-item.active {
+    background-color: #333;
+    color: #00e676;
+    font-weight: bold;
+    border: 1px solid #646464;
+}
+.huex-item.active:hover {
+    background-color: #333;
+    color: #00e676;
+    font-weight: bold;
+    border: 1px solid #646464;
+}
+.huex-item:hover {
+    color: white;
+}
+
+/* ========================================================================== */
+/* ESTILOS DE LAS TARJETAS (MediaCard / HuexCard) */
+/* ========================================================================== */
+.huex-card {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.huex-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid #b9b9b9;
+}
+
+.huex-thumbnail-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: #141414;
+    position: relative;
+}
+
+.huex-card.huex-card-vertical .huex-thumbnail-container {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background-color: #141414;
+    position: relative;
+}
+
+
+.huex-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.episode-play-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.huex-card-info {
+    padding: 1rem;
+}
+
+.huex-card-title {
+    font-weight: 400;
+    color: #e5e5e5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    line-height: 1.25rem;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #8c8c8c;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+    color: #ffffff;
+}
+
+.huex-default-icon {
+    width: 100%;
+    height: 100%;
+    background-color: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

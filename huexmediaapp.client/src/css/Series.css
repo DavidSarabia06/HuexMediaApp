@@ -1,0 +1,30 @@
+/* Estilo del panel central cuando no hay archivos */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 55vh;
+    background: linear-gradient(145deg, #181818, #111111);
+    border: 2px dashed #333;
+    border-radius: 12px;
+    transition: border-color 0.3s ease;
+}
+
+    .empty-state:hover {
+        border-color: #555;
+    }
+
+.episodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* En pantallas más pequeñas (portátiles o monitores con menor resolución) */
+@media (max-width: 1200px) {
+    .episodes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+}
