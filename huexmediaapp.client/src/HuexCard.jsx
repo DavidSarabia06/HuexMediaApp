@@ -8,7 +8,7 @@ function HuexCard({ item, onClick, showPlayButton = false, variant = "vertical" 
     const cardClassName = variant === "vertical" ? "huex-card huex-card-vertical" : "huex-card";
 
     return (
-        <div className={cardClassName} onClick={onClick}>
+        <button type="button" className={cardClassName} onClick={onClick}>
             <div className="huex-thumbnail-container">
                 {item.urlImagen ? (
                     <img
@@ -43,7 +43,7 @@ function HuexCard({ item, onClick, showPlayButton = false, variant = "vertical" 
                     {nombre}
                 </span>
             </div>
-        </div>
+        </button>
     );
 }
 

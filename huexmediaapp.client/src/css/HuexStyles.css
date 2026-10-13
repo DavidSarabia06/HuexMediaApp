@@ -552,3 +552,35 @@
     align-items: center;
     justify-content: center;
 }
+/* Elementos compartidos por las páginas de la biblioteca. */
+.huex-app { min-height: 100vh; background: #141414; color: #e5e5e5; }
+.huex-app-content { padding: 20px; }
+.huex-container { box-sizing: border-box; text-align: left; }
+.huex-header { flex-wrap: wrap; }
+.huex-header .huex-title { flex: 1; min-width: 0; overflow-wrap: anywhere; margin: 0; }
+.huex-header-actions { margin-left: auto; }
+.action-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border: 1px solid #646464; border-radius: 6px; background: #252525; color: #00e676; font: inherit; font-size: .9rem; cursor: pointer; }
+.action-btn:hover { background: #333; border-color: #00e676; }
+.action-btn:disabled { opacity: .5; cursor: wait; }
+.huex-description { color: #aaa; line-height: 1.6; }
+.huex-item { background: transparent; border: 1px solid transparent; font-family: inherit; text-align: left; }
+.huex-card { padding: 0; font-family: inherit; text-align: left; width: 100%; min-width: 0; }
+.huex-card-info { width: 100%; box-sizing: border-box; }
+.huex-card-title { margin: 0; }
+.huex-home-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.huex-container.huex-player-page { width: 100%; }
+.huex-app :focus-visible { outline: 2px solid #00e676; outline-offset: 4px; }
+.empty-state { padding: 24px; box-sizing: border-box; }
+.empty-state h3 { color: #e5e5e5; }
+@media (max-width: 900px) {
+    .huex-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .huex-grid-vertical { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1.5rem 0 0; }
+    .huex-home-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+    .huex-app-content { padding: 8px; }
+    .huex-grid, .huex-home-grid { grid-template-columns: 1fr; }
+    .huex-grid-vertical { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .huex-header-actions { width: 100%; margin: 0; }
+    .huex-card-title { font-size: .9rem; }
+}

@@ -1,21 +1,13 @@
-import { useState, useEffect } from 'react';
+import HuexPageHeader from './HuexPageHeader';
 
-function Settings() {
-
-    useEffect(() => {
-        // Cargamos la preferencia guardada al abrir la pantalla
-        
-    }, []);
-
-
-
+export default function Settings() {
     return (
-        <div style={{ padding: '20px 40px', maxWidth: '800px', margin: '0 auto' }}>
-            <h2 style={{ color: '#00e676', letterSpacing: '2px', fontSize: '1.8rem', margin: '0 0 20px 0' }}>CONFIGURACIÓN</h2>
-            <hr style={{ borderColor: '#2a2a2a', borderStyle: 'solid', borderWidth: '1px 0 0 0', marginBottom: '30px' }} />
-
+        <div className="huex-container">
+            <HuexPageHeader title="Configuración" />
+            <div className="empty-state">
+                <h3>Configuración de la biblioteca</h3>
+                <p className="huex-description">Puedes seleccionar la carpeta de tu biblioteca desde la sección Series.</p>
+            </div>
         </div>
     );
 }
-
-export default Settings;

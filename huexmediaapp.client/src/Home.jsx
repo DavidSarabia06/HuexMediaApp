@@ -1,21 +1,22 @@
-import { Link } from 'react-router-dom';
-function Home() {
-    const cardStyle = {
-        display: 'inline-block', padding: '30px 50px', margin: '10px',
-        backgroundColor: '#1e1e1e', color: 'white', textDecoration: 'none',
-        borderRadius: '10px', fontSize: '1.5rem', fontWeight: 'bold',
-        transition: 'transform 0.2s'
-    };
+import { useNavigate } from 'react-router-dom';
+import HuexCard from './HuexCard';
+import HuexPageHeader from './HuexPageHeader';
 
+export default function Home() {
+    const navigate = useNavigate();
     return (
-        <div style={{ textAlign: 'center', padding: '50px', fontFamily: 'sans-serif' }}>
-            <h1>Bienvenido a Huexflix App</h1>
-            <div style={{ marginTop: '40px' }}>
-                <Link to="/peliculas" style={cardStyle}>🎬 Películas</Link>
-                <Link to="/series" style={cardStyle}>📺 Series</Link>
-                <Link to="/musica" style={cardStyle}>🎵 Música</Link>
+        <div className="huex-container">
+            <HuexPageHeader title="Mi biblioteca" />
+            <p className="huex-description">Tus películas, series y música en un solo lugar.</p>
+            <div className="huex-grid huex-home-grid">
+                {[
+                    { nombre: 'Películas', path: '/movies' },
+                    { nombre: 'Series', path: '/series' },
+                    { nombre: 'Música', path: '/music' }
+                ].map((item) => (
+                    <HuexCard key={item.path} item={item} variant="horizontal" onClick={() => navigate(item.path)} />
+                ))}
             </div>
         </div>
     );
 }
-export default Home;

@@ -1,30 +1,36 @@
+
 using HuexMediaApp.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Registra los servicios de la aplicación.
 builder.Services.AddSingleton<ConfigurationService>();
+builder.Services.AddSingleton<VideoService>();
+builder.Services.AddHostedService<HlsCleanupService>();
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// Configura la documentación de la API.
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Configura los archivos estáticos de React.
 app.UseDefaultFiles();
 app.MapStaticAssets();
 
-// Configure the HTTP request pipeline.
+// Habilita Swagger únicamente durante el desarrollo.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.MapFallbackToFile("/index.html");
 
 app.Run();

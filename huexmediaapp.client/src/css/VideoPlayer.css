@@ -1,0 +1,23 @@
+.custom-video-player { overflow: hidden; border-radius: 8px; width: 100%; aspect-ratio: 16 / 9; max-height: 75vh; }
+.custom-video-player video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
+.custom-video-loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 28px; border-radius: 16px; background: #000a; color: white; font-size: 15px; pointer-events: none; }
+.custom-video-spinner { width: 42px; height: 42px; border: 4px solid #ffffff26; border-top-color: #e50914; border-radius: 50%; animation: video-loading-spin .85s linear infinite; }
+@keyframes video-loading-spin { to { transform: rotate(360deg); } }
+.custom-video-controls { position: absolute; bottom: 0; left: 0; right: 0; color: white; opacity: 1; transition: opacity .2s ease; }
+.custom-video-player.controls-hidden:not(:has(:focus-visible)) { cursor: none; }
+.custom-video-player.controls-hidden:not(:has(:focus-visible)) .custom-video-controls { opacity: 0; pointer-events: none; }
+.custom-video-buttons { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.custom-video-buttons button { min-width: 40px; min-height: 40px; background: transparent; color: white; border: 0; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.custom-video-buttons button:hover { background: #ffffff26; }
+.custom-video-buttons button:disabled { opacity: .45; cursor: default; }
+.custom-video-buttons input { width: 80px; accent-color: #e50914; }
+.custom-video-controls input { touch-action: none; }
+.custom-video-controls :focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.custom-video-buttons .custom-video-fullscreen { margin-left: auto; font-size: 24px; }
+.custom-video-player:fullscreen { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; border-radius: 0; }
+.custom-video-player:fullscreen video { height: 100%; max-height: 100% !important; object-fit: contain; }
+@media (max-width: 480px) {
+    .custom-video-buttons { gap: 2px; }
+    .custom-video-buttons button { min-width: 32px; font-size: 14px; }
+    .custom-video-buttons input { width: 48px; }
+}

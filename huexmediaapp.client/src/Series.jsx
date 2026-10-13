@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HuexCard from './HuexCard';
+import HuexPageHeader from './HuexPageHeader';
 import './css/HuexStyles.css';
 
 function Series({ seriesList, setSeriesList }) {
@@ -46,7 +47,7 @@ function Series({ seriesList, setSeriesList }) {
 
         cargarSeries();
 
-    }, []);
+    }, [setSeriesList]);
 
 
     const handleSelectFolder = async () => {
@@ -109,17 +110,14 @@ function Series({ seriesList, setSeriesList }) {
     return (
         <div className="huex-container">
 
-            <div className="huex-header" style={{ justifyContent: 'space-between' }}>
-                <h2 className="huex-title">MIS SERIES</h2>
+            <HuexPageHeader title="Mis series">
                 <button className="action-btn" onClick={handleSelectFolder} disabled={isLoading}>
                     <svg viewBox="0 0 24 24" fill="currentColor" width="22px" height="22px" style={{ display: 'block' }}>
                         <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
                     </svg>
                     {isLoading ? 'Cargando...' : 'Seleccionar Carpeta'}
                 </button>
-            </div>
-
-            <hr className="huex-divider" />
+            </HuexPageHeader>
 
             {seriesList.length === 0 ? (
                 <div className="empty-state">
