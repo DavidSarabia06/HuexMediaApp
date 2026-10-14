@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Hls from "hls.js";
 import HuexPageHeader from "./HuexPageHeader";
 import "./css/VideoPlayer.css";
+import { parseSubtitles, subtitleAt, trackLabel } from "./subtitles";
 
 function formatTime(seconds) {
     if (!Number.isFinite(seconds)) {
@@ -62,6 +63,11 @@ export default function VideoPlayer() {
     const [currentTime, setCurrentTime] = useState(0);
     const [startOffset, setStartOffset] = useState(0);
     const [seekTarget, setSeekTarget] = useState(0);
+    const [audioTracks, setAudioTracks] = useState([]);
+    const [subtitleTracks, setSubtitleTracks] = useState([]);
+    const [selectedAudio, setSelectedAudio] = useState(null);
+    const [selectedSubtitle, setSelectedSubtitle] = useState("");
+    const [subtitleData, setSubtitleData] = useState(null);
 
     const [isDragging, setIsDragging] = useState(false);
     const [dragTime, setDragTime] = useState(0);
@@ -109,6 +115,8 @@ export default function VideoPlayer() {
 
                 if (!controller.signal.aborted) {
                     setDuration(info.duration ?? 0);
+                    setAudioTracks(info.audioTracks ?? []);
+                    setSubtitleTracks(info.subtitleTracks ?? []);
                 }
             } catch (err) {
                 if (!controller.signal.aborted) {
@@ -122,6 +130,28 @@ export default function VideoPlayer() {
 
         return () => controller.abort();
     }, [videoPath]);
+
+    // Las marcas de tiempo pertenecen al episodio completo, no a cada sesión HLS.
+    useEffect(() => {
+        if (!videoPath || selectedSubtitle === "") return;
+        const controller = new AbortController();
+        const timer = window.setTimeout(async () => {
+            try {
+                const params = new URLSearchParams({ path: videoPath, trackIndex: selectedSubtitle });
+                const response = await fetch(`/api/video/subtitles?${params}`, { signal: controller.signal });
+                if (!response.ok) throw new Error("No se han podido cargar los subtítulos.");
+                const cues = parseSubtitles(await response.text());
+                if (!controller.signal.aborted) {
+                    setSubtitleData({ path: videoPath, track: selectedSubtitle, cues });
+                }
+            } catch (err) {
+                if (!controller.signal.aborted) {
+                    setSubtitleData({ path: videoPath, track: selectedSubtitle, cues: [], error: err.message });
+                }
+            }
+        }, 0);
+        return () => { window.clearTimeout(timer); controller.abort(); };
+    }, [videoPath, selectedSubtitle]);
 
     // Inicia una nueva sesión cada vez que cambia la posición.
     useEffect(() => {
@@ -191,6 +221,7 @@ export default function VideoPlayer() {
                     path: videoPath,
                     startSeconds: String(seekTarget)
                 });
+                if (selectedAudio !== null) params.set("audioTrackIndex", String(selectedAudio));
 
                 const response = await fetch(
                     `/api/video/start?${params.toString()}`,
@@ -335,7 +366,7 @@ export default function VideoPlayer() {
                 void stopSession(localSessionId);
             }
         };
-    }, [videoPath, seekTarget]);
+    }, [videoPath, seekTarget, selectedAudio]);
 
     // Actualiza la posición global mostrada.
     function handleTimeUpdate() {
@@ -394,6 +425,24 @@ export default function VideoPlayer() {
         }
     }
 
+    function changeAudio(event) {
+        if (loading) return;
+        const index = Number(event.target.value);
+        if (index === (selectedAudio ?? audioTracks[0]?.index)) return;
+        playAfterSeekRef.current = !videoRef.current.paused;
+        const position = Math.max(0, Math.min(
+            startOffsetRef.current + videoRef.current.currentTime, Math.max(0, duration - 0.1)));
+        setCurrentTime(position);
+        setSeekTarget(position);
+        setSelectedAudio(index);
+        setLoading(true);
+    }
+
+    const activeSubtitles = selectedSubtitle !== "" && subtitleData?.path === videoPath &&
+        subtitleData?.track === selectedSubtitle ? subtitleData : null;
+    const caption = !loading && !isDragging && activeSubtitles
+        ? subtitleAt(activeSubtitles.cues, currentTime) : "";
+
     const displayedTime = isDragging
         ? dragTime
         : currentTime;
@@ -441,6 +490,10 @@ export default function VideoPlayer() {
                     }}
                     onTimeUpdate={handleTimeUpdate}
                 />
+
+                {caption && <div className={`custom-video-caption${hideControls ? "" : " above-controls"}`}>
+                    <span>{caption}</span>
+                </div>}
 
                 {(loading || buffering) && !error && (
                     <div className="custom-video-loading" role="status" aria-live="polite">
@@ -515,6 +568,28 @@ export default function VideoPlayer() {
                             videoRef.current.volume = Number(event.target.value);
                             videoRef.current.muted = false;
                         }} />
+                    <label className="custom-video-track">
+                        <span>Audio</span>
+                        <select aria-label="Idioma del audio" value={selectedAudio ?? audioTracks[0]?.index ?? ""}
+                            disabled={loading || audioTracks.length < 2} onChange={changeAudio}>
+                            {audioTracks.length === 0 && <option value="">Sin audio</option>}
+                            {audioTracks.map((track, index) => <option key={track.index} value={track.index}>
+                                {trackLabel(track, index)}
+                            </option>)}
+                        </select>
+                    </label>
+                    <label className="custom-video-track">
+                        <span>Subtítulos</span>
+                        <select aria-label="Idioma de los subtítulos" value={selectedSubtitle}
+                            disabled={subtitleTracks.length === 0}
+                            onChange={(event) => { setSelectedSubtitle(event.target.value); showControls(); }}>
+                            <option value="">{subtitleTracks.length ? "Desactivados" : "Sin subtítulos"}</option>
+                            {subtitleTracks.map((track, index) => <option key={track.index} value={String(track.index)}
+                                disabled={!track.isSupported}>
+                                {trackLabel(track, index)}{!track.isSupported ? " · No compatible" : ""}
+                            </option>)}
+                        </select>
+                    </label>
                     <button className="custom-video-fullscreen" aria-label="Alternar pantalla completa"
                         onClick={async () => {
                             try {
@@ -525,6 +600,9 @@ export default function VideoPlayer() {
                 </div>
             </div>
             </div>
+
+            {selectedSubtitle !== "" && !activeSubtitles && <p className="custom-subtitle-status" role="status">Cargando subtítulos…</p>}
+            {activeSubtitles?.error && <p className="custom-subtitle-error" role="alert">{activeSubtitles.error}</p>}
 
             {error && (
                 <p style={{ color: "#ff7777", marginTop: "14px" }}>

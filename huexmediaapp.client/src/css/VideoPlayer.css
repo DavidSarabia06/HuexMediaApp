@@ -6,7 +6,15 @@
 .custom-video-controls { position: absolute; bottom: 0; left: 0; right: 0; color: white; opacity: 1; transition: opacity .2s ease; }
 .custom-video-player.controls-hidden:not(:has(:focus-visible)) { cursor: none; }
 .custom-video-player.controls-hidden:not(:has(:focus-visible)) .custom-video-controls { opacity: 0; pointer-events: none; }
-.custom-video-buttons { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.custom-video-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
+.custom-video-track { display: flex; align-items: center; gap: 6px; min-width: 0; color: #ddd; font-size: 12px; }
+.custom-video-track select { min-width: 80px; max-width: 180px; min-height: 36px; padding: 4px 6px; border: 1px solid #555; border-radius: 6px; background: #202020; color: white; font: inherit; cursor: pointer; }
+.custom-video-track select:disabled { opacity: .55; cursor: default; }
+.custom-video-caption { position: absolute; bottom: 6%; left: 6%; right: 6%; text-align: center; pointer-events: none; color: white; font-size: clamp(16px, 2.2vw, 30px); line-height: 1.45; white-space: pre-line; text-shadow: 0 2px 4px black; }
+.custom-video-caption.above-controls { bottom: 150px; }
+.custom-video-caption span { background: #000b; padding: 2px 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.custom-subtitle-status { color: #aaa; font-size: 13px; margin-top: 8px; }
+.custom-subtitle-error { color: #ff9999; margin-top: 8px; }
 .custom-video-buttons button { min-width: 40px; min-height: 40px; background: transparent; color: white; border: 0; border-radius: 6px; cursor: pointer; font-size: 16px; }
 .custom-video-buttons button:hover { background: #ffffff26; }
 .custom-video-buttons button:disabled { opacity: .45; cursor: default; }
@@ -17,6 +25,8 @@
 .custom-video-player:fullscreen { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; border-radius: 0; }
 .custom-video-player:fullscreen video { height: 100%; max-height: 100% !important; object-fit: contain; }
 @media (max-width: 480px) {
+    .custom-video-track { flex: 1; }
+    .custom-video-track select { width: 100%; max-width: 140px; }
     .custom-video-buttons { gap: 2px; }
     .custom-video-buttons button { min-width: 32px; font-size: 14px; }
     .custom-video-buttons input { width: 48px; }

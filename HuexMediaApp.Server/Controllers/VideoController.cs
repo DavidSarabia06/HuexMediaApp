@@ -40,7 +40,7 @@ public class VideoController : ControllerBase
 
         try
         {
-            var videoInfo = await _videoService.GetVideoInfoAsync(path);
+            var videoInfo = await _videoService.GetVideoInfoAsync(path, HttpContext.RequestAborted);
 
             return Ok(videoInfo);
         }
@@ -66,7 +66,8 @@ public class VideoController : ControllerBase
     [HttpPost("start")]
     public async Task<IActionResult> Start(
         [FromQuery] string path,
-        [FromQuery] double startSeconds = 0)
+        [FromQuery] double startSeconds = 0,
+        [FromQuery] int? audioTrackIndex = null)
     {
         // Comprueba que se haya indicado un archivo.
         if (string.IsNullOrWhiteSpace(path))
@@ -87,11 +88,14 @@ public class VideoController : ControllerBase
         }
 
         // Inicia FFmpeg desde la posición solicitada.
-        string sessionId = await _videoService.StartHlsAsync(
-            path,
-            startSeconds,
-            HttpContext.RequestAborted
-        );
+        string sessionId;
+        try
+        {
+            sessionId = await _videoService.StartHlsAsync(
+                path, startSeconds, HttpContext.RequestAborted, audioTrackIndex);
+        }
+        catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
+        catch (FileNotFoundException) { return NotFound(new { error = "No se ha encontrado el vídeo." }); }
 
         return Ok(new
         {
@@ -99,6 +103,21 @@ public class VideoController : ControllerBase
             playlistUrl = $"/api/video/hls/{sessionId}/index.m3u8",
             startSeconds
         });
+    }
+
+    [HttpGet("subtitles")]
+    public async Task<IActionResult> GetSubtitles([FromQuery] string path, [FromQuery] int trackIndex)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return BadRequest(new { error = "La ruta del vídeo no es válida." });
+        try
+        {
+            var subtitles = await _videoService.GetSubtitlesAsync(path, trackIndex, HttpContext.RequestAborted);
+            return Content(subtitles, "text/vtt", System.Text.Encoding.UTF8);
+        }
+        catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
+        catch (FileNotFoundException) { return NotFound(new { error = "No se ha encontrado el vídeo." }); }
+        catch (InvalidOperationException ex) { return StatusCode(500, new { error = ex.Message }); }
     }
 
 

@@ -51,7 +51,7 @@ public class VideoService
     /// <summary>
     /// Obtiene la información técnica de un archivo de vídeo.
     /// </summary>
-    public async Task<VideoInfo> GetVideoInfoAsync(string path)
+    public async Task<VideoInfo> GetVideoInfoAsync(string path, CancellationToken cancellationToken = default)
     {
         if (!File.Exists(path))
         {
@@ -75,7 +75,7 @@ public class VideoService
         startInfo.ArgumentList.Add("error");
         startInfo.ArgumentList.Add("-show_entries");
         startInfo.ArgumentList.Add(
-            "format=duration:stream=codec_type,codec_name,width,height"
+            "format=duration:stream=index,codec_type,codec_name,width,height:stream_tags=language,title:stream_disposition=default,forced"
         );
         startInfo.ArgumentList.Add("-of");
         startInfo.ArgumentList.Add("json");
@@ -87,12 +87,19 @@ public class VideoService
         };
 
         process.Start();
+        using var cancellationRegistration = cancellationToken.Register(() =>
+        {
+            try { process.Kill(entireProcessTree: true); }
+            catch (InvalidOperationException) { }
+            catch (System.ComponentModel.Win32Exception) { }
+        });
 
         // Lee la salida de FFprobe y espera a que termine.
         Task<string> outputTask = process.StandardOutput.ReadToEndAsync();
         Task<string> errorTask = process.StandardError.ReadToEndAsync();
 
         await process.WaitForExitAsync();
+        cancellationToken.ThrowIfCancellationRequested();
 
         string output = await outputTask;
         string error = await errorTask;
@@ -138,6 +145,22 @@ public class VideoService
                 string codecType = stream["codec_type"]?.GetValue<string>() ?? "";
                 string codecName = stream["codec_name"]?.GetValue<string>() ?? "";
 
+                if (codecType is "audio" or "subtitle")
+                {
+                    var track = new MediaTrack
+                    {
+                        Index = stream["index"]!.GetValue<int>(),
+                        Codec = codecName,
+                        Language = stream["tags"]?["language"]?.GetValue<string>() ?? "und",
+                        Title = stream["tags"]?["title"]?.GetValue<string>() ?? "",
+                        IsDefault = stream["disposition"]?["default"]?.GetValue<int>() == 1,
+                        IsForced = stream["disposition"]?["forced"]?.GetValue<int>() == 1,
+                        IsSupported = codecType == "audio" || IsTextSubtitle(codecName)
+                    };
+                    if (codecType == "audio") videoInfo.AudioTracks.Add(track);
+                    else videoInfo.SubtitleTracks.Add(track);
+                }
+
                 if (codecType == "video" && videoInfo.VideoCodec == "")
                 {
                     videoInfo.VideoCodec = codecName;
@@ -164,6 +187,56 @@ public class VideoService
         );
 
         return videoInfo;
+    }
+
+    private static bool IsTextSubtitle(string codec) => codec is
+        "subrip" or "ass" or "ssa" or "webvtt" or "mov_text" or "text";
+
+    public async Task<string> GetSubtitlesAsync(string path, int trackIndex, CancellationToken cancellationToken)
+    {
+        var info = await GetVideoInfoAsync(path, cancellationToken);
+        var track = info.SubtitleTracks.FirstOrDefault(t => t.Index == trackIndex)
+            ?? throw new ArgumentException("La pista de subtítulos no existe.");
+        if (!track.IsSupported)
+            throw new ArgumentException("Los subtítulos de imagen todavía no son compatibles.");
+
+        using var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = _ffmpegPath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8
+            }
+        };
+        foreach (var argument in new[] { "-v", "error", "-i", path, "-map", $"0:{trackIndex}",
+                     "-c:s", "webvtt", "-f", "webvtt", "pipe:1" })
+            process.StartInfo.ArgumentList.Add(argument);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        process.Start();
+        using var registration = cancellationToken.Register(() =>
+        {
+            try { process.Kill(entireProcessTree: true); }
+            catch (InvalidOperationException) { }
+            catch (System.ComponentModel.Win32Exception) { }
+        });
+        var outputTask = process.StandardOutput.ReadToEndAsync();
+        var errorTask = process.StandardError.ReadToEndAsync();
+        await process.WaitForExitAsync();
+        cancellationToken.ThrowIfCancellationRequested();
+        var output = await outputTask;
+        var error = await errorTask;
+        if (process.ExitCode != 0)
+        {
+            _logger.LogWarning("Error al extraer subtítulos: {Error}", error);
+            throw new InvalidOperationException("No se han podido extraer los subtítulos.");
+        }
+        // Se devuelve en memoria: no se crean nuevas carpetas temporales.
+        return output;
     }
 
     public string GetHlsFilePath(string sessionId, string fileName)
@@ -206,7 +279,8 @@ public class VideoService
     public async Task<string> StartHlsAsync(
         string path,
         double startSeconds = 0,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        int? audioTrackIndex = null)
     {
         cancellationToken.ThrowIfCancellationRequested();
         // Comprueba que el archivo de vídeo existe.
@@ -219,8 +293,10 @@ public class VideoService
         }
 
         // Analiza los códecs y la duración del vídeo.
-        VideoInfo videoInfo = await GetVideoInfoAsync(path);
+        VideoInfo videoInfo = await GetVideoInfoAsync(path, cancellationToken);
         cancellationToken.ThrowIfCancellationRequested();
+        if (audioTrackIndex.HasValue && !videoInfo.AudioTracks.Any(t => t.Index == audioTrackIndex.Value))
+            throw new ArgumentException("La pista de audio no existe.");
 
         // Valida la posición inicial solicitada.
         if (!double.IsFinite(startSeconds) ||
@@ -295,7 +371,7 @@ public class VideoService
 
             // Selecciona la primera pista de audio si existe.
             startInfo.ArgumentList.Add("-map");
-            startInfo.ArgumentList.Add("0:a:0?");
+            startInfo.ArgumentList.Add(audioTrackIndex.HasValue ? $"0:{audioTrackIndex.Value}" : "0:a:0?");
 
             // Conserva H.264 si es compatible.
             // En caso contrario, convierte el vídeo.
