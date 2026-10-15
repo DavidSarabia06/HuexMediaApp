@@ -37,7 +37,7 @@ function Header() {
     return (
         <header style={headerStyle}>
             <Link to="/" style={logoStyle}>
-                HUEXFLIX
+                HUEX MEDIA APP
             </Link>
 
             {/* Contenedor que agrupa todos los botones a la derecha */}

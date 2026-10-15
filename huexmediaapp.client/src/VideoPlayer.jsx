@@ -5,6 +5,7 @@ import Hls from "hls.js";
 import HuexPageHeader from "./HuexPageHeader";
 import "./css/VideoPlayer.css";
 import { parseSubtitles, subtitleAt, trackLabel } from "./subtitles";
+import { createProgressSaver } from "./playbackProgress";
 
 function formatTime(seconds) {
     if (!Number.isFinite(seconds)) {
@@ -47,6 +48,10 @@ export default function VideoPlayer() {
 
     const episode = location.state?.episode;
     const videoPath = episode?.rutaCompleta;
+    const libraryPath = location.state?.libraryPath;
+    const seriesPath = location.state?.seriesPath;
+    const progressSaverRef = useRef(null);
+    const [progressError, setProgressError] = useState('');
 
     const videoRef = useRef(null);
     const playerRef = useRef(null);
@@ -62,12 +67,13 @@ export default function VideoPlayer() {
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [startOffset, setStartOffset] = useState(0);
-    const [seekTarget, setSeekTarget] = useState(0);
+    const [seekTarget, setSeekTarget] = useState(() => Math.max(0, location.state?.startSeconds ?? 0));
     const [audioTracks, setAudioTracks] = useState([]);
     const [subtitleTracks, setSubtitleTracks] = useState([]);
     const [selectedAudio, setSelectedAudio] = useState(null);
     const [selectedSubtitle, setSelectedSubtitle] = useState("");
     const [subtitleData, setSubtitleData] = useState(null);
+    const [subtitleAttempt, setSubtitleAttempt] = useState(0);
 
     const [isDragging, setIsDragging] = useState(false);
     const [dragTime, setDragTime] = useState(0);
@@ -78,6 +84,44 @@ export default function VideoPlayer() {
     const [lastInteraction, setLastInteraction] = useState(0);
 
     const hideControls = controlsIdle && isPlaying && !loading && !buffering && !isDragging && !error;
+
+    useEffect(() => {
+        if (!libraryPath || !seriesPath || !videoPath) return;
+        let active = true;
+        const saver = createProgressSaver({ libraryPath, seriesPath, episodePath: videoPath }, message => {
+            if (active) setProgressError(message);
+        });
+        progressSaverRef.current = saver;
+        const timer = window.setInterval(() => { void saver.flush(); }, 10_000);
+        const save = () => { void saver.flush(); };
+        const onVisibility = () => { if (document.visibilityState === 'hidden') save(); };
+        window.addEventListener('pagehide', save);
+        document.addEventListener('visibilitychange', onVisibility);
+        return () => {
+            active = false;
+            window.clearInterval(timer);
+            window.removeEventListener('pagehide', save);
+            document.removeEventListener('visibilitychange', onVisibility);
+            void saver.flush();
+            if (progressSaverRef.current === saver) progressSaverRef.current = null;
+        };
+    }, [libraryPath, seriesPath, videoPath]);
+
+    async function handleBack() {
+        videoRef.current?.pause();
+        await progressSaverRef.current?.flush();
+        if (seriesPath) {
+            navigate('/series/episodes', {
+                replace: true,
+                state: {
+                    folderPath: seriesPath,
+                    seriesName: seriesPath.replaceAll('\\', '/').replace(/\/+$/, '').split('/').pop()
+                }
+            });
+        } else {
+            navigate('/series', { replace: true });
+        }
+    }
 
     function showControls() {
         setControlsIdle(false);
@@ -135,23 +179,49 @@ export default function VideoPlayer() {
     useEffect(() => {
         if (!videoPath || selectedSubtitle === "") return;
         const controller = new AbortController();
+        let timeoutId;
+        const saveResult = (result) => setSubtitleData({
+            path: videoPath, track: selectedSubtitle, attempt: subtitleAttempt, ...result
+        });
         const timer = window.setTimeout(async () => {
+            timeoutId = window.setTimeout(() => {
+                saveResult({ cues: [], error: "La carga de subtítulos ha superado los 20 segundos. Puedes volver a intentarlo." });
+                controller.abort();
+            }, 20_000);
             try {
                 const params = new URLSearchParams({ path: videoPath, trackIndex: selectedSubtitle });
                 const response = await fetch(`/api/video/subtitles?${params}`, { signal: controller.signal });
-                if (!response.ok) throw new Error("No se han podido cargar los subtítulos.");
-                const cues = parseSubtitles(await response.text());
+                const body = await response.text();
+                if (!response.ok) {
+                    let message = `No se han podido cargar los subtítulos (HTTP ${response.status}).`;
+                    try {
+                        const details = JSON.parse(body);
+                        const detail = details.error ?? details.message ?? details.detail;
+                        if (typeof detail === "string" && detail.trim()) message = detail;
+                    } catch { /* Conserva el mensaje HTTP si la respuesta no es JSON. */ }
+                    throw new Error(message);
+                }
+                if (!body.replace(/^\uFEFF/, "").trimStart().startsWith("WEBVTT")) {
+                    throw new Error("El servidor no ha devuelto subtítulos WebVTT válidos.");
+                }
+                const cues = parseSubtitles(body);
                 if (!controller.signal.aborted) {
-                    setSubtitleData({ path: videoPath, track: selectedSubtitle, cues });
+                    saveResult({ cues });
                 }
             } catch (err) {
                 if (!controller.signal.aborted) {
-                    setSubtitleData({ path: videoPath, track: selectedSubtitle, cues: [], error: err.message });
+                    saveResult({ cues: [], error: err.message || "No se ha podido conectar para cargar los subtítulos." });
                 }
+            } finally {
+                window.clearTimeout(timeoutId);
             }
         }, 0);
-        return () => { window.clearTimeout(timer); controller.abort(); };
-    }, [videoPath, selectedSubtitle]);
+        return () => {
+            window.clearTimeout(timer);
+            window.clearTimeout(timeoutId);
+            controller.abort();
+        };
+    }, [videoPath, selectedSubtitle, subtitleAttempt]);
 
     // Inicia una nueva sesión cada vez que cambia la posición.
     useEffect(() => {
@@ -165,6 +235,7 @@ export default function VideoPlayer() {
         let cancelled = false;
         let localSessionId = null;
         let localHls = null;
+        let detachNativeTimeline = null;
 
         const video = videoRef.current;
 
@@ -250,10 +321,10 @@ export default function VideoPlayer() {
                 }
 
                 sessionRef.current = localSessionId;
-                startOffsetRef.current = seekTarget;
+                startOffsetRef.current = data.timelineStartSeconds;
 
-                setStartOffset(seekTarget);
-                setCurrentTime(seekTarget);
+                setStartOffset(data.timelineStartSeconds);
+                setCurrentTime(data.timelineStartSeconds);
 
                 if (!video) {
                     throw new Error(
@@ -277,6 +348,17 @@ export default function VideoPlayer() {
                     });
 
                     hlsRef.current = localHls;
+
+                    // Hls.js normaliza los PTS de transporte a su propia línea temporal.
+                    // Recuperamos el tiempo original con la referencia REAL del remuxer.
+                    localHls.on(Hls.Events.INIT_PTS_FOUND, (_, timing) => {
+                        if (cancelled || requestId !== requestRef.current || timing.id !== "main" ||
+                            !Number.isFinite(timing.initPTS) || !(timing.timescale > 0)) return;
+                        const offset = timing.initPTS / timing.timescale - data.transportTimestampOffsetSeconds;
+                        startOffsetRef.current = offset;
+                        setStartOffset(offset);
+                        setCurrentTime(Math.max(0, offset + video.currentTime));
+                    });
 
                     localHls.on(Hls.Events.ERROR, (_, data) => {
                         if (
@@ -319,6 +401,21 @@ export default function VideoPlayer() {
                         "application/vnd.apple.mpegurl"
                     )
                 ) {
+                    let calibrated = false;
+                    const calibrateTimeline = () => {
+                        if (calibrated || cancelled || requestId !== requestRef.current || !video.seekable.length) return;
+                        calibrated = true;
+                        const offset = data.timelineStartSeconds - video.seekable.start(0);
+                        startOffsetRef.current = offset;
+                        setStartOffset(offset);
+                        setCurrentTime(Math.max(0, offset + video.currentTime));
+                    };
+                    video.addEventListener("loadedmetadata", calibrateTimeline);
+                    video.addEventListener("canplay", calibrateTimeline);
+                    detachNativeTimeline = () => {
+                        video.removeEventListener("loadedmetadata", calibrateTimeline);
+                        video.removeEventListener("canplay", calibrateTimeline);
+                    };
                     video.src = data.playlistUrl;
                     setLoading(false);
 
@@ -349,6 +446,7 @@ export default function VideoPlayer() {
             cancelled = true;
             window.clearTimeout(startTimer);
             controller.abort();
+            detachNativeTimeline?.();
 
             if (localHls) {
                 localHls.destroy();
@@ -376,8 +474,12 @@ export default function VideoPlayer() {
             return;
         }
 
-        const globalTime =
-            startOffsetRef.current + video.currentTime;
+        const globalTime = Math.max(0,
+            startOffsetRef.current + video.currentTime);
+
+        if (!loading && !buffering && !video.paused && !video.seeking) {
+            progressSaverRef.current?.record(globalTime, duration);
+        }
 
         setCurrentTime(
             duration > 0
@@ -405,7 +507,9 @@ export default function VideoPlayer() {
         // Si selecciona la misma posición inicial,
         // no necesitamos reiniciar la sesión.
         if (Math.abs(target - seekTarget) < 0.1) {
-            videoRef.current.currentTime = 0;
+            const video = videoRef.current;
+            const firstAvailable = video.seekable.length ? video.seekable.start(0) : 0;
+            video.currentTime = Math.max(firstAvailable, target - startOffsetRef.current);
             return;
         }
 
@@ -439,7 +543,7 @@ export default function VideoPlayer() {
     }
 
     const activeSubtitles = selectedSubtitle !== "" && subtitleData?.path === videoPath &&
-        subtitleData?.track === selectedSubtitle ? subtitleData : null;
+        subtitleData?.track === selectedSubtitle && subtitleData?.attempt === subtitleAttempt ? subtitleData : null;
     const caption = !loading && !isDragging && activeSubtitles
         ? subtitleAt(activeSubtitles.cues, currentTime) : "";
 
@@ -451,7 +555,7 @@ export default function VideoPlayer() {
         return (
             <div style={{ padding: "20px" }}>
                 <p>No se ha seleccionado ningún episodio.</p>
-                <button onClick={() => navigate(-1)}>
+                <button onClick={handleBack}>
                     Volver
                 </button>
             </div>
@@ -460,7 +564,7 @@ export default function VideoPlayer() {
 
     return (
         <div className="huex-container huex-player-page">
-            <HuexPageHeader title={episode?.nombre ?? "Reproductor"} onBack={() => navigate(-1)} />
+            <HuexPageHeader title={episode?.nombre ?? "Reproductor"} onBack={handleBack} />
 
             <div
                 ref={playerRef}
@@ -482,8 +586,15 @@ export default function VideoPlayer() {
                     onWaiting={() => setBuffering(true)}
                     onCanPlay={() => setBuffering(false)}
                     onPlaying={() => setBuffering(false)}
-                    onPause={() => { setIsPlaying(false); setBuffering(false); }}
-                    onEnded={() => { setIsPlaying(false); setBuffering(false); }}
+                    onPause={() => {
+                        setIsPlaying(false); setBuffering(false);
+                        void progressSaverRef.current?.flush();
+                    }}
+                    onEnded={() => {
+                        setIsPlaying(false); setBuffering(false);
+                        progressSaverRef.current?.record(duration, duration);
+                        void progressSaverRef.current?.flush();
+                    }}
                     onVolumeChange={() => {
                         setVolume(videoRef.current.volume);
                         setMuted(videoRef.current.muted);
@@ -493,6 +604,25 @@ export default function VideoPlayer() {
 
                 {caption && <div className={`custom-video-caption${hideControls ? "" : " above-controls"}`}>
                     <span>{caption}</span>
+                </div>}
+
+                {selectedSubtitle !== "" && <div className="custom-subtitle-notice">
+                    {!activeSubtitles ? (
+                        <p className="custom-subtitle-status" role="status">Cargando subtítulos…</p>
+                    ) : activeSubtitles.error ? (
+                        <div className="custom-subtitle-error">
+                            <p role="alert">{activeSubtitles.error}</p>
+                            <button className="custom-subtitle-retry" onClick={() => setSubtitleAttempt(attempt => attempt + 1)}>
+                                Reintentar subtítulos
+                            </button>
+                        </div>
+                    ) : (
+                        <p className="custom-subtitle-status" role="status">
+                            {activeSubtitles.cues.length > 0
+                                ? `Subtítulos cargados: ${activeSubtitles.cues.length} intervenciones.`
+                                : "La pista seleccionada no contiene intervenciones."}
+                        </p>
+                    )}
                 </div>}
 
                 {(loading || buffering) && !error && (
@@ -537,7 +667,7 @@ export default function VideoPlayer() {
                     style={{
                         width: "100%",
                         cursor: "pointer",
-                        accentColor: "#e50914"
+                        accentColor: "var(--huex-accent)"
                     }}
                 />
 
@@ -601,14 +731,12 @@ export default function VideoPlayer() {
             </div>
             </div>
 
-            {selectedSubtitle !== "" && !activeSubtitles && <p className="custom-subtitle-status" role="status">Cargando subtítulos…</p>}
-            {activeSubtitles?.error && <p className="custom-subtitle-error" role="alert">{activeSubtitles.error}</p>}
-
             {error && (
                 <p style={{ color: "#ff7777", marginTop: "14px" }}>
                     {error}
                 </p>
             )}
+            {progressError && <p role="alert" className="episode-progress-error">{progressError}</p>}
 
             <p
                 style={{

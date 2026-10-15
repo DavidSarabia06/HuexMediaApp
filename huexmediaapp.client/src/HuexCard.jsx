@@ -1,24 +1,41 @@
 import './css/HuexStyles.css';
+import EpisodeCardMenu from './EpisodeCardMenu';
 
-function HuexCard({ item, onClick, showPlayButton = false, variant = "vertical" }) {
+function HuexCard({ item, onClick, showPlayButton = false, variant = "vertical", watched = false, progress = null, onSetWatched, statusDisabled = false, theme }) {
     const nombre = item.nombre || item.nombreTemporada || "Sin título";
+    const defaultImage = variant === 'vertical'
+        ? '/default-episode-vertical.png'
+        : watched
+            ? '/default-episode-horizontal-viewed.png'
+            : progress
+                ? '/default-episode-horizontal-ongoing.png'
+                : '/default-episode-horizontal.png';
+    const isDefaultImage = !item.urlImagen || [
+        '/default-episode-horizontal.png',
+        '/default-episode-horizontal-ongoing.png',
+        '/default-episode-horizontal-viewed.png',
+        '/default-episode-vertical.png'
+    ].includes(item.urlImagen);
+    const imageUrl = isDefaultImage ? defaultImage : item.urlImagen;
 
 
     // Clase condicional según si es un póster de serie o un episodio
-    const cardClassName = variant === "vertical" ? "huex-card huex-card-vertical" : "huex-card";
+    const cardClassName = `${variant === "vertical" ? "huex-card huex-card-vertical" : "huex-card huex-card-episode"}${theme ? ` huex-theme-${theme}` : ''}`;
 
-    return (
+    const card = (
         <button type="button" className={cardClassName} onClick={onClick}>
             <div className="huex-thumbnail-container">
-                {item.urlImagen ? (
+                {imageUrl ? (
                     <img
+                        key={imageUrl}
                         className="huex-img"
-                        src={item.urlImagen}
+                        src={imageUrl}
                         alt={nombre}
                         onError={(e) => {
                             console.error("Fallo al cargar la imagen con ruta:", item.urlImagen);
-                            e.target.onerror = null;
-                            e.target.src = '/default-episode-horizontal.png';
+                            if (e.currentTarget.getAttribute('src') !== defaultImage) {
+                                e.currentTarget.src = defaultImage;
+                            }
                         }}
                     />
                 ) : (
@@ -31,11 +48,18 @@ function HuexCard({ item, onClick, showPlayButton = false, variant = "vertical" 
 
                 {showPlayButton && (
                     <div className="episode-play-btn">
-                        <svg viewBox="0 0 24 24" fill="#00e676" width="24px" height="24px">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
                             <path d="M8 5v14l11-7z" />
                         </svg>
                     </div>
                 )}
+                {variant !== 'vertical' && <>
+                    <progress className="episode-progress-bar episode-thumbnail-progress"
+                        value={watched ? 1 : progress ? progress.positionSeconds / progress.durationSeconds : 0}
+                        max={1}
+                        aria-label="Progreso del episodio"
+                        aria-valuetext={watched ? 'Visto' : progress?.label ?? 'Sin ver'} />
+                </>}
             </div>
 
             <div className="huex-card-info">
@@ -45,6 +69,10 @@ function HuexCard({ item, onClick, showPlayButton = false, variant = "vertical" 
             </div>
         </button>
     );
+    return onSetWatched && variant !== 'vertical' ? <div className="episode-card-shell">
+        {card}
+        <EpisodeCardMenu name={nombre} watched={watched} onSetWatched={onSetWatched} disabled={statusDisabled} />
+    </div> : card;
 }
 
 export default HuexCard;

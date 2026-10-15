@@ -2,6 +2,7 @@
 
 
 using HuexMediaApp.Server.Services;
+using HuexMediaApp.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HuexMediaApp.Server.Controllers;
@@ -88,10 +89,10 @@ public class VideoController : ControllerBase
         }
 
         // Inicia FFmpeg desde la posición solicitada.
-        string sessionId;
+        PlaybackSession session;
         try
         {
-            sessionId = await _videoService.StartHlsAsync(
+            session = await _videoService.StartHlsAsync(
                 path, startSeconds, HttpContext.RequestAborted, audioTrackIndex);
         }
         catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
@@ -99,9 +100,11 @@ public class VideoController : ControllerBase
 
         return Ok(new
         {
-            sessionId,
-            playlistUrl = $"/api/video/hls/{sessionId}/index.m3u8",
-            startSeconds
+            sessionId = session.SessionId,
+            playlistUrl = $"/api/video/hls/{session.SessionId}/index.m3u8",
+            startSeconds = session.StartSeconds,
+            timelineStartSeconds = session.TimelineStartSeconds,
+            transportTimestampOffsetSeconds = session.TransportTimestampOffsetSeconds
         });
     }
 

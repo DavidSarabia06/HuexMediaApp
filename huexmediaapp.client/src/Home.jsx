@@ -6,15 +6,15 @@ export default function Home() {
     const navigate = useNavigate();
     return (
         <div className="huex-container">
-            <HuexPageHeader title="Mi biblioteca" />
+            <HuexPageHeader title="Mi biblioteca" outlinedTitle />
             <p className="huex-description">Tus películas, series y música en un solo lugar.</p>
             <div className="huex-grid huex-home-grid">
                 {[
-                    { nombre: 'Películas', path: '/movies' },
-                    { nombre: 'Series', path: '/series' },
-                    { nombre: 'Música', path: '/music' }
+                    { nombre: 'Películas', path: '/movies', theme: 'movies', urlImagen: '/default-film-horizontal.png' },
+                    { nombre: 'Series', path: '/series', theme: 'series' },
+                    { nombre: 'Música', path: '/music', theme: 'music', urlImagen: '/default-music-horizontal.png' }
                 ].map((item) => (
-                    <HuexCard key={item.path} item={item} variant="horizontal" onClick={() => navigate(item.path)} />
+                    <HuexCard key={item.path} item={item} variant="horizontal" theme={item.theme} onClick={() => navigate(item.path)} />
                 ))}
             </div>
         </div>

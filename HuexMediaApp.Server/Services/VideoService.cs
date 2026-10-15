@@ -9,6 +9,9 @@ namespace HuexMediaApp.Server.Services;
 
 public class VideoService
 {
+    // Margen de transporte para evitar DTS negativos al inicio (AAC y fotogramas B).
+    // Se comunica al cliente y se resta al convertir al tiempo del episodio.
+    private const double TransportTimestampOffsetSeconds = 10;
 
     // VideoService: ejecutar ffprobe y ffmpeg, administrar procesos
     // y sesiones de reproducción.
@@ -19,6 +22,10 @@ public class VideoService
 
     // Almacena los procesos FFmpeg activos, identificados por sesión.
     private readonly ConcurrentDictionary<string, Process> _activeSessions = new();
+
+    // La marca acompaña al proceso hasta que termina su supervisión.
+    // Las claves débiles evitan conservar procesos que ya no se utilizan.
+    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<Process, object> _requestedStops = new();
 
     // Carpetas pendientes de borrar.
     private readonly ConcurrentDictionary<string, byte> _pendingCleanup = new();
@@ -276,7 +283,7 @@ public class VideoService
     }
 
 
-    public async Task<string> StartHlsAsync(
+    public async Task<PlaybackSession> StartHlsAsync(
         string path,
         double startSeconds = 0,
         CancellationToken cancellationToken = default,
@@ -350,6 +357,10 @@ public class VideoService
             startInfo.ArgumentList.Add("-readrate");
             startInfo.ArgumentList.Add("1.5");
 
+            // Conserva la línea temporal original incluso al buscar en un fotograma clave.
+            startInfo.ArgumentList.Add("-copyts");
+            startInfo.ArgumentList.Add("-start_at_zero");
+
             // Busca la posición solicitada antes de abrir el archivo.
             // La precisión depende de los fotogramas clave si copiamos
             // el vídeo sin recodificarlo.
@@ -399,13 +410,17 @@ public class VideoService
             startInfo.ArgumentList.Add("-ac");
             startInfo.ArgumentList.Add("2");
 
-            // Evita timestamps negativos.
+            // No rebasa cada búsqueda a cero: necesitamos relacionar HLS con el episodio.
             startInfo.ArgumentList.Add("-avoid_negative_ts");
-            startInfo.ArgumentList.Add("make_zero");
+            startInfo.ArgumentList.Add("disabled");
+            startInfo.ArgumentList.Add("-output_ts_offset");
+            startInfo.ArgumentList.Add(TransportTimestampOffsetSeconds.ToString(CultureInfo.InvariantCulture));
 
             // Formato HLS.
             startInfo.ArgumentList.Add("-f");
             startInfo.ArgumentList.Add("hls");
+            startInfo.ArgumentList.Add("-hls_segment_options");
+            startInfo.ArgumentList.Add("mpegts_copyts=1");
 
             // Duración objetivo de los segmentos.
             startInfo.ArgumentList.Add("-hls_time");
@@ -496,6 +511,7 @@ public class VideoService
             // Espera hasta 30 segundos a que aparezca
             // un manifiesto con al menos un segmento disponible.
             bool playlistReady = false;
+            string? firstSegmentPath = null;
 
             for (int attempt = 0; attempt < 300; attempt++)
             {
@@ -528,6 +544,7 @@ public class VideoService
                             new FileInfo(segmentPath).Length > 0)
                         {
                             playlistReady = true;
+                            firstSegmentPath = segmentPath;
                             break;
                         }
                     }
@@ -575,12 +592,20 @@ public class VideoService
                     // Una detención solicitada por el reproductor
                     // no debe registrarse como fallo de FFmpeg.
                     if (process.ExitCode != 0 &&
-                        _activeSessions.ContainsKey(sessionId))
+                        !_requestedStops.TryGetValue(process, out _))
                     {
                         _logger.LogError(
-                            "FFmpeg ha terminado con un error en la sesión {SessionId}: {Error}",
+                            "FFmpeg ha terminado con un error en la sesión {SessionId}. Código de salida: {ExitCode}. Detalle: {Error}",
                             sessionId,
+                            process.ExitCode,
                             error
+                        );
+                    }
+                    else if (_requestedStops.TryGetValue(process, out _))
+                    {
+                        _logger.LogInformation(
+                            "FFmpeg detenido por solicitud del reproductor en la sesión {SessionId}.",
+                            sessionId
                         );
                     }
                 }
@@ -602,7 +627,14 @@ public class VideoService
             );
 
             cancellationToken.ThrowIfCancellationRequested();
-            return sessionId;
+            double transportStart = await GetHlsStartTimeAsync(firstSegmentPath!, cancellationToken);
+            return new PlaybackSession
+            {
+                SessionId = sessionId,
+                StartSeconds = startSeconds,
+                TimelineStartSeconds = Math.Max(0, transportStart - TransportTimestampOffsetSeconds),
+                TransportTimestampOffsetSeconds = TransportTimestampOffsetSeconds
+            };
         }
         catch
         {
@@ -614,6 +646,46 @@ public class VideoService
     }
 
 
+
+    private async Task<double> GetHlsStartTimeAsync(string segmentPath, CancellationToken cancellationToken)
+    {
+        using var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = _ffprobePath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
+        };
+        foreach (var argument in new[] { "-v", "error", "-show_entries", "format=start_time",
+                     "-of", "default=noprint_wrappers=1:nokey=1", segmentPath })
+            process.StartInfo.ArgumentList.Add(argument);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        process.Start();
+        using var registration = cancellationToken.Register(() =>
+        {
+            try { process.Kill(entireProcessTree: true); }
+            catch (InvalidOperationException) { }
+            catch (System.ComponentModel.Win32Exception) { }
+        });
+        var outputTask = process.StandardOutput.ReadToEndAsync();
+        var errorTask = process.StandardError.ReadToEndAsync();
+        await process.WaitForExitAsync();
+        var output = await outputTask;
+        var error = await errorTask;
+        cancellationToken.ThrowIfCancellationRequested();
+        if (process.ExitCode != 0 || !double.TryParse(output.Trim(), NumberStyles.Float,
+                CultureInfo.InvariantCulture, out var seconds) || !double.IsFinite(seconds))
+        {
+            _logger.LogWarning("No se ha podido obtener el tiempo del segmento HLS: {Error}", error);
+            throw new InvalidOperationException("No se ha podido sincronizar la sesión de vídeo.");
+        }
+        return seconds;
+    }
 
     private async Task<bool> DeleteSessionDirectoryAsync(string sessionId)
     {
@@ -713,6 +785,9 @@ public class VideoService
                     {
                         try
                         {
+                            // Debe marcarse ANTES de Kill: la supervisión puede
+                            // despertarse antes de que retiremos la sesión.
+                            _requestedStops.GetValue(process, static _ => new object());
                             process.Kill(entireProcessTree: true);
                         }
                         catch (InvalidOperationException)

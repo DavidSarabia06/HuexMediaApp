@@ -1,9 +1,9 @@
 import './css/HuexStyles.css';
 
-export default function HuexPageHeader({ title, onBack, children }) {
+export default function HuexPageHeader({ title, onBack, children, outlinedTitle = false }) {
     return (
         <>
-            <div className="huex-header">
+            <div className={`huex-header${outlinedTitle ? ' huex-header-outlined' : ''}`}>
                 {onBack && (
                     <button onClick={onBack} className="back-btn" aria-label="Volver">
                         <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32" aria-hidden="true">
@@ -11,7 +11,9 @@ export default function HuexPageHeader({ title, onBack, children }) {
                         </svg>
                     </button>
                 )}
-                <h2 className="huex-title">{title}</h2>
+                <h2 className="huex-title">
+                    {outlinedTitle ? <span className="huex-title-outline">{title}</span> : title}
+                </h2>
                 {children && <div className="huex-header-actions">{children}</div>}
             </div>
             <hr className="huex-divider" />

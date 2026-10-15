@@ -426,3 +426,12 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# Organización personal de las bibliotecas
+HuexMediaApp.Server/App_Data/SeriesCategories/
+HuexMediaApp.Server/App_Data/PlaybackProgress/
+
+# Entorno y salida de la documentación local
+documentacion/.venv-docs/
+documentacion/.docs-site/
+__pycache__/

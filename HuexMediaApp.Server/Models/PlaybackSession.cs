@@ -3,6 +3,9 @@
     public class PlaybackSession
     {
 
-        //PlaybackSession: identificar cada reproducción y su estado.
+        public string SessionId { get; set; } = "";
+        public double StartSeconds { get; set; }
+        public double TimelineStartSeconds { get; set; }
+        public double TransportTimestampOffsetSeconds { get; set; }
     }
 }

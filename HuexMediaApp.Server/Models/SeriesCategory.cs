@@ -1,0 +1,70 @@
+namespace HuexMediaApp.Server.Models;
+
+#region Datos de categorías
+
+/// <summary>
+/// Representa una categoría y las series asignadas a ella.
+/// Se almacena dentro del JSON de la biblioteca y se devuelve en las respuestas de la API.
+/// </summary>
+public sealed class SeriesCategory
+{
+    /// <summary>Identificador estable que genera el servicio al crear la categoría.</summary>
+    public Guid Id { get; set; }
+
+    /// <summary>Nombre visible, único en su biblioteca sin distinguir mayúsculas.</summary>
+    public string Name { get; set; } = "";
+
+    /// <summary>
+    /// Rutas absolutas de las carpetas de series asignadas, hijas directas de la biblioteca.
+    /// Una misma serie solo puede estar asignada a una categoría.
+    /// </summary>
+    public List<string> SeriesPaths { get; set; } = [];
+}
+
+/// <summary>Contenido raíz del JSON que guarda la organización de una biblioteca.</summary>
+public sealed class SeriesCategoryLibrary
+{
+    /// <summary>Versión del formato de datos; el servicio admite actualmente la versión 1.</summary>
+    public int Version { get; set; } = 1;
+
+    /// <summary>Ruta absoluta de la biblioteca a la que pertenece el archivo.</summary>
+    public string LibraryPath { get; set; } = "";
+
+    /// <summary>Categorías guardadas; una biblioteca nueva comienza con la lista vacía.</summary>
+    public List<SeriesCategory> Categories { get; set; } = [];
+}
+
+#endregion
+
+#region Solicitudes de la API
+
+/// <summary>
+/// Datos recibidos por el controlador para crear una categoría.
+/// El servicio normaliza la ruta, recorta el nombre y valida sus reglas.
+/// </summary>
+public sealed class CreateSeriesCategoryRequest
+{
+    /// <summary>Biblioteca existente en la que se creará la categoría.</summary>
+    public string LibraryPath { get; set; } = "";
+
+    /// <summary>Nombre solicitado; se valida después de recortar los espacios de los extremos.</summary>
+    public string Name { get; set; } = "";
+}
+
+/// <summary>Datos recibidos para cambiar la categoría de una serie o dejarla sin asignación.</summary>
+public sealed class MoveSeriesCategoryRequest
+{
+    /// <summary>Biblioteca existente a la que pertenece la serie.</summary>
+    public string LibraryPath { get; set; } = "";
+
+    /// <summary>Ruta absoluta de la carpeta de serie que se desea mover entre categorías.</summary>
+    public string SeriesPath { get; set; } = "";
+
+    /// <summary>
+    /// Categoría de destino; null significa «Sin categoría».
+    /// Guid.Empty no equivale a null ni identifica una categoría válida.
+    /// </summary>
+    public Guid? CategoryId { get; set; }
+}
+
+#endregion
