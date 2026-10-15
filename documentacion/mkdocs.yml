@@ -1,0 +1,70 @@
+site_name: Huex Media App
+site_description: Documentación de los sistemas del servidor
+docs_dir: docs
+site_dir: .docs-site
+dev_addr: 127.0.0.1:8000
+
+theme:
+  name: material
+  language: es
+  font: false
+  palette:
+    - scheme: slate
+      primary: teal
+      accent: green
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a tema claro
+    - scheme: default
+      primary: teal
+      accent: green
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a tema oscuro
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search:
+      lang: es
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+
+hooks:
+  - scripts/docs_sources.py
+
+watch:
+  - ../HuexMediaApp.Server/Services/SeriesCategoryService.cs
+  - ../HuexMediaApp.Server/Models/SeriesCategory.cs
+  - ../HuexMediaApp.Server/Controllers/SeriesCategoriesController.cs
+
+validation:
+  links:
+    not_found: warn
+    anchors: warn
+
+nav:
+  - Inicio: README.md
+  - Sistemas:
+      - Categorías de series:
+          - Visión general: sistemas/categorias-series/README.md
+          - Servicio:
+              - Funciones y funcionamiento: sistemas/categorias-series/servicio.md
+              - Código fuente: codigo/SeriesCategoryService.md
+          - Modelos:
+              - Clases y propiedades: sistemas/categorias-series/modelos.md
+              - Código fuente: codigo/SeriesCategory.md
+          - Controlador:
+              - Operaciones y respuestas: sistemas/categorias-series/controlador.md
+              - Código fuente: codigo/SeriesCategoriesController.md
