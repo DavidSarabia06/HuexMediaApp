@@ -1,25 +1,41 @@
-
-
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './Home';
 import Header from './Header';
 import Series from './Series';
+import Movies from './Movies';
 import SeriesDetail from './SeriesDetail';
 import Settings from './Settings';
 import VideoPlayer from './VideoPlayer';
 import HuexPageHeader from './HuexPageHeader';
 
+// ---------------------------- Tema de la sección -----------------------------
+
+/** Aplica al contenido el tema asociado al primer segmento de la ruta actual. */
 function SectionTheme({ children }) {
     const { pathname } = useLocation();
-    const theme = { '': 'library', series: 'series', player: 'series', movies: 'movies', music: 'music' }[pathname.split('/')[1]];
+    const theme = {
+        '': 'library',
+        series: 'series',
+        player: 'series',
+        movies: 'movies',
+        music: 'music'
+    }[pathname.split('/')[1]];
+
     return <main className={`huex-app-content${theme ? ` huex-theme-${theme}` : ''}`}>{children}</main>;
 }
 
+// --------------------------- Aplicación principal ----------------------------
+
+/** Mantiene la lista compartida de series y conecta la cabecera con las páginas de cada ruta. */
 function App() {
+    // ---------------------------------- Estados ----------------------------------
 
-
+    // Conserva las series de la biblioteca mientras App permanece montado.
     const [seriesList, setSeriesList] = useState([]);
+    const [moviesList, setMoviesList] = useState([]);
+
+    // -------------------------- Estructura y navegación --------------------------
 
     return (
         <Router>
@@ -28,14 +44,24 @@ function App() {
                 <SectionTheme>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/movies" element={<div className="huex-container"><HuexPageHeader title="Mis películas" /><div className="empty-state"><h3>Películas</h3><p className="huex-description">Esta sección estará disponible próximamente.</p></div></div>} />
-
+                        <Route path="/movies" element={
+                            <Movies moviesList={moviesList} setMoviesList={setMoviesList} />
+                        } />
                         <Route path="/series" element={
-                            <Series seriesList={seriesList} setSeriesList={setSeriesList} />} />
+                            <Series seriesList={seriesList} setSeriesList={setSeriesList} />
+                        } />
 
                         <Route path="/series/episodes" element={<SeriesDetail />} />
                         <Route path="/player" element={<VideoPlayer />} />
-                        <Route path="/music" element={<div className="huex-container"><HuexPageHeader title="Mi música" /><div className="empty-state"><h3>Música</h3><p className="huex-description">Esta sección estará disponible próximamente.</p></div></div>} />
+                        <Route path="/music" element={
+                            <div className="huex-container">
+                                <HuexPageHeader title="Mi música" />
+                                <div className="empty-state">
+                                    <h3>Música</h3>
+                                    <p className="huex-description">Esta sección estará disponible próximamente.</p>
+                                </div>
+                            </div>
+                        } />
                         <Route path="/settings" element={<Settings />} />
                     </Routes>
                 </SectionTheme>

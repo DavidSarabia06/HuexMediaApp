@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2650" viewBox="0 0 2500 2650">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="180" width="460" height="1990" rx="18" fill="#172C3B" stroke="#477B9C" stroke-width="2"/>
+<rect x="555" y="180" width="1885" height="1990" rx="18" fill="#16232B" stroke="#3D675A" stroke-width="2"/>
+<rect x="590" y="260" width="430" height="77" rx="18" fill="#243D42"/>
+<rect x="1080" y="260" width="730" height="77" rx="18" fill="#243D42"/>
+<rect x="1870" y="260" width="530" height="77" rx="18" fill="#303349"/>
+<rect x="80" y="370" width="420" height="260" rx="18" fill="#203E51"/>
+<rect x="590" y="370" width="430" height="260" rx="18" fill="#1C3438"/>
+<rect x="1080" y="370" width="730" height="260" rx="18" fill="#1C3438"/>
+<rect x="1870" y="370" width="530" height="260" rx="18" fill="#272D41"/>
+<path d="M500,470 L590,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="590,470 578.5914266954252,476.2325320018546 578.5914266954252,463.7674679981454" fill="#46DBB0"/>
+<path d="M1020,470 L1080,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1080,470 1068.591426695425,476.2325320018546 1068.591426695425,463.7674679981454" fill="#46DBB0"/>
+<path d="M1810,470 L1870,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,470 1858.591426695425,476.2325320018546 1858.591426695425,463.7674679981454" fill="#46DBB0"/>
+<path d="M1870,550 L1810,550" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,550 1821.408573304575,543.7674679981453 1821.408573304575,556.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="690" width="730" height="215" rx="18" fill="#1C3438"/>
+<path d="M1440,630 L1440,690" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,690 1433.7674679981453,678.5914266954252 1446.2325320018547,678.5914266954252" fill="#46DBB0"/>
+<rect x="1870" y="690" width="530" height="215" rx="18" fill="#272D41"/>
+<path d="M1810,770 L1870,770" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,770 1858.591426695425,776.2325320018547 1858.591426695425,763.7674679981453" fill="#46DBB0"/>
+<path d="M1870,845 L1810,845" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,845 1821.408573304575,838.7674679981453 1821.408573304575,851.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="965" width="730" height="200" rx="18" fill="#1C3438"/>
+<path d="M1440,905 L1440,965" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1440,965 1433.7674679981453,953.5914266954252 1446.2325320018547,953.5914266954252" fill="#82BDFF"/>
+<rect x="590" y="965" width="430" height="200" rx="18" fill="#1C3438"/>
+<path d="M1080,1045 L1020,1045" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1020,1045 1031.408573304575,1038.7674679981453 1031.408573304575,1051.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="965" width="420" height="200" rx="18" fill="#203E51"/>
+<path d="M590,1045 L500,1045" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="500,1045 511.4085733045748,1038.7674679981453 511.4085733045749,1051.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="1230" width="420" height="290" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<path d="M290,1165 L290,1230" stroke="#C6A8F0" stroke-width="4" fill="none"/>
+<polygon points="290,1230 283.7674679981454,1218.591426695425 296.2325320018546,1218.591426695425" fill="#C6A8F0"/>
+<rect x="590" y="1230" width="1810" height="290" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<rect x="80" y="1590" width="420" height="290" rx="18" fill="#203E51"/>
+<path d="M290,1520 L290,1590" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="290,1590 283.7674679981454,1578.591426695425 296.2325320018546,1578.591426695425" fill="#46DBB0"/>
+<rect x="590" y="1590" width="1810" height="225" rx="18" fill="#24362F" stroke="#527B5E" stroke-width="2"/>
+<rect x="590" y="1870" width="1810" height="205" rx="18" fill="#22333C" stroke="#477B9C" stroke-width="2"/>
+<rect x="60" y="2230" width="2380" height="275" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<path d="M70,2580 L150,2580" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="150,2580 138.59142669542516,2586.2325320018545 138.59142669542516,2573.7674679981455" fill="#46DBB0"/>
+<path d="M570,2580 L490,2580" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="490,2580 501.4085733045748,2573.7674679981455 501.4085733045749,2586.2325320018545" fill="#82BDFF"/>
+<text x="65" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="49" font-weight="700" fill="#FFFFFF">06 · CARGAR Y MOSTRAR SUBTÍTULOS</text>
+<text x="65" y="137" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#A7BACB">Elegir pista → extraer WebVTT → interpretar intervenciones → mostrar texto según el tiempo global del episodio</text>
+<text x="85" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#96D4FF">CLIENTE</text>
+<text x="580" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#6DE5BA">SERVIDOR · ASP.NET Core</text>
+<text x="85" y="289" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="700" fill="#FFFFFF">VideoPlayer + subtitles.js</text>
+<text x="610" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">CONTROLLER</text>
+<text x="610" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">VideoController · ExecuteAsync</text>
+<text x="1100" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">SERVICIO</text>
+<text x="1100" y="331" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">VideoService</text>
+<text x="1890" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#C6BBFF">PROCESOS EXTERNOS</text>
+<text x="1890" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">FFprobe · FFmpeg</text>
+<text x="100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">1 · Elegir una pista</text>
+<text x="100" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">selectedSubtitle = índice absoluto.</text>
+<text x="100" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El efecto crea AbortController.</text>
+<text x="100" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">GET /api/video/subtitles</text>
+<text x="100" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Envía path y trackIndex.</text>
+<text x="100" y="573" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Activa un límite de 20 segundos.</text>
+<text x="610" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">2 · GetSubtitles(...)</text>
+<text x="610" y="458" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Recibe path y trackIndex.</text>
+<text x="610" y="488" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ExecuteAsync llama al servicio.</text>
+<text x="610" y="518" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">GetSubtitlesAsync(path, index,</text>
+<text x="610" y="548" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">RequestAborted).</text>
+<text x="1100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">3 · Analizar y validar la pista</text>
+<text x="1100" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">GetVideoInfoAsync → VideoInfo y SubtitleTracks.</text>
+<text x="1100" y="490" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Busca un MediaTrack con Index == trackIndex.</text>
+<text x="1100" y="521" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Comprueba IsSupported para extraer texto.</text>
+<text x="1100" y="552" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Pista ausente o de imagen → ArgumentException.</text>
+<text x="1890" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">4 · FFprobe analiza el original</text>
+<text x="1890" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Consulta las pistas del archivo.</text>
+<text x="1890" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Devuelve índices, códecs y etiquetas.</text>
+<text x="1890" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Incluye códec e índice de cada subtítulo.</text>
+<text x="1890" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Los datos se convierten en modelos.</text>
+<text x="1100" y="736" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">5 · Configurar la extracción</text>
+<text x="1100" y="779" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Selecciona la pista con -map 0:trackIndex.</text>
+<text x="1100" y="810" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Convierte a WebVTT: -c:s webvtt -f webvtt pipe:1.</text>
+<text x="1100" y="841" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Lee salida UTF-8 y errores de forma asíncrona.</text>
+<text x="1100" y="872" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El token permite intentar detener el proceso.</text>
+<text x="1890" y="736" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">6 · FFmpeg extrae subtítulos</text>
+<text x="1890" y="778" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Lee la pista del archivo original.</text>
+<text x="1890" y="808" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Escribe WebVTT por StandardOutput.</text>
+<text x="1890" y="838" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Conserva tiempos del episodio completo.</text>
+<text x="1890" y="868" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">La respuesta se mantiene en memoria.</text>
+<text x="1100" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Devolver el texto WebVTT</text>
+<text x="1100" y="1054" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Espera la salida y comprueba la cancelación.</text>
+<text x="1100" y="1085" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ExitCode distinto de 0 → registra aviso y lanza fallo.</text>
+<text x="1100" y="1116" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Si todo es correcto: return output (string).</text>
+<text x="610" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Respuesta HTTP 200</text>
+<text x="610" y="1052" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Content(subtitles, &quot;text/vtt&quot;, UTF8).</text>
+<text x="610" y="1081" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Envía texto con marcas temporales.</text>
+<text x="610" y="1110" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Contenido text/vtt codificado en UTF-8.</text>
+<text x="100" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">7 · Leer e interpretar</text>
+<text x="100" y="1052" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">await response.text()</text>
+<text x="100" y="1081" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Comprueba HTTP y cabecera WEBVTT.</text>
+<text x="100" y="1110" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">parseSubtitles(body) → cues.</text>
+<text x="100" y="1273" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#D6C5FF">8 · Datos en el cliente</text>
+<text x="100" y="1317" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">cue: { start, end, text }</text>
+<text x="100" y="1346" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Ejemplo: 1200 → 1203 s, «Hola».</text>
+<text x="100" y="1375" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">subtitleData conserva:</text>
+<text x="100" y="1404" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">path, track, attempt, cues</text>
+<text x="100" y="1433" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">y error cuando hay un fallo.</text>
+<text x="615" y="1279" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#D6C5FF">MODELOS Y DATOS · del archivo original a las intervenciones visibles</text>
+<text x="615" y="1331" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Servidor: VideoInfo.SubtitleTracks → List&lt;MediaTrack&gt;; cada pista tiene Index, Codec e IsSupported.</text>
+<text x="615" y="1363" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Transporte: texto WebVTT con tiempos, por ejemplo 00:20:00.000 --&gt; 00:20:03.000.</text>
+<text x="615" y="1395" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Cliente: parseSubtitles convierte las marcas a segundos y obtiene { start, end, text }.</text>
+<text x="615" y="1427" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Normaliza saltos de línea, elimina etiquetas de presentación y decodifica entidades de texto.</text>
+<text x="615" y="1459" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Descarta bloques sin intervalos válidos y conserva las intervenciones interpretables.</text>
+<text x="100" y="1636" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">9 · Mostrar la intervención</text>
+<text x="100" y="1677" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">activeSubtitles exige coincidencia</text>
+<text x="100" y="1706" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">de path, track y attempt.</text>
+<text x="100" y="1735" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">subtitleAt(cues, currentTime)</text>
+<text x="100" y="1764" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">elige start &lt;= tiempo &lt; end.</text>
+<text x="100" y="1793" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">React dibuja el texto sobre el vídeo.</text>
+<text x="100" y="1822" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Oculto al cargar o arrastrar.</text>
+<text x="615" y="1638" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#8FE3A7">SINCRONIZACIÓN · usa el tiempo global del episodio</text>
+<text x="615" y="1686" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">currentTime se calcula con la referencia del HLS más video.currentTime.</text>
+<text x="615" y="1718" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">subtitleAt conserva las intervenciones cuyo intervalo incluye ese instante y une las simultáneas.</text>
+<text x="615" y="1750" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Buscar o cambiar de audio recalibra el tiempo HLS; la pista de subtítulos seleccionada se conserva.</text>
+<text x="615" y="1782" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Los subtítulos se muestran en una capa propia; el efecto de extracción no depende de la sesión HLS.</text>
+<text x="615" y="1918" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#96D4FF">DESACTIVAR, CAMBIAR PISTA O REINTENTAR</text>
+<text x="615" y="1966" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Desactivar: selectedSubtitle = &quot;&quot; → retira el efecto anterior, cancela su petición y oculta el texto.</text>
+<text x="615" y="1998" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Cambiar pista: cancela la carga anterior y solicita la nueva. El vídeo mantiene su sesión HLS.</text>
+<text x="615" y="2030" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Reintentar: incrementa subtitleAttempt → nueva extracción; se comprueba la identidad del resultado.</text>
+<text x="85" y="2278" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFB3BC">ERRORES Y CANCELACIÓN</text>
+<text x="85" y="2331" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Argumentos o pista inválidos → 400; archivo ausente → 404; fallo de extracción → 500. El cliente muestra el detalle disponible.</text>
+<text x="85" y="2363" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">A los 20 s muestra un error y ejecuta abort(). El servidor intenta detener el proceso y propaga la cancelación.</text>
+<text x="85" y="2395" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Texto sin cabecera WEBVTT → error de formato. Una lista vacía muestra «La pista seleccionada no contiene intervenciones».</text>
+<text x="85" y="2427" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Al cambiar pista o salir: clearTimeout y abort(). El resultado se aplica cuando la petición continúa activa.</text>
+<text x="170" y="2587" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Petición / ejecución</text>
+<text x="590" y="2587" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Respuesta / resultado</text>
+<text x="1050" y="2587" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#B8C9D6">Ejemplo: segundo 1201 → intervalo [1200, 1203) → se muestra «Hola».</text>
+</svg>

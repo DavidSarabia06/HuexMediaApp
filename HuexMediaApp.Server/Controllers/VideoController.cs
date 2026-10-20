@@ -1,189 +1,132 @@
-﻿
-
-
-using HuexMediaApp.Server.Services;
 using HuexMediaApp.Server.Models;
+using HuexMediaApp.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace HuexMediaApp.Server.Controllers;
 
+/// <summary>Expone el análisis, las pistas y las sesiones de vídeo y convierte sus resultados en respuestas HTTP.</summary>
 [ApiController]
 [Route("api/[controller]")]
 public class VideoController : ControllerBase
 {
-    // VideoController: iniciar reproducción, obtener listas HLS,
-    // servir segmentos y detener sesiones.
-
     private readonly VideoService _videoService;
     private readonly ILogger<VideoController> _logger;
 
-    public VideoController(
-        VideoService videoService,
-        ILogger<VideoController> logger)
+    #region Construcción
+
+    public VideoController(VideoService videoService, ILogger<VideoController> logger)
     {
         _videoService = videoService;
         _logger = logger;
     }
 
-    /// <summary>
-    /// Obtiene la información técnica de un vídeo.
-    /// </summary>
+    #endregion
+
+    #region Operaciones HTTP
+
+    /// <summary>Consulta la duración, resolución, códecs y pistas del archivo indicado.</summary>
     [HttpGet("info")]
-    public async Task<IActionResult> GetVideoInfo([FromQuery] string path)
+    public Task<IActionResult> GetVideoInfo([FromQuery] string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
+        return ExecuteAsync(async () =>
         {
-            return BadRequest(new
-            {
-                error = "La ruta del vídeo no es válida."
-            });
-        }
-
-        try
-        {
-            var videoInfo = await _videoService.GetVideoInfoAsync(path, HttpContext.RequestAborted);
-
+            VideoInfo videoInfo = await _videoService.GetVideoInfoAsync(path, HttpContext.RequestAborted);
             return Ok(videoInfo);
-        }
-        catch (FileNotFoundException)
-        {
-            return NotFound(new
-            {
-                error = "No se ha encontrado el vídeo."
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error al analizar el vídeo '{Path}'.", path);
-
-            return StatusCode(500, new
-            {
-                error = "No se ha podido analizar el vídeo."
-            });
-        }
+        }, "No se ha podido analizar el vídeo.");
     }
 
-
+    /// <summary>Prepara HLS desde la posición y pista de audio solicitadas y devuelve su URL y referencias temporales.</summary>
     [HttpPost("start")]
-    public async Task<IActionResult> Start(
+    public Task<IActionResult> Start(
         [FromQuery] string path,
         [FromQuery] double startSeconds = 0,
         [FromQuery] int? audioTrackIndex = null)
     {
-        // Comprueba que se haya indicado un archivo.
-        if (string.IsNullOrWhiteSpace(path))
+        return ExecuteAsync(async () =>
         {
-            return BadRequest(new
-            {
-                message = "No se ha indicado la ruta del vídeo."
-            });
-        }
-
-        // Comprueba que la posición solicitada sea válida.
-        if (!double.IsFinite(startSeconds) || startSeconds < 0)
-        {
-            return BadRequest(new
-            {
-                message = "La posición inicial no es válida."
-            });
-        }
-
-        // Inicia FFmpeg desde la posición solicitada.
-        PlaybackSession session;
-        try
-        {
-            session = await _videoService.StartHlsAsync(
+            PlaybackSession session = await _videoService.StartHlsAsync(
                 path, startSeconds, HttpContext.RequestAborted, audioTrackIndex);
-        }
-        catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
-        catch (FileNotFoundException) { return NotFound(new { error = "No se ha encontrado el vídeo." }); }
 
-        return Ok(new
-        {
-            sessionId = session.SessionId,
-            playlistUrl = $"/api/video/hls/{session.SessionId}/index.m3u8",
-            startSeconds = session.StartSeconds,
-            timelineStartSeconds = session.TimelineStartSeconds,
-            transportTimestampOffsetSeconds = session.TransportTimestampOffsetSeconds
-        });
+            return Ok(new
+            {
+                sessionId = session.SessionId,
+                playlistUrl = $"/api/video/hls/{session.SessionId}/index.m3u8",
+                startSeconds = session.StartSeconds,
+                timelineStartSeconds = session.TimelineStartSeconds,
+                transportTimestampOffsetSeconds = session.TransportTimestampOffsetSeconds
+            });
+        }, "No se ha podido iniciar la reproducción.");
     }
 
+    /// <summary>Devuelve la pista seleccionada como texto WebVTT codificado en UTF-8.</summary>
     [HttpGet("subtitles")]
-    public async Task<IActionResult> GetSubtitles([FromQuery] string path, [FromQuery] int trackIndex)
+    public Task<IActionResult> GetSubtitles([FromQuery] string path, [FromQuery] int trackIndex)
     {
-        if (string.IsNullOrWhiteSpace(path))
-            return BadRequest(new { error = "La ruta del vídeo no es válida." });
-        try
+        return ExecuteAsync(async () =>
         {
-            var subtitles = await _videoService.GetSubtitlesAsync(path, trackIndex, HttpContext.RequestAborted);
-            return Content(subtitles, "text/vtt", System.Text.Encoding.UTF8);
-        }
-        catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
-        catch (FileNotFoundException) { return NotFound(new { error = "No se ha encontrado el vídeo." }); }
-        catch (InvalidOperationException ex) { return StatusCode(500, new { error = ex.Message }); }
+            string subtitles = await _videoService.GetSubtitlesAsync(path, trackIndex, HttpContext.RequestAborted);
+            return Content(subtitles, "text/vtt", Encoding.UTF8);
+        }, "No se han podido extraer los subtítulos.");
     }
 
-
-
-    // Detiene una sesión HLS y elimina sus archivos temporales.
+    /// <summary>Solicita la detención y limpieza; el servicio conserva los intentos pendientes para reintentarlos.</summary>
     [HttpPost("stop/{sessionId}")]
-    public async Task<IActionResult> Stop(string sessionId)
+    public Task<IActionResult> Stop(string sessionId)
     {
-        // Comprueba que el identificador recibido es válido.
-        if (!Guid.TryParseExact(sessionId, "N", out _))
+        return ExecuteAsync(async () =>
         {
-            return BadRequest(new
-            {
-                message = "El identificador de la sesión no es válido."
-            });
-        }
-
-        // Solicita al servicio que detenga FFmpeg.
-        await _videoService.StopHlsAsync(sessionId);
-
-        return Ok(new
-        {
-            message = "Sesión de reproducción finalizada."
-        });
+            await _videoService.StopHlsAsync(sessionId);
+            return Ok(new { message = "Sesión de reproducción finalizada." });
+        }, "No se ha podido finalizar la reproducción.");
     }
 
-
+    /// <summary>Sirve el manifiesto o un segmento de la sesión con su tipo de contenido.</summary>
     [HttpGet("hls/{sessionId}/{fileName}")]
-    public IActionResult GetHlsFile(
-        string sessionId,
-        string fileName)
+    public Task<IActionResult> GetHlsFile(string sessionId, string fileName)
     {
-        string filePath;
+        return ExecuteAsync(() =>
+        {
+            HlsMediaFile file = _videoService.GetHlsFile(sessionId, fileName);
+            return Task.FromResult<IActionResult>(PhysicalFile(file.FullPath, file.ContentType));
+        }, "No se ha podido obtener el archivo HLS.", "El archivo HLS todavía no está disponible.");
+    }
 
+    #endregion
+
+    #region Ejecución y respuestas
+
+    /// <summary>Centraliza la ejecución, el registro de fallos y las respuestas 400, 404 y 500.</summary>
+    private async Task<IActionResult> ExecuteAsync(
+        Func<Task<IActionResult>> operation,
+        string errorMessage,
+        string notFoundMessage = "No se ha encontrado el vídeo.")
+    {
         try
         {
-            filePath = _videoService.GetHlsFilePath(
-                sessionId,
-                fileName
-            );
+            // La llamada al servicio se realiza dentro del try, también para los archivos HLS.
+            return await operation();
         }
-        catch (ArgumentException)
+        catch (OperationCanceledException)
         {
-            return BadRequest(new
-            {
-                error = "La solicitud HLS no es válida."
-            });
+            // ASP.NET Core recibe la cancelación y el servicio ejecuta su limpieza correspondiente.
+            throw;
         }
-
-        if (!System.IO.File.Exists(filePath))
+        catch (ArgumentException ex)
         {
-            return NotFound(new
-            {
-                error = "El archivo HLS todavía no está disponible."
-            });
+            return BadRequest(new { error = ex.Message });
         }
-
-        string contentType = fileName.EndsWith(".m3u8")
-            ? "application/vnd.apple.mpegurl"
-            : "video/mp2t";
-
-        return PhysicalFile(filePath, contentType);
+        catch (FileNotFoundException)
+        {
+            return NotFound(new { error = notFoundMessage });
+        }
+        catch (Exception ex)
+        {
+            // El registro conserva el detalle técnico y la respuesta usa el mensaje de la operación.
+            _logger.LogError(ex, "{ErrorMessage}", errorMessage);
+            return StatusCode(500, new { error = errorMessage });
+        }
     }
 
+    #endregion
 }
-

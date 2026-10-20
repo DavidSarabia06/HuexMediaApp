@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2420" viewBox="0 0 2500 2420">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="180" width="460" height="1730" rx="18" fill="#172C3B" stroke="#477B9C" stroke-width="2"/>
+<rect x="555" y="180" width="1885" height="1730" rx="18" fill="#16232B" stroke="#3D675A" stroke-width="2"/>
+<rect x="590" y="260" width="430" height="77" rx="18" fill="#243D42"/>
+<rect x="1080" y="260" width="730" height="77" rx="18" fill="#243D42"/>
+<rect x="1870" y="260" width="530" height="77" rx="18" fill="#303349"/>
+<rect x="80" y="370" width="420" height="215" rx="18" fill="#203E51"/>
+<rect x="590" y="370" width="430" height="215" rx="18" fill="#1C3438"/>
+<rect x="1080" y="370" width="730" height="215" rx="18" fill="#1C3438"/>
+<path d="M500,445 L590,445" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="590,445 578.5914266954252,451.2325320018546 578.5914266954252,438.7674679981454" fill="#46DBB0"/>
+<path d="M1020,445 L1080,445" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1080,445 1068.591426695425,451.2325320018546 1068.591426695425,438.7674679981454" fill="#46DBB0"/>
+<rect x="1080" y="635" width="730" height="165" rx="18" fill="#1C3438"/>
+<path d="M1440,585 L1440,635" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,635 1433.7674679981453,623.5914266954252 1446.2325320018547,623.5914266954252" fill="#46DBB0"/>
+<rect x="1870" y="635" width="530" height="165" rx="18" fill="#272D41"/>
+<path d="M1810,705 L1870,705" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,705 1858.591426695425,711.2325320018547 1858.591426695425,698.7674679981453" fill="#46DBB0"/>
+<rect x="1870" y="850" width="530" height="185" rx="18" fill="#272D41"/>
+<path d="M2130,800 L2130,850" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="2130,850 2123.7674679981455,838.5914266954252 2136.2325320018545,838.5914266954252" fill="#46DBB0"/>
+<rect x="1080" y="850" width="730" height="185" rx="18" fill="#1C3438"/>
+<path d="M1870,930 L1810,930" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,930 1821.408573304575,923.7674679981453 1821.408573304575,936.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="1085" width="730" height="165" rx="18" fill="#1C3438"/>
+<path d="M1440,1035 L1440,1085" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,1085 1433.7674679981453,1073.591426695425 1446.2325320018547,1073.591426695425" fill="#46DBB0"/>
+<rect x="1870" y="1085" width="530" height="340" rx="18" fill="#343044"/>
+<rect x="1080" y="1300" width="730" height="230" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<path d="M1440,1250 L1440,1300" stroke="#C6A8F0" stroke-width="4" fill="none"/>
+<polygon points="1440,1300 1433.7674679981453,1288.591426695425 1446.2325320018547,1288.591426695425" fill="#C6A8F0"/>
+<rect x="1080" y="1590" width="730" height="200" rx="18" fill="#1C3438"/>
+<path d="M1440,1530 L1440,1590" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1440,1590 1433.7674679981453,1578.591426695425 1446.2325320018547,1578.591426695425" fill="#82BDFF"/>
+<rect x="590" y="1590" width="430" height="200" rx="18" fill="#1C3438"/>
+<path d="M1080,1670 L1020,1670" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1020,1670 1031.408573304575,1663.7674679981453 1031.408573304575,1676.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="1590" width="420" height="200" rx="18" fill="#203E51"/>
+<path d="M590,1670 L500,1670" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="500,1670 511.4085733045748,1663.7674679981453 511.4085733045749,1676.2325320018547" fill="#82BDFF"/>
+<rect x="60" y="1960" width="2380" height="325" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<rect x="85" y="2045" width="550" height="185" rx="18" fill="#412E36"/>
+<rect x="680" y="2045" width="550" height="185" rx="18" fill="#412E36"/>
+<rect x="1275" y="2045" width="550" height="185" rx="18" fill="#412E36"/>
+<rect x="1870" y="2045" width="540" height="185" rx="18" fill="#412E36"/>
+<path d="M70,2347 L150,2347" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="150,2347 138.59142669542516,2353.2325320018545 138.59142669542516,2340.7674679981455" fill="#46DBB0"/>
+<path d="M570,2347 L490,2347" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="490,2347 501.4085733045748,2340.7674679981455 501.4085733045749,2353.2325320018545" fill="#82BDFF"/>
+<text x="65" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="49" font-weight="700" fill="#FFFFFF">01 · CONSULTAR INFORMACIÓN DEL VÍDEO</text>
+<text x="65" y="140" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="400" fill="#A7BACB">Recorrido de GetVideoInfoAsync · petición HTTP, análisis con FFprobe y respuesta al reproductor</text>
+<text x="85" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#96D4FF">CLIENTE</text>
+<text x="580" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#6DE5BA">SERVIDOR · ASP.NET Core</text>
+<text x="85" y="293" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" fill="#FFFFFF">VideoPlayer.jsx</text>
+<text x="610" y="300" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#6DE5BA">CONTROLLER</text>
+<text x="610" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">VideoController</text>
+<text x="1100" y="300" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#6DE5BA">SERVICIO</text>
+<text x="1100" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">VideoService</text>
+<text x="1890" y="300" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#C6BBFF">PROCESO EXTERNO</text>
+<text x="1890" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">ffprobe.exe</text>
+<text x="100" y="417" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">1 · loadVideoInfo()</text>
+<text x="100" y="460" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">useEffect depende de videoPath.</text>
+<text x="100" y="491" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Crea un AbortController.</text>
+<text x="100" y="522" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">fetch(..., { signal })</text>
+<text x="100" y="553" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Envía la ruta codificada.</text>
+<text x="610" y="417" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">2 · GetVideoInfo(path)</text>
+<text x="610" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">GET /api/video/info?path=...</text>
+<text x="610" y="489" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ExecuteAsync recibe el delegado.</text>
+<text x="610" y="519" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Lo ejecuta dentro del try.</text>
+<text x="610" y="549" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Pasa RequestAborted al servicio.</text>
+<text x="1100" y="417" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">3 · GetVideoInfoAsync(path, token)</text>
+<text x="1100" y="462" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">ValidateVideoPath(path):</text>
+<text x="1100" y="495" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">• exige una ruta con contenido;</text>
+<text x="1100" y="528" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">• comprueba que el archivo exista.</text>
+<text x="1100" y="561" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">Continúa si la validación es correcta.</text>
+<text x="1100" y="682" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">4 · Preparar la consulta</text>
+<text x="1100" y="723" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">ProcessStartInfo + ArgumentList: -show_entries,</text>
+<text x="1100" y="752" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">campos técnicos, -of json y ruta del archivo.</text>
+<text x="1100" y="781" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Redirige salida y errores hacia C#.</text>
+<text x="1890" y="682" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">5 · process.Start()</text>
+<text x="1890" y="723" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">FFprobe lee el archivo original.</text>
+<text x="1890" y="752" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Consulta duración y streams.</text>
+<text x="1890" y="781" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Escribe JSON y mensajes de error.</text>
+<text x="1890" y="897" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">Salida del proceso</text>
+<text x="1890" y="941" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">StandardOutput → texto JSON</text>
+<text x="1890" y="973" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">StandardError → texto de errores</text>
+<text x="1890" y="1005" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">ExitCode → resultado de ejecución</text>
+<text x="1100" y="897" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">6 · Esperar y recoger los datos</text>
+<text x="1100" y="941" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">ReadToEndAsync en ambos canales a la vez.</text>
+<text x="1100" y="973" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">await WaitForExitAsync() → comprobar cancelación.</text>
+<text x="1100" y="1005" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">ExitCode = 0 → continuar; otro valor → excepción.</text>
+<text x="1100" y="1132" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">7 · Interpretar el JSON</text>
+<text x="1100" y="1173" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">JsonNode.Parse(output).AsObject()</text>
+<text x="1100" y="1202" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Convierte duración con InvariantCulture.</text>
+<text x="1100" y="1231" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Recorre streams: vídeo, audio y subtítulos.</text>
+<text x="1890" y="1132" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#D6C5FF">Cancelación durante el análisis</text>
+<text x="1890" y="1174" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">El cliente ejecuta controller.abort().</text>
+<text x="1890" y="1204" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">RequestAborted comunica la cancelación.</text>
+<text x="1890" y="1234" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">token.Register intenta Kill del proceso.</text>
+<text x="1890" y="1264" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Tras esperar su salida:</text>
+<text x="1890" y="1294" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ThrowIfCancellationRequested().</text>
+<text x="1890" y="1324" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ExecuteAsync propaga la cancelación.</text>
+<text x="1100" y="1345" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#D6C5FF">MODELO · VideoInfo</text>
+<text x="1100" y="1389" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Duration · Width · Height · VideoCodec · AudioCodec</text>
+<text x="1100" y="1419" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">RequiresTranscoding: vídeo ≠ h264 o audio ≠ aac</text>
+<text x="1100" y="1449" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">AudioTracks y SubtitleTracks → listas de MediaTrack</text>
+<text x="1100" y="1479" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">MediaTrack: Index, Codec, Language, Title,</text>
+<text x="1100" y="1509" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">IsDefault, IsForced e IsSupported</text>
+<text x="1100" y="1637" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">8 · return videoInfo</text>
+<text x="1100" y="1681" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Guarda el primer vídeo y el primer códec de audio.</text>
+<text x="1100" y="1713" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Añade todos los audios y subtítulos a sus listas.</text>
+<text x="1100" y="1745" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Registra los códecs y devuelve el objeto tipado.</text>
+<text x="610" y="1637" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">Respuesta HTTP 200</text>
+<text x="610" y="1680" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Ok(videoInfo)</text>
+<text x="610" y="1711" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ASP.NET Core serializa el objeto.</text>
+<text x="610" y="1742" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Devuelve JSON al navegador.</text>
+<text x="100" y="1637" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">9 · Actualizar la interfaz</text>
+<text x="100" y="1677" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">await response.json()</text>
+<text x="100" y="1705" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">setDuration(info.duration)</text>
+<text x="100" y="1733" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">setAudioTracks(info.audioTracks)</text>
+<text x="100" y="1761" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">setSubtitleTracks(info.subtitleTracks)</text>
+<text x="85" y="1845" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#96D4FF">Solo aplica el resultado si la petición sigue activa.</text>
+<text x="1095" y="1855" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#A7BACB">Resultado listo para la barra de duración y los selectores de pistas.</text>
+<text x="85" y="2009" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFB3BC">RUTAS DE ERROR · el servicio lanza la excepción y ExecuteAsync construye la respuesta</text>
+<text x="105" y="2092" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFCFD4">Ruta inválida → HTTP 400</text>
+<text x="105" y="2134" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ValidateVideoPath lanza ArgumentException.</text>
+<text x="105" y="2164" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">El controlador devuelve JSON con error.</text>
+<text x="700" y="2092" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFCFD4">Archivo ausente → HTTP 404</text>
+<text x="700" y="2134" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">FileNotFoundException.</text>
+<text x="700" y="2164" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Respuesta: «No se ha encontrado el vídeo».</text>
+<text x="1295" y="2092" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFCFD4">Fallo de análisis → HTTP 500</text>
+<text x="1295" y="2134" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Se registra el detalle técnico del fallo.</text>
+<text x="1295" y="2164" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Respuesta general de análisis del vídeo.</text>
+<text x="1890" y="2092" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFCFD4">El cliente recibe un fallo</text>
+<text x="1890" y="2134" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">response.ok es false → lanza Error.</text>
+<text x="1890" y="2164" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Si sigue activo: setError(message).</text>
+<text x="170" y="2354" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Petición / ejecución</text>
+<text x="590" y="2354" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Respuesta / resultado</text>
+<text x="1050" y="2355" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#B8C9D6">Lee los pasos 1 → 9. Los modelos representan datos, no procesos.</text>
+</svg>

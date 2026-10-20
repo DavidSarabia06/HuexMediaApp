@@ -1,10 +1,14 @@
 namespace HuexMediaApp.Server.Services;
 
+/// <summary>Reintenta cada 30 segundos las detenciones y limpiezas HLS que quedaron pendientes.</summary>
 public sealed class HlsCleanupService : BackgroundService
 {
     private readonly VideoService _videoService;
     private readonly ILogger<HlsCleanupService> _logger;
 
+    #region Construcción
+
+    /// <summary>Recibe el servicio compartido de sesiones y el registro de la tarea de fondo.</summary>
     public HlsCleanupService(
         VideoService videoService,
         ILogger<HlsCleanupService> logger)
@@ -13,10 +17,15 @@ public sealed class HlsCleanupService : BackgroundService
         _logger = logger;
     }
 
+    #endregion
+
+    #region Limpieza periódica
+
+    /// <summary>Espera cada intervalo y solicita los reintentos hasta el cierre del servidor.</summary>
     protected override async Task ExecuteAsync(
         CancellationToken stoppingToken)
     {
-        using var timer = new PeriodicTimer(
+        using PeriodicTimer timer = new PeriodicTimer(
             TimeSpan.FromSeconds(30)
         );
 
@@ -26,6 +35,7 @@ public sealed class HlsCleanupService : BackgroundService
             {
                 try
                 {
+                    // El servicio mantiene las sesiones pendientes y serializa su limpieza.
                     await _videoService.RetryPendingCleanupAsync(
                         stoppingToken
                     );
@@ -50,4 +60,6 @@ public sealed class HlsCleanupService : BackgroundService
             // Cierre normal del servidor.
         }
     }
+
+    #endregion
 }

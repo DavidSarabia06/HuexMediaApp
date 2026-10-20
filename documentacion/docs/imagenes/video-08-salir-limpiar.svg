@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2760" viewBox="0 0 2500 2760">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="180" width="460" height="2200" rx="18" fill="#172C3B" stroke="#477B9C" stroke-width="2"/>
+<rect x="555" y="180" width="1885" height="2200" rx="18" fill="#16232B" stroke="#3D675A" stroke-width="2"/>
+<rect x="590" y="260" width="430" height="77" rx="18" fill="#243D42"/>
+<rect x="1080" y="260" width="730" height="77" rx="18" fill="#243D42"/>
+<rect x="1870" y="260" width="530" height="77" rx="18" fill="#303349"/>
+<rect x="80" y="370" width="420" height="240" rx="18" fill="#203E51"/>
+<rect x="80" y="670" width="420" height="280" rx="18" fill="#203E51"/>
+<path d="M290,610 L290,670" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="290,670 283.7674679981454,658.5914266954252 296.2325320018546,658.5914266954252" fill="#46DBB0"/>
+<rect x="590" y="670" width="430" height="280" rx="18" fill="#1C3438"/>
+<rect x="1080" y="670" width="730" height="280" rx="18" fill="#1C3438"/>
+<path d="M500,770 L590,770" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="590,770 578.5914266954252,776.2325320018547 578.5914266954252,763.7674679981453" fill="#46DBB0"/>
+<path d="M1020,770 L1080,770" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1080,770 1068.591426695425,776.2325320018547 1068.591426695425,763.7674679981453" fill="#46DBB0"/>
+<rect x="1080" y="370" width="1320" height="240" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<rect x="1080" y="1010" width="730" height="230" rx="18" fill="#1C3438"/>
+<path d="M1440,950 L1440,1010" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,1010 1433.7674679981453,998.5914266954252 1446.2325320018547,998.5914266954252" fill="#46DBB0"/>
+<rect x="1870" y="1010" width="530" height="230" rx="18" fill="#272D41"/>
+<path d="M1810,1100 L1870,1100" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1100 1858.591426695425,1106.2325320018547 1858.591426695425,1093.7674679981453" fill="#46DBB0"/>
+<path d="M1870,1170 L1810,1170" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,1170 1821.408573304575,1163.7674679981453 1821.408573304575,1176.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="1300" width="730" height="240" rx="18" fill="#1C3438"/>
+<path d="M1440,1240 L1440,1300" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,1300 1433.7674679981453,1288.591426695425 1446.2325320018547,1288.591426695425" fill="#46DBB0"/>
+<rect x="1870" y="1300" width="530" height="240" rx="18" fill="#272D41"/>
+<path d="M1810,1390 L1870,1390" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1390 1858.591426695425,1396.2325320018547 1858.591426695425,1383.7674679981453" fill="#46DBB0"/>
+<path d="M1870,1470 L1810,1470" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,1470 1821.408573304575,1463.7674679981453 1821.408573304575,1476.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="1600" width="730" height="190" rx="18" fill="#1C3438"/>
+<path d="M1440,1540 L1440,1600" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1440,1600 1433.7674679981453,1588.591426695425 1446.2325320018547,1588.591426695425" fill="#82BDFF"/>
+<rect x="590" y="1600" width="430" height="190" rx="18" fill="#1C3438"/>
+<path d="M1080,1680 L1020,1680" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1020,1680 1031.408573304575,1673.7674679981453 1031.408573304575,1686.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="1600" width="420" height="190" rx="18" fill="#203E51"/>
+<path d="M590,1680 L500,1680" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="500,1680 511.4085733045748,1673.7674679981453 511.4085733045749,1686.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="1860" width="1320" height="300" rx="18" fill="#24362F" stroke="#527B5E" stroke-width="2"/>
+<path d="M2130,1540 L2130,1860" stroke="#8FE3A7" stroke-width="4" fill="none"/>
+<polygon points="2130,1860 2123.7674679981455,1848.591426695425 2136.2325320018545,1848.591426695425" fill="#8FE3A7"/>
+<rect x="80" y="1860" width="420" height="335" rx="18" fill="#203E51"/>
+<rect x="590" y="2220" width="1810" height="105" rx="18" fill="#22333C" stroke="#477B9C" stroke-width="2"/>
+<rect x="60" y="2450" width="2380" height="205" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<path d="M70,2720 L150,2720" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="150,2720 138.59142669542516,2726.2325320018545 138.59142669542516,2713.7674679981455" fill="#46DBB0"/>
+<path d="M570,2720 L490,2720" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="490,2720 501.4085733045748,2713.7674679981455 501.4085733045749,2726.2325320018545" fill="#82BDFF"/>
+<text x="65" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="49" font-weight="700" fill="#FFFFFF">08 · SALIR Y LIMPIAR</text>
+<text x="65" y="137" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#A7BACB">Guardar progreso → liberar el cliente → detener FFmpeg → borrar temporales → reintentar si queda pendiente</text>
+<text x="85" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#96D4FF">CLIENTE</text>
+<text x="580" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#6DE5BA">SERVIDOR · ASP.NET Core</text>
+<text x="85" y="293" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" fill="#FFFFFF">VideoPlayer.jsx</text>
+<text x="610" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">CONTROLLER</text>
+<text x="610" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">VideoController · ExecuteAsync</text>
+<text x="1100" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">SERVICIOS</text>
+<text x="1100" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">VideoService · HlsCleanupService</text>
+<text x="1890" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#C6BBFF">PROCESO Y TEMPORALES</text>
+<text x="1890" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">FFmpeg · carpeta HLS</text>
+<text x="100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">1 · handleBack()</text>
+<text x="100" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Pausa el &lt;video&gt;.</text>
+<text x="100" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Espera el intento de flush().</text>
+<text x="100" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Navega a episodios si hay serie;</text>
+<text x="100" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">en otro caso vuelve a /series.</text>
+<text x="100" y="573" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Salir retira el componente.</text>
+<text x="100" y="716" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">2 · Limpiar efectos</text>
+<text x="100" y="757" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">cancelled = true; abort().</text>
+<text x="100" y="786" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Retira temporizadores y eventos.</text>
+<text x="100" y="815" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Destruye la instancia Hls.js.</text>
+<text x="100" y="844" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Libera referencias de esa sesión.</text>
+<text x="100" y="873" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">stopSession(id) con keepalive.</text>
+<text x="100" y="902" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">POST /api/video/stop/{id}</text>
+<text x="610" y="716" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">3 · Stop(sessionId)</text>
+<text x="610" y="758" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ExecuteAsync llama a</text>
+<text x="610" y="788" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">StopHlsAsync(sessionId).</text>
+<text x="610" y="818" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">La limpieza usa su propio ciclo</text>
+<text x="610" y="848" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">de espera e intentos.</text>
+<text x="610" y="878" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Se puede repetir la petición.</text>
+<text x="1100" y="716" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">4 · Registrar y serializar la limpieza</text>
+<text x="1100" y="759" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ValidateSessionId exige un GUID en formato N.</text>
+<text x="1100" y="790" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">_pendingCleanup.TryAdd(sessionId, 0).</text>
+<text x="1100" y="821" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Espera _cleanupLock: un turno de limpieza cada vez.</text>
+<text x="1100" y="852" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Localiza el proceso en _activeSessions.</text>
+<text x="1100" y="883" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">finally libera el semáforo al terminar el intento.</text>
+<text x="1100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#D6C5FF">IDENTIDAD Y ESTADO · de PlaybackSession a los registros del servicio</text>
+<text x="1100" y="466" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">SessionId enlaza la sesión devuelta al cliente con su proceso y su carpeta.</text>
+<text x="1100" y="498" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">_activeSessions: sessionId → Process. _pendingCleanup: IDs por limpiar.</text>
+<text x="1100" y="530" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">_requestedStops: marca asociada al Process para reconocer una detención solicitada.</text>
+<text x="1100" y="562" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La cola pendiente y los registros viven en memoria durante la ejecución del servidor.</text>
+<text x="1100" y="1056" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">5 · Detener FFmpeg y esperar</text>
+<text x="1100" y="1098" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Si sigue activo: marca _requestedStops antes de Kill.</text>
+<text x="1100" y="1128" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Kill(entireProcessTree: true) → WaitForExitAsync().</text>
+<text x="1100" y="1158" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Retira el proceso de _activeSessions al confirmar salida.</text>
+<text x="1100" y="1188" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Si la detención falla, conserva pendiente y devuelve.</text>
+<text x="1890" y="1056" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">FFmpeg y su supervisión</text>
+<text x="1890" y="1097" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El proceso deja de escribir al terminar.</text>
+<text x="1890" y="1126" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">MonitorSessionAsync observa la salida.</text>
+<text x="1890" y="1155" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Marca solicitada → mensaje informativo.</text>
+<text x="1890" y="1184" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Error sin marca → registra el fallo.</text>
+<text x="1100" y="1346" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">6 · DeleteSessionDirectoryAsync</text>
+<text x="1100" y="1388" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Resuelve raíz y carpeta como rutas absolutas.</text>
+<text x="1100" y="1418" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Comprueba que la carpeta quede dentro de la raíz HLS.</text>
+<text x="1100" y="1448" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Directory.Delete(..., recursive: true), hasta 5 intentos.</text>
+<text x="1100" y="1478" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Entre fallos de E/S o permisos: 200, 400, 600, 800 ms.</text>
+<text x="1100" y="1508" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Carpeta ya ausente → éxito; agotar intentos → false.</text>
+<text x="1890" y="1346" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Carpeta temporal de la sesión</text>
+<text x="1890" y="1387" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">%TEMP%/HuexMedia/Hls/{id}/</text>
+<text x="1890" y="1416" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Borra manifiesto y segmentos.</text>
+<text x="1890" y="1445" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Éxito → retira el ID de pendientes.</text>
+<text x="1890" y="1474" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Fallo → conserva el ID y registra aviso.</text>
+<text x="1890" y="1503" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El borrado sigue a la salida del proceso.</text>
+<text x="1100" y="1646" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">7 · Finalizar el intento</text>
+<text x="1100" y="1689" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Devuelve tras el intento de detención y limpieza.</text>
+<text x="1100" y="1720" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Puede quedar pendiente si falló detener o borrar.</text>
+<text x="1100" y="1751" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">La respuesta se construye al volver al controlador.</text>
+<text x="610" y="1646" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">HTTP 200</text>
+<text x="610" y="1688" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">message: «Sesión de</text>
+<text x="610" y="1718" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">reproducción finalizada».</text>
+<text x="610" y="1748" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Puede haber limpieza pendiente.</text>
+<text x="100" y="1646" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Cliente ya liberado</text>
+<text x="100" y="1687" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">La petición se lanza en segundo plano.</text>
+<text x="100" y="1716" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">stopSession captura fallos de red</text>
+<text x="100" y="1745" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">y los registra en consola.</text>
+<text x="1100" y="1908" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#8FE3A7">8 · HlsCleanupService · reintento de pendientes</text>
+<text x="1100" y="1956" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">PeriodicTimer espera 30 segundos por ciclo.</text>
+<text x="1100" y="1988" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">ExecuteAsync → RetryPendingCleanupAsync → StopHlsAsync por cada ID pendiente.</text>
+<text x="1100" y="2020" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Cada nuevo intento vuelve a detener el proceso si es necesario y a intentar el borrado.</text>
+<text x="1100" y="2052" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Éxito: retira el ID. Fallo: sigue pendiente para el siguiente ciclo.</text>
+<text x="1100" y="2084" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Comprueba cancelación entre sesiones y termina con el cierre del servidor.</text>
+<text x="2150" y="1772" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#8FE3A7">si pendiente</text>
+<text x="100" y="1906" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Otros caminos de salida</text>
+<text x="100" y="1947" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Buscar o cambiar audio también</text>
+<text x="100" y="1976" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">retira el efecto de reproducción.</text>
+<text x="100" y="2005" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Si start se cancela al preparar,</text>
+<text x="100" y="2034" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">su catch solicita StopHlsAsync.</text>
+<text x="100" y="2063" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Un resultado antiguo con sesión</text>
+<text x="100" y="2092" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">conocida se solicita detener.</text>
+<text x="100" y="2121" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El guardador intenta flush al salir.</text>
+<text x="615" y="2263" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#96D4FF">Alcance de los reintentos</text>
+<text x="615" y="2303" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Se aplican a los IDs registrados como pendientes en memoria mientras el servidor continúa ejecutándose.</text>
+<text x="85" y="2496" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFB3BC">ERRORES Y RESULTADO DE LA LIMPIEZA</text>
+<text x="85" y="2548" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">ID inválido → 400. Un fallo inesperado capturado por ExecuteAsync → 500. Fallos recuperables se conservan para reintentar.</text>
+<text x="85" y="2580" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">HTTP 200 confirma que terminó el intento de StopHlsAsync; para verificar el borrado se registra «Archivos temporales eliminados».</text>
+<text x="85" y="2612" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">keepalive ayuda a enviar la petición al abandonar la página. Los reintentos dependen de que la sesión llegue a pendientes.</text>
+<text x="170" y="2727" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Petición / ejecución</text>
+<text x="590" y="2727" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Respuesta / resultado</text>
+<text x="1050" y="2727" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#B8C9D6">Orden de limpieza: detener proceso → confirmar salida → borrar carpeta.</text>
+</svg>

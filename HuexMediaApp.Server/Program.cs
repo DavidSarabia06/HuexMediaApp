@@ -1,11 +1,22 @@
 
 using HuexMediaApp.Server.Services;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
+AppStoragePaths storagePaths = new AppStoragePaths(builder.Environment);
+builder.Services.AddSingleton(storagePaths);
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddJsonFile(storagePaths.SettingsPath, optional: false, reloadOnChange: true);
+}
+
 // Registra los servicios de la aplicación.
 builder.Services.AddSingleton<ConfigurationService>();
+builder.Services.AddSingleton<SeriesService>();
+builder.Services.AddSingleton<MoviesService>();
 builder.Services.AddSingleton<SeriesCategoryService>();
+builder.Services.AddSingleton<MoviesCategoryService>();
 builder.Services.AddOptions<HuexMediaApp.Server.Models.PlaybackProgressOptions>()
     .Bind(builder.Configuration.GetSection("PlaybackProgress"))
     .Validate(settings => double.IsFinite(settings.WatchedThresholdPercent) &&
@@ -24,15 +35,21 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.WebHost.UseUrls("http://localhost:8080");
+}
+
 var app = builder.Build();
 
-// En desarrollo React se sirve desde Vite; al publicar, desde wwwroot.
+
+// Sirve el cliente React incluido en la carpeta de publicación.
 if (!app.Environment.IsDevelopment())
 {
     app.UseDefaultFiles();
-    app.MapStaticAssets();
+    app.UseStaticFiles();
 }
-
 // Habilita Swagger únicamente durante el desarrollo.
 if (app.Environment.IsDevelopment())
 {
@@ -41,13 +58,39 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseAuthorization();
 
 app.MapControllers();
 if (!app.Environment.IsDevelopment())
 {
     app.MapFallbackToFile("/index.html");
+}
+
+
+if (!app.Environment.IsDevelopment())
+{
+    app.Lifetime.ApplicationStarted.Register(() =>
+    {
+        try
+        {
+            // Abre el navegador predeterminado en la URL del servidor.
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "http://localhost:8080",
+                UseShellExecute = true
+            });
+        }
+        catch (Exception exception)
+        {
+            app.Logger.LogWarning(
+                exception,
+                "No se pudo abrir el navegador. Abre http://localhost:8080.");
+        }
+    });
 }
 
 app.Run();

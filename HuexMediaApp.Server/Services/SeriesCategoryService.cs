@@ -28,9 +28,9 @@ public sealed class SeriesCategoryService
 
     #region Construcción y operaciones públicas
 
-    public SeriesCategoryService(IHostEnvironment environment)
+    public SeriesCategoryService(AppStoragePaths storagePaths)
     {
-        _dataDirectory = Path.Combine(environment.ContentRootPath, "App_Data", "SeriesCategories");
+        _dataDirectory = Path.Combine(storagePaths.DataDirectory, "SeriesCategories");
     }
 
     /// <summary>Obtiene las categorías; una biblioteca sin archivo devuelve una lista vacía.</summary>
@@ -211,25 +211,7 @@ public sealed class SeriesCategoryService
     }
 
     /// <summary>Construye el nombre legible del JSON con ocho caracteres de su hash.</summary>
-    private string GetFilePath(string library)
-    {
-        char[] invalidCharacters = Path.GetInvalidFileNameChars();
-        string name = new string(Path.GetFileName(library)
-            .Select(character => invalidCharacters.Contains(character) ? '_' : character)
-            .ToArray()).Trim().TrimEnd('.');
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            name = "Biblioteca";
-        }
-
-        if (name.Length > MaximumLibraryFileNameLength)
-        {
-            name = name[..MaximumLibraryFileNameLength];
-        }
-
-        return Path.Combine(_dataDirectory, $"{name}-{GetLibraryHash(library)[..8]}.json");
-    }
-
+  
     #endregion
 
     #region Lectura y escritura
@@ -237,7 +219,7 @@ public sealed class SeriesCategoryService
     /// <summary>Carga el JSON con nombre legible y valida su contenido.</summary>
     private async Task<SeriesCategoryLibrary> LoadAsync(string library, CancellationToken cancellationToken)
     {
-        string filePath = GetFilePath(library);
+        string filePath = Path.Combine(_dataDirectory, "SeriesCategoryData.json"); ;
 
         SeriesCategoryLibrary? data;
         try
@@ -337,7 +319,7 @@ public sealed class SeriesCategoryService
     private async Task SaveAsync(string library, SeriesCategoryLibrary data, CancellationToken cancellationToken)
     {
         Directory.CreateDirectory(_dataDirectory);
-        string destination = GetFilePath(library);
+        string destination = Path.Combine(_dataDirectory, "SeriesCategoryData.json"); ;
         string temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {

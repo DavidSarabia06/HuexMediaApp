@@ -1,163 +1,95 @@
-﻿
+using System.Text.Json.Nodes;
 using HuexMediaApp.Server.Models;
 using HuexMediaApp.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Nodes;
 
-namespace HuexMediaApp.Server.Controllers
+namespace HuexMediaApp.Server.Controllers;
+
+/// <summary>Expone las claves permitidas y traduce los resultados de configuración a respuestas HTTP.</summary>
+[ApiController]
+[Route("api/[controller]")]
+public class ConfigurationController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ConfigurationController : ControllerBase
+    private readonly ConfigurationService _configurationService;
+    private readonly ILogger<ConfigurationController> _logger;
+
+    #region Construcción
+
+    public ConfigurationController(
+        ConfigurationService configurationService,
+        ILogger<ConfigurationController> logger)
     {
-        private static readonly HashSet<string> AllowedKeys =
-        [
-            "SeriesLibraryPath",
-            "DownloadSeriesPosters",
-            "DownloadEpisodeThumbnails"
-        ];
+        _configurationService = configurationService;
+        _logger = logger;
+    }
 
-        private readonly ConfigurationService _configurationService;
-        private readonly ILogger<ConfigurationController> _logger;
+    #endregion
 
-        public ConfigurationController(
-            ConfigurationService configurationService,
-            ILogger<ConfigurationController> logger)
+    #region Operaciones HTTP
+
+    /// <summary>Obtiene el valor de una clave permitida conservando su tipo JSON.</summary>
+    [HttpGet("get")]
+    public IActionResult GetConfiguration([FromQuery] string key)
+    {
+        return Execute(() =>
         {
-            _configurationService = configurationService;
-            _logger = logger;
+            JsonNode value = _configurationService.Get<JsonNode>(key);
+            return Ok(new { key, value });
+        }, key, isUpdate: false);
+    }
+
+    /// <summary>Actualiza una clave permitida a partir del cuerpo JSON.</summary>
+    [HttpPost("update")]
+    public IActionResult UpdateConfiguration([FromBody] ConfigurationRequest request)
+    {
+        return Execute(() =>
+        {
+            _configurationService.Update(request.Key, request.Value);
+            _logger.LogInformation("Se ha actualizado correctamente la configuración '{Key}'.", request.Key);
+            return Ok(new { success = true, key = request.Key, value = request.Value });
+        }, request.Key, isUpdate: true);
+    }
+
+    #endregion
+
+    #region Ejecución y respuestas
+
+    /// <summary>Ejecuta la acción y centraliza sus errores sin cambiar el contrato de cada operación.</summary>
+    private IActionResult Execute(Func<IActionResult> operation, string key, bool isUpdate)
+    {
+        try
+        {
+            // La función se invoca aquí para capturar también los fallos del servicio.
+            return operation();
         }
-
-        /// <summary>
-        /// Obtiene el valor de una configuración.
-        /// </summary>
-        [HttpGet("get")]
-        public IActionResult GetConfiguration([FromQuery] string key)
+        catch (KeyNotFoundException)
         {
-            // Comprueba que la clave esté permitida.
-            if (string.IsNullOrWhiteSpace(key) || !AllowedKeys.Contains(key))
-            {
-                _logger.LogWarning(
-                    "Se ha intentado consultar una clave de configuración no permitida."
-                );
-
-                return BadRequest(new
-                {
-                    error = "La clave de configuración no es válida."
-                });
-            }
-
-            try
-            {
-                // Obtiene la configuración desde el servicio.
-                var value = _configurationService.Get<JsonNode>(key);
-
-                return Ok(new
-                {
-                    key,
-                    value
-                });
-            }
-            catch (KeyNotFoundException)
-            {
-                _logger.LogWarning(
-                    "No se ha encontrado la configuración '{Key}'.",
-                    key
-                );
-
-                return NotFound(new
-                {
-                    error = "No se ha encontrado la configuración solicitada."
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    ex,
-                    "Se ha producido un error al obtener la configuración '{Key}'.",
-                    key
-                );
-
-                return StatusCode(500, new
-                {
-                    error = "No se ha podido obtener la configuración."
-                });
-            }
+            _logger.LogWarning("No se ha encontrado la configuración '{Key}'.", key);
+            string message = isUpdate
+                ? "La configuración solicitada no existe."
+                : "No se ha encontrado la configuración solicitada.";
+            return NotFound(new { error = message });
         }
-
-        /// <summary>
-        /// Actualiza el valor de una configuración.
-        /// </summary>
-        [HttpPost("update")]
-        public IActionResult UpdateConfiguration(
-            [FromBody] ConfigurationRequest request)
+        catch (ArgumentException ex)
         {
-            // Comprueba que la clave y el valor sean válidos.
-            if (request is null ||
-                string.IsNullOrWhiteSpace(request.Key) ||
-                !AllowedKeys.Contains(request.Key) ||
-                request.Value is null)
-            {
-                return BadRequest(new
-                {
-                    error = "La clave o el valor de configuración no es válido."
-                });
-            }
-
-            try
-            {
-                // Actualiza la configuración desde el servicio.
-                _configurationService.Update(request.Key, request.Value);
-
-                _logger.LogInformation(
-                    "Se ha actualizado correctamente la configuración '{Key}'.",
-                    request.Key
-                );
-
-                return Ok(new
-                {
-                    success = true,
-                    key = request.Key,
-                    value = request.Value
-                });
-            }
-            catch (KeyNotFoundException)
-            {
-                _logger.LogWarning(
-                    "No se ha encontrado la configuración '{Key}'.",
-                    request.Key
-                );
-
-                return NotFound(new
-                {
-                    error = "La configuración solicitada no existe."
-                });
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogWarning(
-                    "El valor recibido para la configuración '{Key}' no es válido.",
-                    request.Key
-                );
-
-                return BadRequest(new
-                {
-                    error = ex.Message
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    ex,
-                    "Error al actualizar la configuración '{Key}'.",
-                    request.Key
-                );
-
-                return StatusCode(500, new
-                {
-                    error = "No se ha podido actualizar la configuración."
-                });
-            }
+            // Incluye claves no permitidas tanto al consultar como al actualizar.
+            _logger.LogWarning("La clave o el valor recibido para la configuración '{Key}' no es válido.", key);
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            // Las operaciones son síncronas. Los fallos no previstos se registran
+            // completos y se comunican con el mismo mensaje general de cada acción.
+            string logMessage = isUpdate
+                ? "Error al actualizar la configuración '{Key}'."
+                : "Se ha producido un error al obtener la configuración '{Key}'.";
+            _logger.LogError(ex, logMessage, key);
+            string message = isUpdate
+                ? "No se ha podido actualizar la configuración."
+                : "No se ha podido obtener la configuración.";
+            return StatusCode(500, new { error = message });
         }
     }
+
+    #endregion
 }

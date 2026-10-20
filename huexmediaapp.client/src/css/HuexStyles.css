@@ -1,10 +1,9 @@
-/* Colores compartidos: cada sección solo define su acento. */
-:root { --huex-accent: #00E676; --huex-progress-color: #00E676; }
-.huex-theme-library { --huex-accent: #FFFFFF; }
-.huex-theme-series { --huex-accent: #EF5350; }
-.huex-theme-movies { --huex-accent: #42A5F5; }
-.huex-theme-music { --huex-accent: #FBCB45; }
+/* Colores compartidos para títulos, controles y estados de reproducción. */
+:root { --huex-accent: #00E676; --huex-progress-color: #00E676; --huex-title-color: #FFFFFF; --huex-card-hover: #FFFFFF; }
 .huex-title { color: var(--huex-accent); }
+.huex-series-detail .huex-sidebar .huex-item:hover { color: var(--huex-accent); }
+.huex-series-detail .huex-sidebar .huex-item.active { color: var(--huex-accent); background-color: color-mix(in srgb, var(--huex-accent) 15%, #1e1e1e); border-color: var(--huex-accent); }
+.huex-theme-series { --huex-page-title-color: #FF3030; }
 
 /* ========================================================================== */
 /* 1. PANTALLAS PEQUEÑAS / MÓVILES (Hasta 900px) */
@@ -86,10 +85,6 @@
         margin-top: 1.5rem;
         margin: 1.5rem
     }
-
-    .huex-card-title {
-        font-size: 0.7rem;
-    }
 }
 
 /* ========================================================================== */
@@ -166,10 +161,6 @@
         gap: 1rem;
         margin-top: 1.5rem;
         margin: 1.5rem
-    }
-
-    .huex-card-title {
-        font-size: 0.8rem;
     }
 }
 
@@ -249,10 +240,6 @@
         margin-top: 1.5rem;
         margin: 1.5rem
     }
-
-    .huex-card-title {
-        font-size: 0.7rem;
-    }
 }
 
 /* ========================================================================== */
@@ -329,10 +316,6 @@
         gap: 1rem;
         margin-top: 1.5rem;
         margin: 1.5rem
-    }
-
-    .huex-card-title {
-        font-size: 1rem;
     }
 }
 
@@ -413,10 +396,6 @@
         margin-top: 1.5rem;
         margin: 1.5rem
     }
-
-    .huex-card-title {
-        font-size: 1rem;
-    }
 }
 
 /* ========================================================================== */
@@ -462,96 +441,11 @@
     color: white;
 }
 
-/* ========================================================================== */
-/* ESTILOS DE LAS TARJETAS (MediaCard / HuexCard) */
-/* ========================================================================== */
-.huex-card {
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #333;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-}
-
-.huex-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--huex-accent);
-}
-
-.huex-thumbnail-container {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background-color: #141414;
-    position: relative;
-}
-
-.huex-card.huex-card-vertical .huex-thumbnail-container {
-    width: 100%;
-    aspect-ratio: 2/3;
-    background-color: #141414;
-    position: relative;
-}
-
-
-.huex-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.episode-play-btn {
-    color: var(--huex-accent);
-    position: absolute;
-    bottom: 16px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 50%;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.huex-card-info {
-    padding: 1rem;
-}
-
 .episode-watched { display: block; color: var(--huex-progress-color); font-size: .8rem; margin-bottom: 8px; }
 .episode-progress-label { display: block; color: #bcbcbc; font-size: .8rem; margin-bottom: 8px; }
-.episode-progress-bar { display: block; width: 100%; height: 4px; margin-bottom: 8px; border: 0; border-radius: 4px; overflow: hidden; background: #444; accent-color: var(--huex-progress-color); }
-.episode-progress-bar::-webkit-progress-bar { background: #444; }
-.episode-progress-bar::-webkit-progress-value { background: var(--huex-progress-color); }
-.episode-progress-bar::-moz-progress-bar { background: var(--huex-progress-color); }
-.huex-card-episode { text-align: left; }
-.episode-card-shell { position: relative; min-width: 0; }
-.episode-card-shell > .huex-card { width: 100%; height: 100%; }
-.episode-card-shell:hover > .huex-card,
-.episode-card-shell:focus-within > .huex-card { transform: translateY(-5px); box-shadow: 0 8px 15px #0008; border-color: var(--huex-accent); }
-.episode-card-shell:hover .episode-card-options,
-.episode-card-shell:focus-within .episode-card-options { opacity: 1; pointer-events: auto; }
-.episode-card-options:disabled { cursor: wait; }
-.huex-card-episode .huex-card-title { height: 2.5rem; }
-.episode-thumbnail-progress { position: absolute; bottom: 0; left: 0; margin: 0; height: 4px; border-radius: 0; pointer-events: none; }
 .episode-progress-error { color: #ff9999; }
 .series-continue { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding: 18px 20px; margin-bottom: 24px; background: #1e1e1e; border: 1px solid #333; border-radius: 8px; }
 .series-continue p { margin: 0; color: #eee; overflow-wrap: anywhere; }
-
-.huex-card-title {
-    font-weight: 400;
-    color: #e5e5e5;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-    line-height: 1.25rem;
-}
 
 .back-btn {
     background: none;
@@ -567,23 +461,46 @@
 .back-btn:hover {
     color: #ffffff;
 }
-
-.huex-default-icon {
-    width: 100%;
-    height: 100%;
-    background-color: #141414;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 /* Elementos compartidos por las páginas de la biblioteca. */
-.huex-app { min-height: 100vh; background: #141414; color: #e5e5e5; }
-.huex-app-content { padding: 20px; }
+.huex-app {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #141414;
+    color: #e5e5e5;
+}
+.huex-app > header { flex-shrink: 0; }
+.huex-app-content {
+    flex: 1;
+    min-height: 0;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+.huex-app-content::-webkit-scrollbar { width: 14px; }
+.huex-app-content::-webkit-scrollbar-track {
+    background: #242424;
+    border-left: 1px solid #303030;
+}
+.huex-app-content::-webkit-scrollbar-thumb {
+    background: #707070;
+    border: 3px solid #242424;
+    border-radius: 10px;
+}
+.huex-app-content::-webkit-scrollbar-thumb:hover { background: var(--huex-accent); }
+@supports not selector(::-webkit-scrollbar) {
+    .huex-app-content {
+        scrollbar-width: auto;
+        scrollbar-color: #707070 #242424;
+    }
+    .huex-app-content:hover { scrollbar-color: var(--huex-accent) #242424; }
+}
 .huex-container { box-sizing: border-box; text-align: left; }
 .huex-header { flex-wrap: wrap; }
-.huex-header .huex-title { flex: 1; min-width: 0; overflow-wrap: anywhere; margin: 0; }
+.huex-header .huex-title { flex: 1; min-width: 0; overflow-wrap: anywhere; margin: 0; color: var(--huex-title-color); }
 .huex-header-outlined { position: relative; top: -16px; }
-.huex-title-outline { display: inline-block; max-width: 100%; box-sizing: border-box; padding: 8px 14px; border: 1px solid currentColor; border-radius: 8px; }
+.huex-title-outline { display: inline-block; max-width: 100%; box-sizing: border-box; padding: 8px 14px; border: 1px solid currentColor; border-radius: 8px; color: var(--huex-page-title-color, var(--huex-title-color)); }
 .huex-header-actions { margin-left: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .category-create-trigger,
 .category-dialog-cancel {
@@ -638,12 +555,10 @@
 .action-btn:disabled { opacity: .5; cursor: wait; }
 .huex-description { color: #aaa; line-height: 1.6; }
 .huex-item { background: transparent; border: 1px solid transparent; font-family: inherit; text-align: left; }
-.huex-card { padding: 0; font-family: inherit; text-align: left; width: 100%; min-width: 0; }
-.huex-card-info { width: 100%; box-sizing: border-box; }
-.huex-card-title { margin: 0; }
 .huex-home-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.huex-home-grid .huex-card-title { color: var(--huex-accent); }
-.huex-home-grid .huex-card-title { display: block; height: auto; text-align: center; font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 600; line-height: 1.4; }
+.huex-home-grid .huex-theme-movies { --huex-card-hover: #42A5F5; }
+.huex-home-grid .huex-theme-series { --huex-card-hover: #FF3030; }
+.huex-home-grid .huex-theme-music { --huex-card-hover: #FBCB45; }
 .huex-container.huex-player-page { width: 100%; }
 .huex-app :focus-visible { outline: 2px solid var(--huex-accent); outline-offset: 4px; }
 .empty-state { padding: 24px; box-sizing: border-box; }
@@ -658,10 +573,39 @@
     .huex-grid, .huex-home-grid { grid-template-columns: 1fr; }
     .huex-grid-vertical { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .huex-header-actions { width: 100%; margin: 0; }
-    .huex-card-title { font-size: .9rem; }
 }
 
 /* Filas horizontales de categorías */
+.movies-category-group {
+    margin-top: 28px;
+    padding: clamp(14px, 2vw, 24px);
+    min-width: 0;
+    border: 1px solid #ffffff18;
+    border-radius: 10px;
+    background: #ffffff03;
+}
+.movies-category-group-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #ffffff18;
+}
+.movies-category-group-header .huex-title {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.movies-category-group-header > .action-btn {
+    margin-left: auto;
+}
+.movies-category-group-content {
+    min-width: 0;
+}
+.movies-category-group-content > .series-category {
+    margin-top: 20px;
+}
 .series-category { margin-top: 28px; min-width: 0; }
 .series-category.is-drop-target { outline: 2px dashed var(--huex-accent); outline-offset: 8px; border-radius: 8px; background: color-mix(in srgb, var(--huex-accent) 4%, transparent); }
 .series-category.is-drop-target .series-category-empty { color: var(--huex-accent); border-color: var(--huex-accent); }
@@ -706,9 +650,6 @@
 .series-category:has(:focus-visible) .series-category-carousel.is-looping::before,
 .series-category:has(:focus-visible) .series-category-carousel.is-looping::after { opacity: 1; }
 /* El contenedor conserva su posición al elevar la tarjeta, evitando hover intermitente. */
-.series-category-card .huex-card { transform: none; box-shadow: none; border-color: #333; transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
-.series-category-card:hover .huex-card,
-.series-category-card:focus-within .huex-card { transform: translateY(-5px); box-shadow: 0 8px 15px #0008; border-color: var(--huex-accent); }
 .series-category-arrow { position: absolute; top: 0; bottom: 0; z-index: 2; width: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 6px; background: transparent; color: white; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s ease, background .2s ease; }
 .series-category-arrow-left { left: 0; }
 .series-category-arrow-right { right: 0; }

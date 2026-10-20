@@ -2,7 +2,30 @@
 
 [Todos los sistemas](../../README.md)
 
-Este sistema permite crear categorías, asignar una serie a una de ellas y eliminarlas. La organización se conserva en un archivo JSON por biblioteca y es independiente del historial de reproducción.
+Este sistema permite crear categorías, asignar una serie a una de ellas y eliminarlas. La organización se conserva en un archivo JSON por biblioteca.
+
+## Esquema de funcionamiento
+
+```mermaid
+---
+config:
+  htmlLabels: false
+  flowchart:
+    useMaxWidth: true
+    padding: 20
+---
+flowchart TD
+    A["Interfaz de series"] --> B["Controlador · ExecuteAsync"]
+    B --> C["Servicio · validar y cargar<br/>categorías"]
+    C --> D{"Operación"}
+    D -->|Consultar| G["Devolver lista de<br/>categorías"]
+    D -->|Crear, mover o eliminar| E["Modificar categorías en<br/>memoria"]
+    E --> F["Guardar JSON mediante un<br/>temporal"]
+    F --> G
+    G --> H["Actualizar la interfaz"]
+```
+
+Cada operación carga las categorías de su biblioteca. Las operaciones que cambian la organización guardan el JSON antes de devolver la lista actualizada.
 
 ## Componentes
 
@@ -21,14 +44,14 @@ El servicio trabaja con `SeriesCategoryLibrary`, que contiene la ruta de la bibl
 ## Reglas del sistema
 
 - Una serie puede pertenecer a una sola categoría.
-- «Sin categoría» es una sección calculada por el cliente, no una categoría almacenada.
-- Eliminar una categoría no elimina sus vídeos: sus series quedan sin asignación.
+- El cliente calcula «Sin categoría» a partir de las series que carecen de asignación.
+- Eliminar una categoría deja sus series sin asignación.
 - Las comparaciones de rutas y nombres no distinguen mayúsculas.
-- La existencia de una serie se comprueba al moverla. Al leer el JSON se valida su pertenencia a la biblioteca, pero no se exige que su carpeta siga existiendo.
-- Un archivo dañado provoca un error; no se sustituye por una biblioteca vacía.
+- Al mover una serie se comprueba la existencia de su carpeta. Al leer el JSON se compara su ruta con la biblioteca para validar su pertenencia.
+- Un archivo dañado provoca un error de lectura o validación.
 
 ## Persistencia
 
-Los archivos se guardan en `HuexMediaApp.Server/App_Data/SeriesCategories/`, bajo el directorio de contenido del servidor. El nombre combina la carpeta de la biblioteca y ocho caracteres del hash SHA256 de su ruta completa, por ejemplo `Series-32F8A3FC.json`.
+En desarrollo los archivos se guardan en `HuexMediaApp.Server/App_Data/SeriesCategories/`. En producción se guardan en `%LOCALAPPDATA%\HuexMediaApp\App_Data\SeriesCategories`. La ruta se obtiene de `AppStoragePaths`. El nombre combina la carpeta de la biblioteca y ocho caracteres del hash SHA256 de su ruta completa, por ejemplo `Series-32F8A3FC.json`.
 
 El servicio lee y escribe únicamente el archivo con este nombre legible.

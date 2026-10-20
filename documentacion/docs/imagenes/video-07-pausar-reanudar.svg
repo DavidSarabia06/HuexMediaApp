@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2460" viewBox="0 0 2500 2460">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="180" width="750" height="1960" rx="18" fill="#172C3B" stroke="#477B9C" stroke-width="2"/>
+<rect x="870" y="180" width="1570" height="1960" rx="18" fill="#16232B" stroke="#3D675A" stroke-width="2"/>
+<rect x="910" y="260" width="450" height="77" rx="18" fill="#243D42"/>
+<rect x="1420" y="260" width="970" height="77" rx="18" fill="#243D42"/>
+<rect x="80" y="370" width="710" height="190" rx="18" fill="#203E51"/>
+<rect x="80" y="620" width="340" height="280" rx="18" fill="#203E51"/>
+<rect x="450" y="620" width="340" height="280" rx="18" fill="#203E51"/>
+<path d="M250,560 L250,620" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="250,620 243.76746799814535,608.5914266954252 256.2325320018546,608.5914266954252" fill="#46DBB0"/>
+<path d="M620,560 L620,620" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="620,620 613.7674679981453,608.5914266954252 626.2325320018547,608.5914266954252" fill="#46DBB0"/>
+<rect x="910" y="370" width="1480" height="450" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<rect x="935" y="455" width="690" height="325" rx="18" fill="#403A58"/>
+<rect x="1655" y="455" width="710" height="325" rx="18" fill="#403A58"/>
+<rect x="80" y="960" width="710" height="230" rx="18" fill="#203E51"/>
+<path d="M250,900 L250,960" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="250,960 243.76746799814535,948.5914266954252 256.2325320018546,948.5914266954252" fill="#46DBB0"/>
+<rect x="910" y="960" width="450" height="230" rx="18" fill="#1C3438"/>
+<rect x="1420" y="960" width="970" height="230" rx="18" fill="#1C3438"/>
+<path d="M790,1050 L910,1050" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="910,1050 898.5914266954252,1056.2325320018547 898.5914266954252,1043.7674679981453" fill="#46DBB0"/>
+<path d="M1360,1050 L1420,1050" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1420,1050 1408.591426695425,1056.2325320018547 1408.591426695425,1043.7674679981453" fill="#46DBB0"/>
+<rect x="1420" y="1250" width="970" height="190" rx="18" fill="#272D41"/>
+<path d="M1900,1190 L1900,1250" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1900,1250 1893.7674679981453,1238.591426695425 1906.2325320018547,1238.591426695425" fill="#46DBB0"/>
+<path d="M1420,1130 L1360,1130" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1360,1130 1371.408573304575,1123.7674679981453 1371.408573304575,1136.2325320018547" fill="#82BDFF"/>
+<path d="M910,1130 L790,1130" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="790,1130 801.4085733045748,1123.7674679981453 801.4085733045748,1136.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="1290" width="710" height="260" rx="18" fill="#203E51"/>
+<rect x="910" y="1500" width="1480" height="230" rx="18" fill="#24362F" stroke="#527B5E" stroke-width="2"/>
+<rect x="80" y="1620" width="710" height="350" rx="18" fill="#203E51"/>
+<path d="M435,1550 L435,1620" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="435,1620 428.7674679981454,1608.591426695425 441.2325320018546,1608.591426695425" fill="#46DBB0"/>
+<rect x="910" y="1790" width="1480" height="240" rx="18" fill="#22333C" stroke="#477B9C" stroke-width="2"/>
+<rect x="60" y="2200" width="2380" height="175" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<path d="M70,2420 L150,2420" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="150,2420 138.59142669542516,2426.2325320018545 138.59142669542516,2413.7674679981455" fill="#46DBB0"/>
+<path d="M570,2420 L490,2420" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="490,2420 501.4085733045748,2413.7674679981455 501.4085733045749,2426.2325320018545" fill="#82BDFF"/>
+<text x="65" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="49" font-weight="700" fill="#FFFFFF">07 · PAUSAR Y REANUDAR</text>
+<text x="65" y="139" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="400" fill="#A7BACB">El navegador controla play / pause; al pausar intenta guardar la última muestra de progreso disponible.</text>
+<text x="85" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#96D4FF">CLIENTE · VideoPlayer.jsx</text>
+<text x="895" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#6DE5BA">SERVIDOR · guardado del progreso</text>
+<text x="930" y="299" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" fill="#6DE5BA">CONTROLLER</text>
+<text x="930" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">PlaybackProgressController</text>
+<text x="1440" y="299" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" fill="#6DE5BA">SERVICIO</text>
+<text x="1440" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">PlaybackProgressService</text>
+<text x="100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">1 · Clic en el vídeo o en el botón</text>
+<text x="100" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">togglePlayback() exige un vídeo y que !loading.</text>
+<text x="100" y="490" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">showControls() muestra los controles y reinicia la actividad.</text>
+<text x="100" y="521" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Consulta video.paused para elegir pause() o play().</text>
+<text x="100" y="666" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">2A · Pausar</text>
+<text x="100" y="708" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">video.pause()</text>
+<text x="100" y="738" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Evento onPause:</text>
+<text x="100" y="768" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">isPlaying = false.</text>
+<text x="100" y="798" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">buffering = false.</text>
+<text x="100" y="828" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Solicita saver.flush().</text>
+<text x="470" y="666" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">2B · Reanudar</text>
+<text x="470" y="708" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">await video.play()</text>
+<text x="470" y="738" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Evento onPlay:</text>
+<text x="470" y="768" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">isPlaying = true.</text>
+<text x="470" y="798" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Limpia error y muestra</text>
+<text x="470" y="828" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">los controles.</text>
+<text x="935" y="420" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#D6C5FF">MODELOS · progreso asociado al episodio, la serie y la biblioteca</text>
+<text x="955" y="501" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">SavePlaybackProgressRequest</text>
+<text x="955" y="543" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">LibraryPath · SeriesPath · EpisodePath</text>
+<text x="955" y="573" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">PositionSeconds → último tiempo global registrado.</text>
+<text x="955" y="603" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">DurationSeconds → duración completa del episodio.</text>
+<text x="955" y="633" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">RecordedAtUtc → fecha de la muestra.</text>
+<text x="955" y="663" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">El cliente envía este objeto como JSON.</text>
+<text x="1675" y="501" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">SeriesPlaybackProgress</text>
+<text x="1675" y="543" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">SeriesPath · WatchedEpisodePaths</text>
+<text x="1675" y="573" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">InProgress → EpisodePlaybackProgress o null.</text>
+<text x="1675" y="603" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">LastWatchedEpisodePath · LastRecordedAtUtc</text>
+<text x="1675" y="633" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">EpisodePlaybackProgress conserva:</text>
+<text x="1675" y="663" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">EpisodePath, PositionSeconds, DurationSeconds.</text>
+<text x="100" y="1006" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">3 · Guardar la última muestra</text>
+<text x="100" y="1049" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">onPause → progressSaverRef.current?.flush().</text>
+<text x="100" y="1080" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El guardador agrupa muestras y serializa las peticiones.</text>
+<text x="100" y="1111" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Envía la última muestra pendiente o modificada:</text>
+<text x="100" y="1142" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">POST /api/playbackprogress con keepalive: true.</text>
+<text x="930" y="1006" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">4 · Save(request)</text>
+<text x="930" y="1049" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Recibe el JSON de progreso.</text>
+<text x="930" y="1080" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ExecuteAsync llama a SaveAsync.</text>
+<text x="930" y="1111" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Devuelve 200 con el progreso</text>
+<text x="930" y="1142" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">actualizado de la serie.</text>
+<text x="1440" y="1006" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">5 · SaveAsync(request)</text>
+<text x="1440" y="1050" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Valida pertenencia del episodio, tiempos y fecha.</text>
+<text x="1440" y="1082" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Espera _gate y carga el JSON de la biblioteca.</text>
+<text x="1440" y="1114" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Descarta muestras anteriores a LastRecordedAtUtc.</text>
+<text x="1440" y="1146" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Actualiza visto / en curso con la muestra más reciente.</text>
+<text x="1440" y="1296" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Persistir y devolver el resultado</text>
+<text x="1440" y="1340" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">WriteAsync guarda en App_Data/PlaybackProgress.</text>
+<text x="1440" y="1372" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Mantiene un episodio en curso por serie y conserva los vistos.</text>
+<text x="1440" y="1404" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La respuesta permite confirmar el guardado en el cliente.</text>
+<text x="100" y="1336" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">6 · Al continuar reproduciendo</text>
+<text x="100" y="1378" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">onTimeUpdate → handleTimeUpdate().</text>
+<text x="100" y="1408" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Tiempo global = referencia + video.currentTime.</text>
+<text x="100" y="1438" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">record(...) actualiza la muestra cuando está reproduciendo</text>
+<text x="100" y="1468" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">y está listo, sin búsqueda ni arrastre.</text>
+<text x="100" y="1498" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">El temporizador solicita flush cada 10 segundos.</text>
+<text x="935" y="1548" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#8FE3A7">SESIÓN HLS · continúa preparada mientras el vídeo está en pausa</text>
+<text x="935" y="1596" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Pausar y reanudar actúa sobre el elemento &lt;video&gt; del navegador.</text>
+<text x="935" y="1628" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La sesión HLS conserva su identificador; FFmpeg puede seguir generando segmentos.</text>
+<text x="935" y="1660" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">El manifiesto mantiene una ventana deslizante y el búfer conserva datos del cliente.</text>
+<text x="935" y="1692" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La detención y el borrado de temporales pertenecen al evento de salir o sustituir la sesión.</text>
+<text x="100" y="1666" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">7 · Controles y estados visuales</text>
+<text x="100" y="1709" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">onWaiting activa buffering.</text>
+<text x="100" y="1740" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">onPlaying y onCanPlay lo desactivan.</text>
+<text x="100" y="1771" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">En pausa los controles permanecen visibles.</text>
+<text x="100" y="1802" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Al reproducir, 3 s sin actividad pueden ocultarlos.</text>
+<text x="100" y="1833" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El temporizador exige: sin carga, búfer, arrastre o error.</text>
+<text x="100" y="1864" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Mover el puntero o interactuar vuelve a mostrarlos.</text>
+<text x="935" y="1838" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#96D4FF">CLASIFICACIÓN DEL PROGRESO · parámetros de appsettings</text>
+<text x="935" y="1886" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Visto: alcanza WatchedThresholdPercent (95 %) o quedan como máximo 120 segundos.</text>
+<text x="935" y="1918" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">El margen final usa RemainingSecondsToMarkWatched y puede configurarse.</text>
+<text x="935" y="1950" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Una muestra de un episodio pendiente sustituye al anterior episodio en curso de la serie.</text>
+<text x="935" y="1982" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">flush envía una muestra disponible; record es quien captura el tiempo durante la reproducción.</text>
+<text x="85" y="2246" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFB3BC">ERRORES Y REINTENTOS</text>
+<text x="85" y="2296" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Si video.play() falla al reanudar, muestra un error de reproducción. Un fallo de guardado conserva la muestra para el próximo flush.</text>
+<text x="85" y="2328" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">El servidor responde 400 ante argumentos inválidos y 500 ante fallos de datos, E/S o permisos capturados en progreso.</text>
+<text x="170" y="2427" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Petición / ejecución</text>
+<text x="590" y="2427" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Respuesta / resultado</text>
+<text x="1050" y="2427" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#B8C9D6">Play y pausa son locales; la petición al servidor corresponde al progreso.</text>
+</svg>

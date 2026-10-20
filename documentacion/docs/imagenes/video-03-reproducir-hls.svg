@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2630" viewBox="0 0 2500 2630">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="180" width="460" height="1950" rx="18" fill="#172C3B" stroke="#477B9C" stroke-width="2"/>
+<rect x="555" y="180" width="1885" height="1950" rx="18" fill="#16232B" stroke="#3D675A" stroke-width="2"/>
+<rect x="590" y="260" width="430" height="77" rx="18" fill="#243D42"/>
+<rect x="1080" y="260" width="730" height="77" rx="18" fill="#243D42"/>
+<rect x="1870" y="260" width="530" height="77" rx="18" fill="#303349"/>
+<rect x="80" y="370" width="420" height="240" rx="18" fill="#203E51"/>
+<rect x="590" y="370" width="430" height="240" rx="18" fill="#1C3438"/>
+<rect x="1080" y="370" width="730" height="240" rx="18" fill="#1C3438"/>
+<path d="M500,470 L590,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="590,470 578.5914266954252,476.2325320018546 578.5914266954252,463.7674679981454" fill="#46DBB0"/>
+<path d="M1020,470 L1080,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1080,470 1068.591426695425,476.2325320018546 1068.591426695425,463.7674679981454" fill="#46DBB0"/>
+<rect x="1870" y="370" width="530" height="240" rx="18" fill="#272D41"/>
+<path d="M1810,470 L1870,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,470 1858.591426695425,476.2325320018546 1858.591426695425,463.7674679981454" fill="#46DBB0"/>
+<path d="M1870,545 L1810,545" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,545 1821.408573304575,538.7674679981453 1821.408573304575,551.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="680" width="730" height="215" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<path d="M1440,610 L1440,680" stroke="#C6A8F0" stroke-width="4" fill="none"/>
+<polygon points="1440,680 1433.7674679981453,668.5914266954252 1446.2325320018547,668.5914266954252" fill="#C6A8F0"/>
+<rect x="1870" y="680" width="530" height="215" rx="18" fill="#272D41"/>
+<rect x="1080" y="965" width="730" height="190" rx="18" fill="#1C3438"/>
+<path d="M1440,895 L1440,965" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1440,965 1433.7674679981453,953.5914266954252 1446.2325320018547,953.5914266954252" fill="#82BDFF"/>
+<rect x="590" y="965" width="430" height="190" rx="18" fill="#1C3438"/>
+<path d="M1080,1045 L1020,1045" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1020,1045 1031.408573304575,1038.7674679981453 1031.408573304575,1051.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="965" width="420" height="190" rx="18" fill="#203E51"/>
+<path d="M590,1045 L500,1045" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="500,1045 511.4085733045748,1038.7674679981453 511.4085733045749,1051.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="1250" width="420" height="225" rx="18" fill="#203E51"/>
+<path d="M290,1155 L290,1250" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="290,1250 283.7674679981454,1238.591426695425 296.2325320018546,1238.591426695425" fill="#46DBB0"/>
+<rect x="590" y="1250" width="430" height="225" rx="18" fill="#1C3438"/>
+<rect x="1080" y="1250" width="730" height="225" rx="18" fill="#1C3438"/>
+<rect x="1870" y="1250" width="530" height="225" rx="18" fill="#272D41"/>
+<path d="M500,1325 L590,1325" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="590,1325 578.5914266954252,1331.2325320018547 578.5914266954252,1318.7674679981453" fill="#46DBB0"/>
+<path d="M590,1405 L500,1405" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="500,1405 511.4085733045748,1398.7674679981453 511.4085733045749,1411.2325320018547" fill="#82BDFF"/>
+<path d="M1020,1325 L1080,1325" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1080,1325 1068.591426695425,1331.2325320018547 1068.591426695425,1318.7674679981453" fill="#46DBB0"/>
+<path d="M1080,1405 L1020,1405" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1020,1405 1031.408573304575,1398.7674679981453 1031.408573304575,1411.2325320018547" fill="#82BDFF"/>
+<path d="M1810,1325 L1870,1325" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1325 1858.591426695425,1331.2325320018547 1858.591426695425,1318.7674679981453" fill="#46DBB0"/>
+<path d="M1870,1405 L1810,1405" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,1405 1821.408573304575,1398.7674679981453 1821.408573304575,1411.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="1570" width="420" height="360" rx="18" fill="#203E51"/>
+<path d="M290,1475 L290,1570" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="290,1570 283.7674679981454,1558.591426695425 296.2325320018546,1558.591426695425" fill="#46DBB0"/>
+<rect x="590" y="1570" width="1810" height="180" rx="18" fill="#22333C" stroke="#477B9C" stroke-width="2"/>
+<rect x="590" y="1800" width="1810" height="235" rx="18" fill="#24362F" stroke="#527B5E" stroke-width="2"/>
+<rect x="60" y="2200" width="2380" height="305" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<rect x="85" y="2280" width="550" height="185" rx="18" fill="#412E36"/>
+<rect x="680" y="2280" width="550" height="185" rx="18" fill="#412E36"/>
+<rect x="1275" y="2280" width="550" height="185" rx="18" fill="#412E36"/>
+<rect x="1870" y="2280" width="540" height="185" rx="18" fill="#412E36"/>
+<path d="M70,2570 L150,2570" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="150,2570 138.59142669542516,2576.2325320018545 138.59142669542516,2563.7674679981455" fill="#46DBB0"/>
+<path d="M570,2570 L490,2570" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="490,2570 501.4085733045748,2563.7674679981455 501.4085733045749,2576.2325320018545" fill="#82BDFF"/>
+<text x="65" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="49" font-weight="700" fill="#FFFFFF">03 · REPRODUCIR HLS</text>
+<text x="65" y="139" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="400" fill="#A7BACB">Cargar el manifiesto → solicitar segmentos → servir archivos → reproducir y ajustar el tiempo del episodio</text>
+<text x="85" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#96D4FF">CLIENTE</text>
+<text x="580" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#6DE5BA">SERVIDOR · ASP.NET Core</text>
+<text x="85" y="291" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#FFFFFF">VideoPlayer + Hls.js</text>
+<text x="610" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">CONTROLLER</text>
+<text x="610" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">VideoController</text>
+<text x="1100" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">SERVICIO</text>
+<text x="1100" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">VideoService</text>
+<text x="1890" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#C6BBFF">ARCHIVOS Y PROCESO</text>
+<text x="1890" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">Carpeta de sesión · FFmpeg</text>
+<text x="100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">1 · Conectar el reproductor</text>
+<text x="100" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Recibe playlistUrl del evento 02.</text>
+<text x="100" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">new Hls(...)</text>
+<text x="100" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">attachMedia(video)</text>
+<text x="100" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">loadSource(playlistUrl)</text>
+<text x="100" y="573" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">GET .../{sessionId}/index.m3u8</text>
+<text x="610" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">2 · GetHlsFile(id, nombre)</text>
+<text x="610" y="458" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">GET /api/video/hls/{id}/{archivo}</text>
+<text x="610" y="488" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ExecuteAsync ejecuta la llamada.</text>
+<text x="610" y="518" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Pide al servicio el descriptor</text>
+<text x="610" y="548" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">del archivo solicitado.</text>
+<text x="1100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">3 · GetHlsFile → GetHlsFilePath</text>
+<text x="1100" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ValidateSessionId: GUID sin separadores.</text>
+<text x="1100" y="490" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Acepta index.m3u8 o segment_ + dígitos + .ts.</text>
+<text x="1100" y="521" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Construye la ruta dentro de la carpeta de sesión.</text>
+<text x="1100" y="552" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">File.Exists comprueba la existencia del archivo.</text>
+<text x="1890" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">4 · Resolver el archivo local</text>
+<text x="1890" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">%TEMP%/HuexMedia/Hls/{id}/</text>
+<text x="1890" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">index.m3u8 enumera los segmentos.</text>
+<text x="1890" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">segment_00000.ts contiene audio y vídeo.</text>
+<text x="1890" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">FFmpeg escribe y actualiza estos archivos.</text>
+<text x="1100" y="728" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#D6C5FF">5 · MODELO · HlsMediaFile</text>
+<text x="1100" y="771" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">FullPath → ruta completa del archivo existente.</text>
+<text x="1100" y="802" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ContentType → MIME que utilizará la respuesta:</text>
+<text x="1100" y="833" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">index.m3u8: application/vnd.apple.mpegurl</text>
+<text x="1100" y="864" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">segment_*.ts: video/mp2t</text>
+<text x="1890" y="726" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Ventana de contenido HLS</text>
+<text x="1890" y="768" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">FFmpeg sigue preparando segmentos.</text>
+<text x="1890" y="798" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Manifiesto: últimos 20 segmentos.</text>
+<text x="1890" y="828" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Objetivo por segmento: 4 segundos.</text>
+<text x="1890" y="858" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Retira archivos antiguos según el margen.</text>
+<text x="1100" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Devolver el descriptor</text>
+<text x="1100" y="1054" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El servicio devuelve ruta y tipo de contenido.</text>
+<text x="1100" y="1085" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El descriptor llega al controlador.</text>
+<text x="1100" y="1116" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">La lectura de bytes ocurre al ejecutar el resultado.</text>
+<text x="610" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">6 · PhysicalFile(...)</text>
+<text x="610" y="1053" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Crea PhysicalFileResult.</text>
+<text x="610" y="1083" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ASP.NET Core ejecuta el resultado</text>
+<text x="610" y="1113" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">y envía el archivo con su MIME.</text>
+<text x="100" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">7 · Interpretar manifiesto</text>
+<text x="100" y="1052" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Hls.js recibe index.m3u8.</text>
+<text x="100" y="1081" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">MANIFEST_PARSED → quita loading.</text>
+<text x="100" y="1110" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">playWhenReady() intenta play().</text>
+<text x="100" y="1296" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">8 · Pedir los segmentos</text>
+<text x="100" y="1337" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Hls.js solicita los archivos .ts.</text>
+<text x="100" y="1366" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Recibe y prepara audio y vídeo.</text>
+<text x="100" y="1395" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Actualiza la lista cuando procede.</text>
+<text x="100" y="1424" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El &lt;video&gt; reproduce los datos.</text>
+<text x="610" y="1296" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Mismo endpoint por archivo</text>
+<text x="610" y="1338" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">GetHlsFile(sessionId, fileName)</text>
+<text x="610" y="1368" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Cada manifiesto o segmento pasa</text>
+<text x="610" y="1398" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">por controlador y servicio.</text>
+<text x="610" y="1428" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Devuelve PhysicalFileResult.</text>
+<text x="1100" y="1296" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Repetir validación y resolución</text>
+<text x="1100" y="1339" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">GetHlsFile → GetHlsFilePath → File.Exists.</text>
+<text x="1100" y="1370" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Devuelve HlsMediaFile para cada archivo solicitado.</text>
+<text x="1100" y="1401" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El navegador recibe los bytes del segmento.</text>
+<text x="1100" y="1432" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Este recorrido se repite durante la reproducción.</text>
+<text x="1890" y="1296" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Segmentos de la sesión</text>
+<text x="1890" y="1339" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">segment_00000.ts</text>
+<text x="1890" y="1370" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">segment_00001.ts</text>
+<text x="1890" y="1401" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">segment_00002.ts …</text>
+<text x="1890" y="1432" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Los datos se sirven desde disco.</text>
+<text x="100" y="1616" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">9 · Actualizar el tiempo</text>
+<text x="100" y="1657" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">INIT_PTS_FOUND ajusta la referencia.</text>
+<text x="100" y="1686" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">offset = initPTS / timescale</text>
+<text x="100" y="1715" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">− margen de transporte.</text>
+<text x="100" y="1744" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">onTimeUpdate → handleTimeUpdate.</text>
+<text x="100" y="1773" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Tiempo global = offset</text>
+<text x="100" y="1802" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">+ video.currentTime.</text>
+<text x="100" y="1831" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Actualiza barra, subtítulos y progreso.</text>
+<text x="615" y="1619" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#96D4FF">Alternativa · reproducción HLS nativa</text>
+<text x="615" y="1666" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Si Hls.js no está disponible y el navegador admite HLS: video.src = playlistUrl.</text>
+<text x="615" y="1698" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">loadedmetadata / canplay calibran la referencia con timelineStartSeconds − video.seekable.start(0).</text>
+<text x="615" y="1730" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Las peticiones siguen llegando al mismo endpoint de archivos HLS.</text>
+<text x="615" y="1848" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#8FE3A7">Búfer, inicio automático y estados del reproductor</text>
+<text x="615" y="1896" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Hls.js se configura con maxBufferLength = 30 y maxMaxBufferLength = 60 segundos.</text>
+<text x="615" y="1928" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Si play() queda bloqueado por sonido, playWhenReady intenta iniciar silenciado.</text>
+<text x="615" y="1960" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">waiting activa buffering; playing / canplay lo desactivan; onTimeUpdate muestra el tiempo global.</text>
+<text x="615" y="1992" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Pausa y reanudación actúan sobre el &lt;video&gt;; FFmpeg puede continuar preparando contenido.</text>
+<text x="85" y="2251" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFB3BC">ERRORES · respuesta del servidor y tratamiento en el reproductor</text>
+<text x="105" y="2326" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Solicitud inválida / archivo ausente</text>
+<text x="105" y="2367" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Sesión o nombre inválidos → HTTP 400.</text>
+<text x="105" y="2396" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Archivo inexistente → HTTP 404.</text>
+<text x="105" y="2425" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">ExecuteAsync centraliza esas respuestas.</text>
+<text x="700" y="2326" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Fallo al resolver / al enviar</text>
+<text x="700" y="2367" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Dentro de ExecuteAsync: fallo → 500.</text>
+<text x="700" y="2396" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El envío físico se ejecuta después.</text>
+<text x="700" y="2425" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Sus fallos pertenecen a ASP.NET Core.</text>
+<text x="1295" y="2326" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Hls.Events.ERROR</text>
+<text x="1295" y="2367" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Registra los errores de Hls.js.</text>
+<text x="1295" y="2396" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Si data.fatal: muestra error</text>
+<text x="1295" y="2425" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">y desactiva loading.</text>
+<text x="1890" y="2326" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Vigencia de la reproducción</text>
+<text x="1890" y="2367" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Descarta callbacks obsoletos.</text>
+<text x="1890" y="2396" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Al cambiar o salir destruye Hls.js.</text>
+<text x="1890" y="2425" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Solicita detener la sesión anterior.</text>
+<text x="170" y="2577" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Petición / ejecución</text>
+<text x="590" y="2577" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Respuesta / resultado</text>
+<text x="1050" y="2577" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#B8C9D6">La respuesta HLS contiene archivos; HlsMediaFile es el descriptor interno.</text>
+</svg>

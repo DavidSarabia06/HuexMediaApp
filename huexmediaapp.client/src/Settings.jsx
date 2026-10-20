@@ -1,6 +1,11 @@
 import HuexPageHeader from './HuexPageHeader';
 
+// -------------------------- Página de configuración --------------------------
+
+/** Muestra la página de configuración y orienta al usuario hacia la selección de carpeta en Series. */
 export default function Settings() {
+    // ------------------------------ Renderizado -------------------------------
+
     return (
         <div className="huex-container">
             <HuexPageHeader title="Configuración" />

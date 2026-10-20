@@ -2,7 +2,7 @@
 
 [Sistema de categorías](README.md) · [Código de los modelos](../../codigo/SeriesCategory.md) · [Servicio](servicio.md)
 
-Estos cuatro modelos transportan los datos del sistema. Dos representan lo que se guarda en disco y dos reciben solicitudes de la API. No leen archivos, no guardan cambios y no ejecutan las validaciones del servicio por sí mismos.
+Estos cuatro modelos transportan los datos del sistema. Dos representan lo que se guarda en disco y dos reciben solicitudes de la API.
 
 El archivo `SeriesCategory.cs` agrupa sus clases mediante las mismas regiones de esta página: **Datos de categorías** y **Solicitudes de la API**.
 
@@ -30,7 +30,7 @@ Representa una categoría. Forma parte de la lista `Categories` del archivo de b
 
 **Quién lo utiliza:** [CreateAsync](servicio.md#createasync) crea la categoría; [MoveAsync](servicio.md#moveasync) modifica sus rutas; [DeleteAsync](servicio.md#deleteasync) retira la categoría completa; [GetAsync](servicio.md#getasync) devuelve las categorías almacenadas. [ValidateLibraryData](servicio.md#validatelibrarydata) comprueba su coherencia al cargar el JSON.
 
-**Importante:** `new SeriesCategory()` crea un objeto con valores iniciales, no una categoría válida y guardada. Los comentarios describen las reglas que aplica el servicio; las propiedades no las comprueban al asignarse.
+`new SeriesCategory()` crea un objeto con los valores iniciales de la tabla. El servicio valida sus propiedades antes de guardarlo.
 
 <a id="seriescategorylibrary"></a>
 ### SeriesCategoryLibrary
@@ -43,9 +43,9 @@ Representa el objeto raíz del JSON de una biblioteca. Permite saber a qué ruta
 | `LibraryPath` | `string` | `""` | Ruta absoluta de la biblioteca propietaria del archivo. |
 | `Categories` | `List<SeriesCategory>` | Lista vacía | Categorías y asignaciones de esa biblioteca. |
 
-**Quién lo utiliza:** [LoadAsync](servicio.md#loadasync) obtiene la biblioteca, [ReadLibraryAsync](servicio.md#readlibraryasync) la deserializa y [SaveAsync](servicio.md#saveasync) coordina su escritura. El servicio devuelve la lista `Categories` a la API, no este objeto raíz.
+**Quién lo utiliza:** [LoadAsync](servicio.md#loadasync) obtiene la biblioteca, [ReadLibraryAsync](servicio.md#readlibraryasync) la deserializa y [SaveAsync](servicio.md#saveasync) coordina su escritura. El servicio devuelve su lista `Categories` a la API.
 
-**Si no existe el JSON:** `LoadAsync` devuelve en memoria `new SeriesCategoryLibrary { LibraryPath = library }`. La versión queda en 1 y la lista comienza vacía. Esto no crea archivos; el JSON aparece al guardar una operación válida.
+**Si falta el JSON:** `LoadAsync` devuelve en memoria `new SeriesCategoryLibrary { LibraryPath = library }`. La versión queda en 1 y la lista comienza vacía. El JSON aparece al guardar una operación válida.
 
 **Ejemplo del archivo almacenado:** los nombres de las propiedades se escriben en camelCase por la configuración del serializador.
 
@@ -77,7 +77,7 @@ Recibe el cuerpo de `POST /api/seriescategories`. El controlador pasa sus propie
 | `LibraryPath` | `string` | `""` | Biblioteca existente en la que se creará la categoría. |
 | `Name` | `string` | `""` | Nombre solicitado por el usuario. |
 
-El cliente no envía el identificador ni las series de la nueva categoría. El servicio genera el GUID y comienza con una lista de series vacía. Antes de guardar, normaliza la ruta, recorta los espacios exteriores del nombre y comprueba su longitud, nombre reservado y unicidad.
+El cliente envía la biblioteca y el nombre. El servicio genera el GUID y comienza con una lista de series vacía. Antes de guardar, normaliza la ruta, recorta los espacios exteriores del nombre y comprueba su longitud, nombre reservado y unicidad.
 
 ```json
 {
@@ -99,9 +99,9 @@ Recibe el cuerpo de `POST /api/seriescategories/move`. El controlador pasa sus p
 
 **Destino con identificador:** debe corresponder a una categoría de esa biblioteca. El servicio comprueba el destino antes de retirar la asignación anterior.
 
-**Destino `null`:** retira la serie de las categorías y no la añade a ninguna. «Sin categoría» se calcula en el cliente; no se almacena como una categoría especial. Si se omite `categoryId`, su valor inicial también es `null`.
+**Destino `null`:** retira la asignación de la serie. El cliente la muestra en «Sin categoría». Si se omite `categoryId`, su valor inicial también es `null`.
 
-**Destino `Guid.Empty`:** tiene valor, pero no es un identificador válido de categoría. No equivale a dejarla sin asignación.
+**Destino `Guid.Empty`:** el servicio lo rechaza como identificador de categoría inválido.
 
 ```json
 {
@@ -111,12 +111,12 @@ Recibe el cuerpo de `POST /api/seriescategories/move`. El controlador pasa sus p
 }
 ```
 
-La operación cambia únicamente la organización del JSON. No mueve físicamente la carpeta ni cambia capítulos vistos o minutos guardados.
+La operación actualiza las asignaciones de la serie en el JSON de organización.
 
 ## Propiedades y validaciones
 
-Todas las propiedades tienen `get` y `set` públicos para leer y asignar sus valores. Las listas se inicializan vacías y los textos con una cadena vacía; esos valores facilitan construir los objetos, pero no sustituyen las validaciones.
+Todas las propiedades tienen `get` y `set` públicos para leer y asignar sus valores. Las listas se inicializan vacías y los textos con una cadena vacía.
 
-Estos modelos no contienen métodos de negocio. El servicio comprueba los datos de entrada y los datos cargados del JSON. Por eso un archivo que declare una versión distinta, nombres repetidos, rutas fuera de la biblioteca o identificadores vacíos se rechaza aunque pueda deserializarse.
+El servicio comprueba los datos de entrada y los datos cargados del JSON. Rechaza archivos con una versión distinta, nombres repetidos, rutas fuera de la biblioteca o identificadores vacíos.
 
-Consultar y eliminar categorías no necesita otros modelos de solicitud en este archivo: el controlador recibe sus datos de la ruta o de los parámetros de consulta.
+Para consultar y eliminar categorías, el controlador recibe los datos de la ruta o de los parámetros de consulta.

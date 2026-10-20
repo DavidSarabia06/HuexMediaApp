@@ -36,3 +36,18 @@
     .custom-video-buttons button { min-width: 32px; font-size: 14px; }
     .custom-video-buttons input { width: 48px; }
 }
+.huex-player-page { --huex-title-color: var(--huex-accent); }
+.custom-video-volume-notice {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 3;
+    padding: 10px 16px;
+    border: 1px solid #ffffff26;
+    border-radius: 8px;
+    background: #111e;
+    color: var(--huex-accent);
+    font-size: 16px;
+    font-weight: 600;
+    pointer-events: none;
+}

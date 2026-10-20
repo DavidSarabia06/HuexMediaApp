@@ -5,88 +5,165 @@ import HuexPageHeader from './HuexPageHeader';
 import { pathKey, formatProgressTime, readProgressResponse, waitForProgressSaves } from './playbackProgress';
 import './css/HuexStyles.css';
 
+/** Muestra las temporadas y episodios de la serie recibida en el estado de navegación. */
 function SeriesDetail() {
     const location = useLocation();
     const navigate = useNavigate();
     const { folderPath, seriesName } = location.state || {};
 
+    // Temporadas recibidas y selección del panel lateral.
     const [temporadas, setTemporadas] = useState([]);
     const [temporadaActiva, setTemporadaActiva] = useState(null);
-    
+
+    // La carga reúne los episodios, la biblioteca configurada y el progreso de esta serie.
     const [isLoading, setIsLoading] = useState(true);
     const [libraryPath, setLibraryPath] = useState('');
     const [progress, setProgress] = useState(null);
     const [loadError, setLoadError] = useState('');
     const [loadAttempt, setLoadAttempt] = useState(0);
-    const [resumeEpisode, setResumeEpisode] = useState(null);
-    const resumeDialogRef = useRef(null);
+    // Bloquea cambios de estado simultáneos y actualiza la disponibilidad de los menús.
     const updatingRef = useRef(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateError, setUpdateError] = useState('');
 
+    // Episodio pendiente de elegir entre empezar de nuevo o continuar desde su minuto guardado.
+    const [resumeEpisode, setResumeEpisode] = useState(null);
+    const resumeDialogRef = useRef(null);
 
+    // ---------------------------- Carga de episodios -----------------------------
+
+    // Al montar, cambiar de serie o reintentar, carga los datos con una señal de cancelación.
+    // La limpieza cancela las peticiones del efecto antes de repetirlo o al salir de la página.
     useEffect(() => {
-        if (!folderPath) return;
+        if (!folderPath) {
+            return;
+        }
         const controller = new AbortController();
 
-        const fetchEpisodes = async () => {
+        /** Carga episodios y configuración, espera guardados pendientes y selecciona la temporada inicial. */
+        async function loadEpisodes() {
             setIsLoading(true);
             setLoadError('');
             try {
-                const [data, config] = await Promise.all([
-                    fetch(`/api/series/scan-episodes?path=${encodeURIComponent(folderPath)}`, { signal: controller.signal }).then(readProgressResponse),
-                    fetch('/api/configuration/get?key=SeriesLibraryPath', { signal: controller.signal }).then(readProgressResponse)
+                const [episodeData, configuration] = await Promise.all([
+                    fetch(`/api/series/scan-episodes?path=${encodeURIComponent(folderPath)}`, {
+                        signal: controller.signal
+                    }).then(readProgressResponse),
+                    fetch('/api/configuration/get?key=SeriesLibraryPath', {
+                        signal: controller.signal
+                    }).then(readProgressResponse)
                 ]);
                 await waitForProgressSaves();
-                if (controller.signal.aborted) return;
-                const saved = await fetch(`/api/playbackprogress?libraryPath=${encodeURIComponent(config.value)}`,
-                    { signal: controller.signal }).then(readProgressResponse);
-                if (controller.signal.aborted) return;
-                const seriesProgress = saved.series.find(item => pathKey(item.seriesPath) === pathKey(folderPath)) ?? null;
-                setLibraryPath(config.value);
-                setProgress(seriesProgress);
-                setTemporadas(data.temporadas);
-                const partialPath = seriesProgress?.inProgress?.episodePath;
-                setTemporadaActiva(data.temporadas.find(season => season.episodios.some(ep =>
-                    partialPath && pathKey(ep.rutaCompleta) === pathKey(partialPath))) ?? data.temporadas[0] ?? null);
-            } catch (error) {
-                if (!controller.signal.aborted) setLoadError(error.message);
-            } finally {
-                if (!controller.signal.aborted) setIsLoading(false);
-            }
-        };
+                if (controller.signal.aborted) {
+                    return;
+                }
+                const savedProgress = await fetch(
+                    `/api/playbackprogress?libraryPath=${encodeURIComponent(configuration.value)}`,
+                    { signal: controller.signal }
+                ).then(readProgressResponse);
+                if (controller.signal.aborted) {
+                    return;
+                }
 
-        fetchEpisodes();
+                const seriesProgress = savedProgress.series.find(item =>
+                    pathKey(item.seriesPath) === pathKey(folderPath)
+                ) ?? null;
+                const inProgressPath = seriesProgress?.inProgress?.episodePath;
+                const seasonWithProgress = episodeData.temporadas.find(season =>
+                    season.episodios.some(episode =>
+                        inProgressPath && pathKey(episode.rutaCompleta) === pathKey(inProgressPath)
+                    )
+                );
+
+                setLibraryPath(configuration.value);
+                setProgress(seriesProgress);
+                setTemporadas(episodeData.temporadas);
+                setTemporadaActiva(seasonWithProgress ?? episodeData.temporadas[0] ?? null);
+            } catch (error) {
+                if (!controller.signal.aborted) {
+                    setLoadError(error.message);
+                }
+            } finally {
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
+            }
+        }
+
+        void loadEpisodes();
         return () => controller.abort();
     }, [folderPath, loadAttempt]);
 
-    function playEpisode(ep, startSeconds = 0) {
-        resumeDialogRef.current?.close();
-        navigate('/player', { state: { episode: ep, libraryPath, seriesPath: folderPath, startSeconds } });
+    /** Incrementa el contador que vuelve a ejecutar el efecto de carga. */
+    function retryLoad() {
+        setLoadAttempt(attempt => attempt + 1);
     }
 
-    function selectEpisode(ep) {
-        if (updatingRef.current) return;
-        if (progress?.inProgress && pathKey(progress.inProgress.episodePath) === pathKey(ep.rutaCompleta)) {
-            setResumeEpisode(ep);
+    // -------------------------- Selección de temporada ---------------------------
+
+    /** Cambia la temporada cuyos episodios se presentan en la cuadrícula. */
+    function selectSeason(season) {
+        setTemporadaActiva(season);
+    }
+
+    // ------------------------- Selección y reproducción --------------------------
+
+    /** Cierra la confirmación y abre el reproductor con el episodio y su posición inicial. */
+    function playEpisode(episode, startSeconds = 0) {
+        resumeDialogRef.current?.close();
+        navigate('/player', {
+            state: { episode, libraryPath, seriesPath: folderPath, startSeconds }
+        });
+    }
+
+    /** Ofrece continuar si el episodio está empezado; en el resto de casos lo abre desde cero. */
+    function selectEpisode(episode) {
+        if (updatingRef.current) {
+            return;
+        }
+        if (progress?.inProgress && pathKey(progress.inProgress.episodePath) === pathKey(episode.rutaCompleta)) {
+            setResumeEpisode(episode);
             resumeDialogRef.current.showModal();
         } else {
-            playEpisode(ep);
+            playEpisode(episode);
         }
     }
 
-    async function setEpisodeWatched(ep, watched) {
-        if (updatingRef.current) return;
+    // -------------------------- Diálogo de continuación --------------------------
+
+    /** Cierra el diálogo de continuación y mantiene la página de episodios. */
+    function closeResumeDialog() {
+        resumeDialogRef.current.close();
+    }
+
+    /** Reproduce desde el principio el episodio seleccionado en el diálogo. */
+    function restartSelectedEpisode() {
+        playEpisode(resumeEpisode);
+    }
+
+    /** Reproduce el episodio seleccionado desde la posición guardada. */
+    function resumeSelectedEpisode() {
+        playEpisode(resumeEpisode, progress?.inProgress?.positionSeconds ?? 0);
+    }
+
+    // ------------------------ Actualización del progreso -------------------------
+
+    /** Espera los guardados pendientes y solicita el estado visto/no visto, aplicando la respuesta. */
+    async function setEpisodeWatched(episode, watched) {
+        if (updatingRef.current) {
+            return;
+        }
         updatingRef.current = true;
         setIsUpdating(true);
         setUpdateError('');
         try {
             await waitForProgressSaves();
-            const saved = await fetch('/api/playbackprogress/watched', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ libraryPath, seriesPath: folderPath, episodePath: ep.rutaCompleta, watched })
+            const updatedProgress = await fetch('/api/playbackprogress/watched', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ libraryPath, seriesPath: folderPath, episodePath: episode.rutaCompleta, watched })
             }).then(readProgressResponse);
-            setProgress(saved);
+            setProgress(updatedProgress);
         } catch (error) {
             setUpdateError(error.message);
         } finally {
@@ -95,35 +172,73 @@ function SeriesDetail() {
         }
     }
 
+    // -------------------------------- Navegación ---------------------------------
+
+    /** Vuelve a la biblioteca de series desde la cabecera o el aviso de ruta ausente. */
+    function goBack() {
+        navigate('/series');
+    }
+
+    // -------------------------- Datos para las tarjetas --------------------------
+
+    /** Comprueba el estado visto mediante las rutas normalizadas del progreso recibido. */
+    function isEpisodeWatched(episode) {
+        return watchedPaths.has(pathKey(episode.rutaCompleta));
+    }
+
+    /** Construye la acción de la tarjeta para solicitar el estado opuesto al actual. */
+    function getEpisodeMenuItems(episode) {
+        const watched = isEpisodeWatched(episode);
+        return [{
+            id: 'watched',
+            label: watched ? 'Marcar como no visto' : 'Marcar como visto',
+            onSelect: () => setEpisodeWatched(episode, !watched)
+        }];
+    }
+
+    /** Devuelve el progreso con su etiqueta cuando corresponde a esta tarjeta. */
+    function getEpisodeProgress(episode) {
+        if (inProgressEpisode && pathKey(inProgressEpisode.episodePath) === pathKey(episode.rutaCompleta)) {
+            return {
+                ...inProgressEpisode,
+                label: `Continuar desde ${formatProgressTime(inProgressEpisode.positionSeconds)}`
+            };
+        }
+        return null;
+    }
+
     const watchedPaths = new Set((progress?.watchedEpisodePaths ?? []).map(pathKey));
-    const partial = progress?.inProgress;
+    const inProgressEpisode = progress?.inProgress;
+
+    // ------------------------- Renderizado de la página --------------------------
 
     if (!folderPath) {
         return (
             <div className="series-error-container">
                 <h3>Error: No se encontró la ruta de la serie.</h3>
-                <button onClick={() => navigate('/series')} className="action-btn">Volver</button>
+                <button onClick={goBack} className="action-btn">Volver</button>
             </div>
         );
     }
 
     return (
-        <div className="huex-container">
+        <div className="huex-container huex-series-detail">
 
-            <HuexPageHeader title={seriesName} onBack={() => navigate('/series')} outlinedTitle />
+            <HuexPageHeader title={seriesName} onBack={goBack} outlinedTitle />
             {updateError && <p role="alert" className="episode-progress-error">{updateError}</p>}
 
+            {/* Cuadro de dialogo para reanudar o empezar de nuevo episodios */}
             <dialog ref={resumeDialogRef} className="category-dialog" aria-labelledby="resume-dialog-title">
                 <div className="category-dialog-form">
                     <h3 id="resume-dialog-title">¿Continuamos?</h3>
                     <p>{resumeEpisode?.nombre}</p>
                     <div className="category-dialog-actions">
                         <button type="button" className="category-dialog-cancel"
-                            onClick={() => resumeDialogRef.current.close()}>Cancelar</button>
-                        <button type="button" className="action-btn" onClick={() => playEpisode(resumeEpisode)}>Empezar de nuevo</button>
+                            onClick={closeResumeDialog}>Cancelar</button>
+                        <button type="button" className="action-btn" onClick={restartSelectedEpisode}>Empezar de nuevo</button>
                         <button type="button" className="action-btn" autoFocus
-                            onClick={() => playEpisode(resumeEpisode, partial?.positionSeconds ?? 0)}>
-                            Continuar desde {formatProgressTime(partial?.positionSeconds ?? 0)}
+                            onClick={resumeSelectedEpisode}>
+                            Continuar desde {formatProgressTime(inProgressEpisode?.positionSeconds ?? 0)}
                         </button>
                     </div>
                 </div>
@@ -133,7 +248,7 @@ function SeriesDetail() {
                 <h3 className="loading-text">Buscando episodios...</h3>
             ) : loadError ? (
                 <div role="alert"><p>{loadError}</p><button type="button" className="action-btn"
-                    onClick={() => setLoadAttempt(attempt => attempt + 1)}>Reintentar carga</button></div>
+                    onClick={retryLoad}>Reintentar carga</button></div>
             ) : temporadas.length === 0 ? (
                 <div className="empty-state">
                     <h3>No se encontraron videos</h3>
@@ -143,13 +258,13 @@ function SeriesDetail() {
 
                     {/* Panel Lateral: Menú de Temporadas */}
                     <div className="huex-sidebar">
-                        {temporadas.map((temp, index) => {
-                            const isActive = temporadaActiva && temporadaActiva.nombreTemporada === temp.nombreTemporada;
+                        {temporadas.map((season, index) => {
+                            const isActive = temporadaActiva && temporadaActiva.nombreTemporada === season.nombreTemporada;
                             return (
-                                <button type="button" key={index} aria-pressed={isActive} onClick={() => setTemporadaActiva(temp)}
+                                <button type="button" key={index} aria-pressed={isActive} onClick={() => selectSeason(season)}
                                     className={`huex-item ${isActive ? 'active' : ''}`}
                                 >
-                                    {temp.nombreTemporada}
+                                    {season.nombreTemporada}
                                 </button>
                             );
                         })}
@@ -161,17 +276,16 @@ function SeriesDetail() {
                             <>
                                 <h3 className="huex-title">{temporadaActiva.nombreTemporada}</h3>
 
-                                        <div className="huex-grid">
-                                    {temporadaActiva.episodios.map((ep, index) => (
+                                <div className="huex-grid">
+                                    {temporadaActiva.episodios.map((episode, index) => (
                                         <HuexCard
                                             key={index}
-                                            item={ep}
-                                            onClick={() => selectEpisode(ep)}
-                                            watched={watchedPaths.has(pathKey(ep.rutaCompleta))}
-                                            onSetWatched={watched => setEpisodeWatched(ep, watched)}
-                                            statusDisabled={isUpdating}
-                                            progress={partial && pathKey(partial.episodePath) === pathKey(ep.rutaCompleta)
-                                                ? { ...partial, label: `Continuar desde ${formatProgressTime(partial.positionSeconds)}` } : null}
+                                            item={episode}
+                                            onClick={() => selectEpisode(episode)}
+                                            watched={isEpisodeWatched(episode)}
+                                            menuItems={getEpisodeMenuItems(episode)}
+                                            menuDisabled={isUpdating}
+                                            progress={getEpisodeProgress(episode)}
                                             showPlayButton={true}
                                             variant="horizontal"
                                         />

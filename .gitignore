@@ -435,3 +435,6 @@ HuexMediaApp.Server/App_Data/PlaybackProgress/
 documentacion/.venv-docs/
 documentacion/.docs-site/
 __pycache__/
+
+# Paquetes locales con cliente, servidor y runtimes incluidos.
+distribucion/

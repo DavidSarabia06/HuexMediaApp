@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2940" viewBox="0 0 2500 2940">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="180" width="460" height="2260" rx="18" fill="#172C3B" stroke="#477B9C" stroke-width="2"/>
+<rect x="555" y="180" width="1885" height="2260" rx="18" fill="#16232B" stroke="#3D675A" stroke-width="2"/>
+<rect x="590" y="260" width="430" height="77" rx="18" fill="#243D42"/>
+<rect x="1080" y="260" width="730" height="77" rx="18" fill="#243D42"/>
+<rect x="1870" y="260" width="530" height="77" rx="18" fill="#303349"/>
+<rect x="80" y="370" width="420" height="260" rx="18" fill="#203E51"/>
+<rect x="590" y="370" width="430" height="260" rx="18" fill="#1C3438"/>
+<rect x="1080" y="370" width="730" height="260" rx="18" fill="#1C3438"/>
+<path d="M500,470 L590,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="590,470 578.5914266954252,476.2325320018546 578.5914266954252,463.7674679981454" fill="#46DBB0"/>
+<path d="M1020,470 L1080,470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1080,470 1068.591426695425,476.2325320018546 1068.591426695425,463.7674679981454" fill="#46DBB0"/>
+<rect x="1080" y="680" width="730" height="190" rx="18" fill="#1C3438"/>
+<path d="M1440,630 L1440,680" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,680 1433.7674679981453,668.5914266954252 1446.2325320018547,668.5914266954252" fill="#46DBB0"/>
+<rect x="1870" y="680" width="530" height="190" rx="18" fill="#272D41"/>
+<path d="M1810,750 L1870,750" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,750 1858.591426695425,756.2325320018547 1858.591426695425,743.7674679981453" fill="#46DBB0"/>
+<path d="M1870,810 L1810,810" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,810 1821.408573304575,803.7674679981453 1821.408573304575,816.2325320018547" fill="#82BDFF"/>
+<rect x="80" y="720" width="420" height="300" rx="18" fill="#203E51"/>
+<rect x="1080" y="920" width="730" height="175" rx="18" fill="#1C3438"/>
+<path d="M1440,870 L1440,920" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,920 1433.7674679981453,908.5914266954252 1446.2325320018547,908.5914266954252" fill="#46DBB0"/>
+<rect x="1870" y="920" width="530" height="175" rx="18" fill="#272D41"/>
+<path d="M1810,1000 L1870,1000" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1000 1858.591426695425,1006.2325320018547 1858.591426695425,993.7674679981453" fill="#46DBB0"/>
+<rect x="1080" y="1145" width="730" height="210" rx="18" fill="#1C3438"/>
+<path d="M1440,1095 L1440,1145" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,1145 1433.7674679981453,1133.591426695425 1446.2325320018547,1133.591426695425" fill="#46DBB0"/>
+<rect x="1870" y="1145" width="530" height="210" rx="18" fill="#272D41"/>
+<path d="M1810,1230 L1870,1230" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1230 1858.591426695425,1236.2325320018547 1858.591426695425,1223.7674679981453" fill="#46DBB0"/>
+<rect x="1080" y="1405" width="730" height="190" rx="18" fill="#1C3438"/>
+<path d="M1440,1355 L1440,1405" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,1405 1433.7674679981453,1393.591426695425 1446.2325320018547,1393.591426695425" fill="#46DBB0"/>
+<rect x="1870" y="1405" width="530" height="190" rx="18" fill="#272D41"/>
+<path d="M1810,1470 L1870,1470" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1470 1858.591426695425,1476.2325320018547 1858.591426695425,1463.7674679981453" fill="#46DBB0"/>
+<path d="M1870,1530 L1810,1530" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,1530 1821.408573304575,1523.7674679981453 1821.408573304575,1536.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="1645" width="730" height="210" rx="18" fill="#1C3438"/>
+<path d="M1440,1595 L1440,1645" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1440,1645 1433.7674679981453,1633.591426695425 1446.2325320018547,1633.591426695425" fill="#46DBB0"/>
+<rect x="1870" y="1645" width="530" height="210" rx="18" fill="#272D41"/>
+<path d="M1810,1725 L1870,1725" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1870,1725 1858.591426695425,1731.2325320018547 1858.591426695425,1718.7674679981453" fill="#46DBB0"/>
+<path d="M1870,1790 L1810,1790" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1810,1790 1821.408573304575,1783.7674679981453 1821.408573304575,1796.2325320018547" fill="#82BDFF"/>
+<rect x="1080" y="1905" width="730" height="175" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<path d="M1440,1855 L1440,1905" stroke="#C6A8F0" stroke-width="4" fill="none"/>
+<polygon points="1440,1905 1433.7674679981453,1893.591426695425 1446.2325320018547,1893.591426695425" fill="#C6A8F0"/>
+<rect x="1080" y="2130" width="730" height="200" rx="18" fill="#1C3438"/>
+<path d="M1440,2080 L1440,2130" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1440,2130 1433.7674679981453,2118.591426695425 1446.2325320018547,2118.591426695425" fill="#82BDFF"/>
+<rect x="590" y="2130" width="430" height="200" rx="18" fill="#1C3438"/>
+<path d="M1080,2210 L1020,2210" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="1020,2210 1031.408573304575,2203.7674679981455 1031.408573304575,2216.2325320018545" fill="#82BDFF"/>
+<rect x="80" y="2130" width="420" height="200" rx="18" fill="#203E51"/>
+<path d="M590,2210 L500,2210" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="500,2210 511.4085733045748,2203.7674679981455 511.4085733045749,2216.2325320018545" fill="#82BDFF"/>
+<rect x="60" y="2490" width="2380" height="325" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<rect x="85" y="2575" width="550" height="190" rx="18" fill="#412E36"/>
+<rect x="680" y="2575" width="550" height="190" rx="18" fill="#412E36"/>
+<rect x="1275" y="2575" width="550" height="190" rx="18" fill="#412E36"/>
+<rect x="1870" y="2575" width="540" height="190" rx="18" fill="#412E36"/>
+<path d="M70,2875 L150,2875" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="150,2875 138.59142669542516,2881.2325320018545 138.59142669542516,2868.7674679981455" fill="#46DBB0"/>
+<path d="M570,2875 L490,2875" stroke="#82BDFF" stroke-width="4" fill="none"/>
+<polygon points="490,2875 501.4085733045748,2868.7674679981455 501.4085733045749,2881.2325320018545" fill="#82BDFF"/>
+<text x="65" y="88" font-family="Segoe UI,Arial,sans-serif" font-size="49" font-weight="700" fill="#FFFFFF">02 · INICIAR REPRODUCCIÓN</text>
+<text x="65" y="140" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="400" fill="#A7BACB">De startPlayback a PlaybackSession · preparar HLS, comprobar el primer segmento y devolver la sesión</text>
+<text x="85" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#96D4FF">CLIENTE</text>
+<text x="580" y="234" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700" fill="#6DE5BA">SERVIDOR · ASP.NET Core</text>
+<text x="85" y="293" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" fill="#FFFFFF">VideoPlayer.jsx</text>
+<text x="610" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">CONTROLLER</text>
+<text x="610" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">VideoController</text>
+<text x="1100" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#6DE5BA">SERVICIO</text>
+<text x="1100" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">VideoService</text>
+<text x="1890" y="297" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#C6BBFF">PROCESOS Y ARCHIVOS</text>
+<text x="1890" y="329" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#DCE7F2">FFprobe · FFmpeg · temporales</text>
+<text x="100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">1 · startPlayback()</text>
+<text x="100" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Activa loading y buffering.</text>
+<text x="100" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Libera el HLS y el src anteriores.</text>
+<text x="100" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Solicita detener la sesión anterior.</text>
+<text x="100" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">POST /api/video/start</text>
+<text x="100" y="573" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">path + startSeconds + audio opcional</text>
+<text x="610" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">2 · Start(...)</text>
+<text x="610" y="458" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Recibe los parámetros de la URL.</text>
+<text x="610" y="488" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">ExecuteAsync ejecuta el delegado.</text>
+<text x="610" y="518" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Llama a StartHlsAsync con:</text>
+<text x="610" y="548" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">path, startSeconds,</text>
+<text x="610" y="578" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">RequestAborted, audioTrackIndex.</text>
+<text x="1100" y="416" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">3 · Validar la petición</text>
+<text x="1100" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Comprueba la cancelación del token.</text>
+<text x="1100" y="490" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ValidateVideoPath: ruta con contenido y archivo existente.</text>
+<text x="1100" y="521" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">startSeconds debe ser finito y mayor o igual que cero.</text>
+<text x="1100" y="552" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Estas validaciones se realizan antes de crear temporales.</text>
+<text x="1100" y="726" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">4 · Analizar y completar la validación</text>
+<text x="1100" y="769" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">GetVideoInfoAsync → VideoInfo + MediaTrack.</text>
+<text x="1100" y="800" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Comprueba que exista el audio seleccionado.</text>
+<text x="1100" y="831" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Exige posición &lt; duración cuando se conoce la duración.</text>
+<text x="1890" y="726" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">FFprobe · archivo original</text>
+<text x="1890" y="769" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Consulta códecs y duración.</text>
+<text x="1890" y="800" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Identifica las pistas disponibles.</text>
+<text x="1890" y="831" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Devuelve los datos técnicos en JSON.</text>
+<text x="100" y="766" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#96D4FF">Protección del cliente</text>
+<text x="100" y="807" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">AbortController cancela la petición.</text>
+<text x="100" y="836" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">requestId identifica cada intento.</text>
+<text x="100" y="865" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Una respuesta antigua se descarta</text>
+<text x="100" y="894" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">y su sesión se solicita detener.</text>
+<text x="100" y="923" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2"></text>
+<text x="100" y="952" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">La detención anterior se solicita</text>
+<text x="100" y="981" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">sin esperar a completar el borrado.</text>
+<text x="1100" y="966" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">5 · Crear identidad y carpeta</text>
+<text x="1100" y="1009" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">sessionId = Guid.NewGuid().ToString(&quot;N&quot;)</text>
+<text x="1100" y="1040" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Directory.CreateDirectory(outputDirectory)</text>
+<text x="1100" y="1071" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">playlistPath apunta a index.m3u8 dentro de la sesión.</text>
+<text x="1890" y="966" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Carpeta temporal independiente</text>
+<text x="1890" y="1008" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">%TEMP%/HuexMedia/Hls/{sessionId}/</text>
+<text x="1890" y="1038" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Separa los archivos de cada sesión.</text>
+<text x="1890" y="1068" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">El original permanece en su ubicación.</text>
+<text x="1100" y="1191" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">6 · Configurar y arrancar FFmpeg</text>
+<text x="1100" y="1234" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">CreateHlsStartInfo → ProcessStartInfo.</text>
+<text x="1100" y="1265" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">process.Start() inicia el proceso.</text>
+<text x="1100" y="1296" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">_activeSessions.TryAdd(sessionId, process).</text>
+<text x="1100" y="1327" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">ReadToEndAsync lee sus errores mientras trabaja.</text>
+<text x="1890" y="1191" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">FFmpeg · generar contenido HLS</text>
+<text x="1890" y="1233" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Vídeo: copia h264 o convierte a libx264.</text>
+<text x="1890" y="1263" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Audio: seleccionado → AAC estéreo.</text>
+<text x="1890" y="1293" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Objetivo: segmentos de 4 s; lista de 20.</text>
+<text x="1890" y="1323" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Escribe index.m3u8 y segment_*.ts.</text>
+<text x="1100" y="1451" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">7 · WaitForPlaylistAsync</text>
+<text x="1100" y="1494" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Comprueba manifiesto + segmento referenciado.</text>
+<text x="1100" y="1525" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El segmento debe existir y tener datos.</text>
+<text x="1100" y="1556" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Hasta 300 intentos con esperas de 100 ms.</text>
+<text x="1890" y="1451" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Primer segmento disponible</text>
+<text x="1890" y="1494" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El manifiesto contiene su nombre.</text>
+<text x="1890" y="1525" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El archivo .ts tiene longitud &gt; 0.</text>
+<text x="1890" y="1556" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Se devuelve su ruta al servicio.</text>
+<text x="1100" y="1691" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">8 · Supervisar y medir el inicio real</text>
+<text x="1100" y="1734" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Task.Run → MonitorSessionAsync en segundo plano.</text>
+<text x="1100" y="1765" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">GetHlsStartTimeAsync consulta el primer segmento.</text>
+<text x="1100" y="1796" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">timelineStart = máximo entre 0 y (transportStart − 10).</text>
+<text x="1100" y="1827" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">El inicio real puede diferir del segundo solicitado.</text>
+<text x="1890" y="1691" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">FFprobe · primer segmento</text>
+<text x="1890" y="1732" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Lee format=start_time del archivo .ts.</text>
+<text x="1890" y="1761" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Debe ser un número finito.</text>
+<text x="1890" y="1790" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">FFmpeg añade 10 s de margen temporal.</text>
+<text x="1890" y="1819" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">La medida permite relacionar HLS y episodio.</text>
+<text x="1100" y="1950" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#D6C5FF">9 · MODELO · PlaybackSession</text>
+<text x="1100" y="1995" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">SessionId · StartSeconds (posición solicitada)</text>
+<text x="1100" y="2026" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">TimelineStartSeconds (inicio real referido al episodio)</text>
+<text x="1100" y="2057" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">TransportTimestampOffsetSeconds = 10</text>
+<text x="1100" y="2176" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">return PlaybackSession</text>
+<text x="1100" y="2219" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">Devuelve la sesión preparada al controlador.</text>
+<text x="1100" y="2250" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">FFmpeg continúa generando segmentos.</text>
+<text x="1100" y="2281" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">MonitorSessionAsync observa la salida del proceso.</text>
+<text x="610" y="2176" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">10 · Respuesta HTTP 200</text>
+<text x="610" y="2216" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">Añade playlistUrl a los datos.</text>
+<text x="610" y="2244" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">Ok(new { sessionId, playlistUrl,</text>
+<text x="610" y="2272" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">startSeconds, timelineStartSeconds,</text>
+<text x="610" y="2300" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#DCE7F2">transportTimestampOffsetSeconds })</text>
+<text x="100" y="2176" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">11 · Recibir la sesión</text>
+<text x="100" y="2218" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Comprueba que siga vigente.</text>
+<text x="100" y="2248" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Guarda sessionId y la referencia.</text>
+<text x="100" y="2278" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Configura Hls.js o HLS nativo.</text>
+<text x="100" y="2308" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Carga playlistUrl → evento 03.</text>
+<text x="1095" y="2393" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#A7BACB">La URL del manifiesto se construye en el controlador; el servicio devuelve PlaybackSession.</text>
+<text x="85" y="2541" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#FFB3BC">ERRORES Y CANCELACIÓN · limpieza de la sesión cuando falla la preparación</text>
+<text x="105" y="2621" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Validación o archivo ausente</text>
+<text x="105" y="2662" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">ArgumentException → HTTP 400.</text>
+<text x="105" y="2691" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">FileNotFoundException → HTTP 404.</text>
+<text x="105" y="2720" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">La validación inicial precede a la carpeta.</text>
+<text x="700" y="2621" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">FFmpeg / espera / sincronización</text>
+<text x="700" y="2662" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Fallo o ausencia de contenido → excepción.</text>
+<text x="700" y="2691" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Tras crear la carpeta: StopHlsAsync.</text>
+<text x="700" y="2720" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">ExecuteAsync registra el fallo → HTTP 500.</text>
+<text x="1295" y="2621" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Petición cancelada</text>
+<text x="1295" y="2662" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">El servicio comprueba el token.</text>
+<text x="1295" y="2691" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Si ya está en preparación: intenta limpiar.</text>
+<text x="1295" y="2720" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">ExecuteAsync propaga la cancelación.</text>
+<text x="1890" y="2621" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFCFD4">Limpieza de preparación</text>
+<text x="1890" y="2662" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">StopHlsAsync usa su ciclo de limpieza.</text>
+<text x="1890" y="2691" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">Conserva los fallos para reintentarlos.</text>
+<text x="1890" y="2720" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#DCE7F2">HlsCleanupService reintenta cada 30 s.</text>
+<text x="170" y="2882" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Petición / ejecución</text>
+<text x="590" y="2882" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Respuesta / resultado</text>
+<text x="1050" y="2882" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#B8C9D6">Flujo principal: pasos 1 → 11. Morado: herramientas, archivos y modelos.</text>
+</svg>

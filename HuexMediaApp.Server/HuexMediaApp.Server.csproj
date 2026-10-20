@@ -8,6 +8,7 @@
     <SpaRoot>..\huexmediaapp.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:60132</SpaProxyServerUrl>
+	<ApplicationIcon>HuexMediaAppIcon.ico</ApplicationIcon>
   </PropertyGroup>
 	
   <ItemGroup>
@@ -24,8 +25,12 @@
     </ProjectReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Tools\FFmpeg\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Tools\FFmpeg\*.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
 
 </Project>

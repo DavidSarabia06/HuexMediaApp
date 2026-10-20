@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1840" viewBox="0 0 2200 1840">
+<rect width="100%" height="100%" fill="#101923"/>
+<rect x="60" y="160" width="1010" height="270" rx="18" fill="#1C3438" stroke="#3D675A" stroke-width="2"/>
+<rect x="1130" y="160" width="1010" height="270" rx="18" fill="#203E51" stroke="#477B9C" stroke-width="2"/>
+<path d="M1070,290 L1130,290" stroke="#46DBB0" stroke-width="4" fill="none"/>
+<polygon points="1130,290 1118.591426695425,296.2325320018546 1118.591426695425,283.7674679981454" fill="#46DBB0"/>
+<rect x="60" y="485" width="2080" height="760" rx="18" fill="#17232D" stroke="#466075" stroke-width="2"/>
+<rect x="1345" y="605" width="130" height="570" rx="12" fill="#244137"/>
+<path d="M635,680 L2020,680" stroke="#6DE5BA" stroke-width="3" fill="none"/>
+<polygon points="2020,680 2008.591426695425,686.2325320018547 2008.591426695425,673.7674679981453" fill="#6DE5BA"/>
+<path d="M650,668 L650,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M840,668 L840,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M1030,668 L1030,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M1220,668 L1220,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M1410,668 L1410,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M1600,668 L1600,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M1790,668 L1790,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M1980,668 L1980,692" stroke="#6DE5BA" stroke-width="3"/>
+<path d="M635,860 L2020,860" stroke="#C6BBFF" stroke-width="3" fill="none"/>
+<polygon points="2020,860 2008.591426695425,866.2325320018547 2008.591426695425,853.7674679981453" fill="#C6BBFF"/>
+<path d="M650,848 L650,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M840,848 L840,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M1030,848 L1030,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M1220,848 L1220,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M1410,848 L1410,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M1600,848 L1600,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M1790,848 L1790,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M1980,848 L1980,872" stroke="#C6BBFF" stroke-width="3"/>
+<path d="M635,1040 L2020,1040" stroke="#96D4FF" stroke-width="3" fill="none"/>
+<polygon points="2020,1040 2008.591426695425,1046.2325320018547 2008.591426695425,1033.7674679981453" fill="#96D4FF"/>
+<path d="M650,1028 L650,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M840,1028 L840,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M1030,1028 L1030,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M1220,1028 L1220,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M1410,1028 L1410,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M1600,1028 L1600,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M1790,1028 L1790,1052" stroke="#96D4FF" stroke-width="3"/>
+<path d="M1980,1028 L1980,1052" stroke="#96D4FF" stroke-width="3"/>
+<rect x="60" y="1300" width="1010" height="365" rx="18" fill="#24362F" stroke="#527B5E" stroke-width="2"/>
+<rect x="1130" y="1300" width="1010" height="365" rx="18" fill="#35314B" stroke="#71688E" stroke-width="2"/>
+<path d="M1070,1475 L1130,1475" stroke="#8FE3A7" stroke-width="4" fill="none"/>
+<polygon points="1130,1475 1118.591426695425,1481.2325320018547 1118.591426695425,1468.7674679981453" fill="#8FE3A7"/>
+<rect x="60" y="1710" width="2080" height="90" rx="18" fill="#30252B" stroke="#A66B73" stroke-width="2"/>
+<text x="60" y="79" font-family="Segoe UI,Arial,sans-serif" font-size="43" font-weight="700" fill="#FFFFFF">CÓMO SE SINCRONIZAN AUDIO, VÍDEO Y SUBTÍTULOS</text>
+<text x="60" y="127" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#A7BACB">Ejemplo didáctico: pides el segundo 1200, el contenido comienza en 1198 y han transcurrido 4 segundos.</text>
+<text x="85" y="208" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#6DE5BA">SERVIDOR · preparar el contenido</text>
+<text x="85" y="258" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">1. Petición: startSeconds = 1200.</text>
+<text x="85" y="291" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">2. El primer fotograma disponible está en 1198 (ejemplo).</text>
+<text x="85" y="324" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">3. FFmpeg añade +10 a las marcas de transporte → 1208.</text>
+<text x="85" y="357" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">4. FFprobe mide el inicio; devuelve referencias al cliente.</text>
+<text x="1155" y="208" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#96D4FF">CLIENTE · recuperar el tiempo del episodio</text>
+<text x="1155" y="258" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">1. Carga audio y vídeo juntos mediante HLS.</text>
+<text x="1155" y="291" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">2. INIT_PTS_FOUND calibra la referencia usada por Hls.js.</text>
+<text x="1155" y="324" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">3. Referencia del ejemplo: 1208 − 10 = 1198.</text>
+<text x="1155" y="357" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#DCE7F2">4. Tiempo del episodio = referencia + video.currentTime.</text>
+<text x="85" y="535" font-family="Segoe UI,Arial,sans-serif" font-size="30" font-weight="700" fill="#FFFFFF">TRES FORMAS DE NUMERAR EL MISMO INSTANTE</text>
+<text x="85" y="579" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#A7BACB">Cada columna vertical representa el mismo contenido. Cambian los números, no el momento del diálogo.</text>
+<text x="90" y="680" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#6DE5BA">EPISODIO ORIGINAL</text>
+<text x="90" y="721" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#A7BACB">Audio, vídeo y subtítulos del archivo.</text>
+<text x="616" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1198 s</text>
+<text x="806" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1199 s</text>
+<text x="996" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1200 s</text>
+<text x="1186" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1201 s</text>
+<text x="1376" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700" fill="#6DE5BA">1202 s</text>
+<text x="1566" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1203 s</text>
+<text x="1756" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1204 s</text>
+<text x="1946" y="733" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#6DE5BA">1205 s</text>
+<text x="90" y="860" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#C6BBFF">TRANSPORTE HLS</text>
+<text x="90" y="901" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#A7BACB">Las marcas llevan el margen +10 s.</text>
+<text x="616" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1208 s</text>
+<text x="806" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1209 s</text>
+<text x="996" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1210 s</text>
+<text x="1186" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1211 s</text>
+<text x="1376" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700" fill="#C6BBFF">1212 s</text>
+<text x="1566" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1213 s</text>
+<text x="1756" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1214 s</text>
+<text x="1946" y="913" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#C6BBFF">1215 s</text>
+<text x="90" y="1040" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#96D4FF">REPRODUCTOR LOCAL</text>
+<text x="90" y="1081" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#A7BACB">En este ejemplo comienza en 0 s.</text>
+<text x="616" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">0 s</text>
+<text x="806" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">1 s</text>
+<text x="996" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">2 s</text>
+<text x="1186" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">3 s</text>
+<text x="1376" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700" fill="#96D4FF">4 s</text>
+<text x="1566" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">5 s</text>
+<text x="1756" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">6 s</text>
+<text x="1946" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#96D4FF">7 s</text>
+<text x="1364" y="640" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="700" fill="#8FE3A7">AHORA</text>
+<text x="90" y="1176" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700" fill="#FFFFFF">Misma imagen y mismo sonido:</text>
+<text x="650" y="1182" font-family="Segoe UI,Arial,sans-serif" font-size="29" font-weight="700" fill="#FFFFFF">1202 s del episodio = 1212 s del transporte = 4 s locales</text>
+<text x="960" y="770" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#E9C56B">↑ solicitado</text>
+<text x="90" y="933" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="400" fill="#C6BBFF">Margen común al contenido:</text>
+<text x="90" y="958" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="400" fill="#A7BACB">+10 s es una etiqueta temporal,</text>
+<text x="90" y="993" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#A7BACB">no una espera de diez segundos.</text>
+<text x="85" y="1349" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#8FE3A7">CALCULAR EL TIEMPO GLOBAL</text>
+<text x="85" y="1422" font-family="Segoe UI,Arial,sans-serif" font-size="43" font-weight="700" fill="#FFFFFF">1198 + 4 = 1202 segundos</text>
+<text x="85" y="1467" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#A7BACB">referencia ajustada + video.currentTime</text>
+<text x="85" y="1517" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Audio y vídeo se reproducen con sus marcas temporales.</text>
+<text x="85" y="1549" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">React utiliza el tiempo global para elegir el subtítulo.</text>
+<text x="85" y="1581" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La calibración se repite al preparar otra sesión HLS.</text>
+<text x="1155" y="1349" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="#D6C5FF">ELEGIR EL SUBTÍTULO</text>
+<text x="1155" y="1411" font-family="Segoe UI,Arial,sans-serif" font-size="33" font-weight="700" fill="#FFFFFF">«Hola» · de 1200 a 1203 segundos</text>
+<text x="1155" y="1466" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">subtitleAt(cues, 1202) comprueba:</text>
+<text x="1155" y="1498" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">1202 &gt;= 1200 y 1202 &lt; 1203 → mostrar «Hola».</text>
+<text x="1155" y="1530" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">El texto WebVTT conserva los tiempos del episodio.</text>
+<text x="1155" y="1562" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Al buscar, la referencia nueva mantiene esa relación.</text>
+<text x="85" y="1751" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700" fill="#FFCFD4">SI USÁRAMOS EL DESTINO PEDIDO: 1200 + 4 = 1204 → el subtítulo se buscaría 2 segundos por delante.</text>
+<text x="85" y="1788" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#C8B8BC">Los valores son ilustrativos: Hls.js o el soporte HLS nativo calibran la referencia real de cada reproducción.</text>
+</svg>

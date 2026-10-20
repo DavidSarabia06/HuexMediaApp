@@ -1,5 +1,5 @@
 site_name: Huex Media App
-site_description: Documentación de los sistemas del servidor
+site_description: Documentación del servidor y del frontend
 docs_dir: docs
 site_dir: .docs-site
 dev_addr: 127.0.0.1:8000
@@ -39,15 +39,85 @@ markdown_extensions:
       permalink: true
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 hooks:
   - scripts/docs_sources.py
 
+extra:
+  source_files:
+    MoviesPage: huexmediaapp.client/src/Movies.jsx
+    Subtitles: huexmediaapp.client/src/subtitles.js
+    Settings: huexmediaapp.client/src/Settings.jsx
+    Home: huexmediaapp.client/src/Home.jsx
+    App: huexmediaapp.client/src/App.jsx
+    Header: huexmediaapp.client/src/Header.jsx
+    HeaderStyles: huexmediaapp.client/src/css/Header.css
+    PlaybackProgressClient: huexmediaapp.client/src/playbackProgress.js
+    HuexCard: huexmediaapp.client/src/HuexCard.jsx
+    HuexCardStyles: huexmediaapp.client/src/css/HuexCard.css
+    HuexCardMenu: huexmediaapp.client/src/HuexCardMenu.jsx
+    SeriesCategoryRow: huexmediaapp.client/src/SeriesCategoryRow.jsx
+    SeriesPage: huexmediaapp.client/src/Series.jsx
+    SeriesDetail: huexmediaapp.client/src/SeriesDetail.jsx
+    VideoPlayer: huexmediaapp.client/src/VideoPlayer.jsx
+    VideoPlayerStyles: huexmediaapp.client/src/css/VideoPlayer.css
+    SeriesCategoryService: HuexMediaApp.Server/Services/SeriesCategoryService.cs
+    SeriesCategory: HuexMediaApp.Server/Models/SeriesCategory.cs
+    SeriesCategoriesController: HuexMediaApp.Server/Controllers/SeriesCategoriesController.cs
+    ConfigurationService: HuexMediaApp.Server/Services/ConfigurationService.cs
+    ConfigurationRequest: HuexMediaApp.Server/Models/ConfigurationRequest.cs
+    ConfigurationController: HuexMediaApp.Server/Controllers/ConfigurationController.cs
+    SeriesService: HuexMediaApp.Server/Services/SeriesService.cs
+    SeriesLibrary: HuexMediaApp.Server/Models/SeriesLibrary.cs
+    SeriesController: HuexMediaApp.Server/Controllers/SeriesController.cs
+    VideoService: HuexMediaApp.Server/Services/VideoService.cs
+    HlsCleanupService: HuexMediaApp.Server/Services/HlsCleanupService.cs
+    VideoInfo: HuexMediaApp.Server/Models/VideoInfo.cs
+    PlaybackSession: HuexMediaApp.Server/Models/PlaybackSession.cs
+    VideoController: HuexMediaApp.Server/Controllers/VideoController.cs
+    PlaybackProgressService: HuexMediaApp.Server/Services/PlaybackProgressService.cs
+    PlaybackProgress: HuexMediaApp.Server/Models/PlaybackProgress.cs
+    PlaybackProgressController: HuexMediaApp.Server/Controllers/PlaybackProgressController.cs
+
 watch:
+  - ../huexmediaapp.client/src/Movies.jsx
+  - ../huexmediaapp.client/src/subtitles.js
+  - ../huexmediaapp.client/src/Settings.jsx
+  - ../huexmediaapp.client/src/Home.jsx
+  - ../huexmediaapp.client/src/App.jsx
+  - ../huexmediaapp.client/src/Header.jsx
+  - ../huexmediaapp.client/src/css/Header.css
+  - ../huexmediaapp.client/src/playbackProgress.js
+  - ../huexmediaapp.client/src/HuexCard.jsx
+  - ../huexmediaapp.client/src/css/HuexCard.css
+  - ../huexmediaapp.client/src/HuexCardMenu.jsx
+  - ../huexmediaapp.client/src/SeriesCategoryRow.jsx
+  - ../huexmediaapp.client/src/Series.jsx
+  - ../huexmediaapp.client/src/SeriesDetail.jsx
+  - ../huexmediaapp.client/src/VideoPlayer.jsx
+  - ../huexmediaapp.client/src/css/VideoPlayer.css
   - ../HuexMediaApp.Server/Services/SeriesCategoryService.cs
   - ../HuexMediaApp.Server/Models/SeriesCategory.cs
   - ../HuexMediaApp.Server/Controllers/SeriesCategoriesController.cs
+  - ../HuexMediaApp.Server/Services/ConfigurationService.cs
+  - ../HuexMediaApp.Server/Models/ConfigurationRequest.cs
+  - ../HuexMediaApp.Server/Controllers/ConfigurationController.cs
+  - ../HuexMediaApp.Server/Services/SeriesService.cs
+  - ../HuexMediaApp.Server/Models/SeriesLibrary.cs
+  - ../HuexMediaApp.Server/Controllers/SeriesController.cs
+  - ../HuexMediaApp.Server/Services/VideoService.cs
+  - ../HuexMediaApp.Server/Services/HlsCleanupService.cs
+  - ../HuexMediaApp.Server/Models/VideoInfo.cs
+  - ../HuexMediaApp.Server/Models/PlaybackSession.cs
+  - ../HuexMediaApp.Server/Controllers/VideoController.cs
+  - ../HuexMediaApp.Server/Services/PlaybackProgressService.cs
+  - ../HuexMediaApp.Server/Models/PlaybackProgress.cs
+  - ../HuexMediaApp.Server/Controllers/PlaybackProgressController.cs
 
 validation:
   links:
@@ -56,6 +126,53 @@ validation:
 
 nav:
   - Inicio: README.md
+  - Frontend:
+      - Visión general: frontend/README.md
+      - Aplicación:
+          - Estructura, rutas y temas: frontend/app.md
+          - Código JSX: codigo/App.md
+      - Módulos:
+          - subtitles:
+              - Interpretación y pistas: frontend/modulos/subtitles.md
+              - Código JavaScript: codigo/Subtitles.md
+          - playbackProgress:
+              - Funciones y guardado: frontend/modulos/playback-progress.md
+              - Código JavaScript: codigo/PlaybackProgressClient.md
+      - Páginas:
+          - Movies:
+              - Categorías y subcategorías: frontend/paginas/movies.md
+              - Código JSX: codigo/MoviesPage.md
+          - Settings:
+              - Página de configuración: frontend/paginas/settings.md
+              - Código JSX: codigo/Settings.md
+          - Home:
+              - Biblioteca y navegación: frontend/paginas/home.md
+              - Código JSX: codigo/Home.md
+          - Series:
+              - Funcionamiento y propiedades: frontend/paginas/series.md
+              - Código JSX: codigo/SeriesPage.md
+          - SeriesDetail:
+              - Funcionamiento y navegación: frontend/paginas/series-detail.md
+              - Código JSX: codigo/SeriesDetail.md
+          - VideoPlayer:
+              - Funcionamiento y eventos: frontend/paginas/video-player.md
+              - Código JSX: codigo/VideoPlayer.md
+              - Estilos CSS: codigo/VideoPlayerStyles.md
+      - Componentes:
+          - Header:
+              - Funcionamiento y eventos: frontend/componentes/header.md
+              - Código JSX: codigo/Header.md
+              - Estilos CSS: codigo/HeaderStyles.md
+          - HuexCard:
+              - Funcionamiento y propiedades: frontend/componentes/huex-card.md
+              - Código JSX: codigo/HuexCard.md
+              - Estilos CSS: codigo/HuexCardStyles.md
+          - HuexCardMenu:
+              - Funcionamiento y propiedades: frontend/componentes/huex-card-menu.md
+              - Código JSX: codigo/HuexCardMenu.md
+          - SeriesCategoryRow:
+              - Funcionamiento y propiedades: frontend/componentes/series-category-row.md
+              - Código JSX: codigo/SeriesCategoryRow.md
   - Sistemas:
       - Categorías de series:
           - Visión general: sistemas/categorias-series/README.md
@@ -68,3 +185,63 @@ nav:
           - Controlador:
               - Operaciones y respuestas: sistemas/categorias-series/controlador.md
               - Código fuente: codigo/SeriesCategoriesController.md
+      - Configuración:
+          - Visión general: sistemas/configuracion/README.md
+          - Servicio:
+              - Funciones y funcionamiento: sistemas/configuracion/servicio.md
+              - Código fuente: codigo/ConfigurationService.md
+          - Modelo:
+              - Propiedades: sistemas/configuracion/modelos.md
+              - Código fuente: codigo/ConfigurationRequest.md
+          - Controlador:
+              - Operaciones y respuestas: sistemas/configuracion/controlador.md
+              - Código fuente: codigo/ConfigurationController.md
+      - Exploración de series:
+          - Visión general: sistemas/series/README.md
+          - Servicio:
+              - Funciones y funcionamiento: sistemas/series/servicio.md
+              - Código fuente: codigo/SeriesService.md
+          - Modelos:
+              - Clases y propiedades: sistemas/series/modelos.md
+              - Código fuente: codigo/SeriesLibrary.md
+          - Controlador:
+              - Operaciones y respuestas: sistemas/series/controlador.md
+              - Código fuente: codigo/SeriesController.md
+      - Reproducción de vídeo:
+          - Visión general: sistemas/reproduccion-video/README.md
+          - Sincronización de tiempos: sistemas/reproduccion-video/sincronizacion.md
+          - Eventos:
+              - Mapa general: sistemas/reproduccion-video/eventos/README.md
+              - 01 · Consultar información: sistemas/reproduccion-video/eventos/consultar-informacion.md
+              - 02 · Iniciar reproducción: sistemas/reproduccion-video/eventos/iniciar-reproduccion.md
+              - 03 · Reproducir HLS: sistemas/reproduccion-video/eventos/reproducir-hls.md
+              - 04 · Buscar otra posición: sistemas/reproduccion-video/eventos/buscar-posicion.md
+              - 05 · Cambiar audio: sistemas/reproduccion-video/eventos/cambiar-audio.md
+              - 06 · Cargar y mostrar subtítulos: sistemas/reproduccion-video/eventos/subtitulos.md
+              - 07 · Pausar y reanudar: sistemas/reproduccion-video/eventos/pausar-reanudar.md
+              - 08 · Salir y limpiar: sistemas/reproduccion-video/eventos/salir-limpiar.md
+          - Servicio:
+              - Funciones y funcionamiento: sistemas/reproduccion-video/servicio.md
+              - Código fuente: codigo/VideoService.md
+          - Limpieza periódica:
+              - Funcionamiento: sistemas/reproduccion-video/limpieza.md
+              - Código fuente: codigo/HlsCleanupService.md
+          - Modelos:
+              - Clases y propiedades: sistemas/reproduccion-video/modelos.md
+              - Código de información y pistas: codigo/VideoInfo.md
+              - Código de sesión y archivo HLS: codigo/PlaybackSession.md
+          - Controlador:
+              - Operaciones y respuestas: sistemas/reproduccion-video/controlador.md
+              - Código fuente: codigo/VideoController.md
+      - Progreso de reproducción:
+          - Visión general: sistemas/progreso-reproduccion/README.md
+          - Servicio:
+              - Funciones y funcionamiento: sistemas/progreso-reproduccion/servicio.md
+              - Código fuente: codigo/PlaybackProgressService.md
+          - Modelos:
+              - Clases y propiedades: sistemas/progreso-reproduccion/modelos.md
+              - Código fuente: codigo/PlaybackProgress.md
+          - Controlador:
+              - Operaciones y respuestas: sistemas/progreso-reproduccion/controlador.md
+              - Código fuente: codigo/PlaybackProgressController.md
+          - Cliente y continuar viendo: sistemas/progreso-reproduccion/cliente.md

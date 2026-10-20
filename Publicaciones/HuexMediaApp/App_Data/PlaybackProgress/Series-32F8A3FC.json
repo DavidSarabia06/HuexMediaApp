@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "libraryPath": "F:\\Series y Pelis\\Series",
+  "series": [
+    {
+      "seriesPath": "F:\\Series y Pelis\\Series\\Dead Note",
+      "watchedEpisodePaths": [
+        "F:\\Series y Pelis\\Series\\Dead Note\\Parte 1\\01 Death Note.avi"
+      ],
+      "inProgress": {
+        "episodePath": "F:\\Series y Pelis\\Series\\Dead Note\\Parte 1\\02 Death Note.avi",
+        "positionSeconds": 421.50199,
+        "durationSeconds": 1379.64
+      },
+      "lastWatchedEpisodePath": "F:\\Series y Pelis\\Series\\Dead Note\\Parte 1\\01 Death Note.avi",
+      "lastRecordedAtUtc": "2026-10-16T15:39:08.724+00:00"
+    },
+    {
+      "seriesPath": "F:\\Series y Pelis\\Series\\Juego de Tronos",
+      "watchedEpisodePaths": [],
+      "inProgress": {
+        "episodePath": "F:\\Series y Pelis\\Series\\Juego de Tronos\\Temporada 1\\Juego de Tronos 1x01 - Se acerca el invierno.mkv",
+        "positionSeconds": 30.525208,
+        "durationSeconds": 3697.184
+      },
+      "lastWatchedEpisodePath": null,
+      "lastRecordedAtUtc": "2026-10-18T19:55:20.854+00:00"
+    },
+    {
+      "seriesPath": "F:\\Series y Pelis\\Series\\La Casa Del Dragon",
+      "watchedEpisodePaths": [],
+      "inProgress": null,
+      "lastWatchedEpisodePath": null,
+      "lastRecordedAtUtc": "2026-10-17T16:28:27.1714784+00:00"
+    }
+  ]
+}

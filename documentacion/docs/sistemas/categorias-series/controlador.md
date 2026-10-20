@@ -6,7 +6,7 @@
 
 Recibe solicitudes HTTP para consultar, crear, mover y eliminar categorías. Obtiene los datos de la URL o del cuerpo JSON, llama a `SeriesCategoryService` y convierte sus resultados o errores esperados en respuestas HTTP.
 
-No lee ni escribe archivos y no repite las reglas del servicio. Todas sus operaciones correctas devuelven **HTTP 200 y la lista completa de categorías** de la biblioteca, incluida la eliminación. Se conserva este contrato para que la interfaz sustituya su lista por el resultado confirmado del servidor.
+Todas sus operaciones correctas devuelven **HTTP 200 y la lista completa de categorías** de la biblioteca, incluida la eliminación. La interfaz sustituye su lista por el resultado confirmado del servidor.
 
 ## Índice de funciones
 
@@ -29,7 +29,7 @@ No lee ni escribe archivos y no repite las reglas del servicio. Todas sus operac
 
 `[Route("api/seriescategories")]` establece la ruta base. Los atributos de cada acción indican el verbo HTTP y, si corresponde, el sufijo de su URL.
 
-`[ApiController]` habilita las convenciones de los controladores de API. Un cuerpo JSON mal formado o un error de validación del modelo puede producir una respuesta automática de ASP.NET Core antes de entrar en la acción. Esas respuestas no pasan por `ExecuteAsync` y pueden usar un formato distinto del objeto `{ "error": "..." }` definido aquí.
+`[ApiController]` habilita las convenciones de los controladores de API. Un cuerpo JSON mal formado o un error de validación del modelo puede producir una respuesta automática de ASP.NET Core antes de entrar en la acción. El framework construye esas respuestas con su formato de validación.
 
 ## Construcción
 
@@ -38,7 +38,7 @@ No lee ni escribe archivos y no repite las reglas del servicio. Todas sus operac
 
 **Recibe:** `SeriesCategoryService service` e `ILogger<SeriesCategoriesController> logger`, suministrados mediante inyección de dependencias.
 
-**Resultado:** guarda ambas dependencias en `_service` y `_logger`. No crea categorías ni accede al disco. El servicio se registra como singleton en `Program.cs`; el controlador lo utiliza sin crear otra instancia.
+**Resultado:** guarda ambas dependencias en `_service` y `_logger`. El controlador utiliza la instancia del servicio registrada como singleton en `Program.cs`.
 
 ## Operaciones HTTP
 
@@ -60,7 +60,7 @@ Cada acción recibe también un `CancellationToken` que ASP.NET Core vincula a l
 
 **Recorrido:** `Get` → [ExecuteAsync](#executeasync) → [GetAsync](servicio.md#getasync) → respuesta.
 
-Si la biblioteca existe pero no tiene archivo de categorías, la respuesta correcta es `[]`. No se crea un archivo por consultar.
+Si falta el archivo de categorías de una biblioteca existente, devuelve `[]`.
 
 ```http
 GET /api/seriescategories?libraryPath=F%3A%5CSeries
@@ -75,7 +75,7 @@ GET /api/seriescategories?libraryPath=F%3A%5CSeries
 
 **Recorrido:** `Create` → [ExecuteAsync](#executeasync) → [CreateAsync](servicio.md#createasync), pasando `request.LibraryPath` y `request.Name`.
 
-El servicio recorta el nombre y valida su longitud, el nombre reservado y los duplicados. El controlador no genera el GUID ni asigna series.
+El servicio recorta el nombre, valida su longitud, el nombre reservado y los duplicados, y genera el GUID de la nueva categoría.
 
 ```json
 {
@@ -93,7 +93,7 @@ El servicio recorta el nombre y valida su longitud, el nombre reservado y los du
 
 **Recorrido:** `Move` → [ExecuteAsync](#executeasync) → [MoveAsync](servicio.md#moveasync), pasando biblioteca, ruta de la serie e identificador de destino.
 
-El destino `null` deja la serie sin categoría. Un GUID no vacío debe identificar una categoría existente de esa biblioteca. La operación solo cambia el JSON de organización, no mueve carpetas.
+El destino `null` deja la serie sin categoría. Un GUID no vacío debe identificar una categoría existente de esa biblioteca. La operación actualiza las asignaciones del JSON de organización.
 
 ```json
 {
@@ -106,7 +106,7 @@ El destino `null` deja la serie sin categoría. Un GUID no vacío debe identific
 <a id="delete"></a>
 ### Delete
 
-**Recibe:** `Guid categoryId` desde la ruta, `[FromQuery] string libraryPath` y el token de cancelación. No necesita cuerpo JSON.
+**Recibe:** `Guid categoryId` desde la ruta, `[FromQuery] string libraryPath` y el token de cancelación.
 
 **Devuelve:** HTTP 200 con las categorías restantes. Sus series quedan sin asignación y el cliente las muestra en «Sin categoría».
 
@@ -143,17 +143,17 @@ try
 
 | Resultado o excepción | Respuesta | Registro |
 | --- | --- | --- |
-| Operación correcta | 200 con el array de categorías | No añade un registro específico |
-| `ArgumentException` | 400 con `{ "error": ex.Message }` | No añade un registro específico |
+| Operación correcta | 200 con el array de categorías | — |
+| `ArgumentException` | 400 con `{ "error": ex.Message }` | — |
 | `InvalidDataException` | 500 con `{ "error": ex.Message }` | Registra la excepción al leer categorías |
 | `IOException` o `UnauthorizedAccessException` | 500 con un mensaje general sobre permisos y espacio | Registra el detalle técnico de la excepción |
 
 Un JSON almacenado inválido representa un problema de los datos del servidor, por eso devuelve 500. Un nombre duplicado, una ruta no válida o un destino inexistente recibido en la solicitud devuelve 400.
 
-El filtro `catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)` solo procesa esos tipos de error. Las demás excepciones se propagan a la infraestructura de ASP.NET Core. `OperationCanceledException` tampoco se convierte aquí en un error de guardado.
+El filtro `catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)` procesa esos errores de acceso y escritura. Las demás excepciones, incluida `OperationCanceledException`, se propagan a la infraestructura de ASP.NET Core.
 
 Los errores técnicos de disco se registran completos, pero la respuesta general evita enviar al cliente los detalles internos de ese fallo. La lectura y el guardado seguro siguen siendo responsabilidad del servicio.
 
 ## Comprobaciones
 
-Se mantiene la ruta base, los verbos, los modelos de solicitud, el paso del token de cancelación y las respuestas existentes. Las comprobaciones de categorías incluyen llamadas directas al controlador para resultados correctos y entradas inválidas; estas llamadas no ejecutan el enrutamiento ni la validación automática de ASP.NET Core.
+Las comprobaciones de categorías incluyen llamadas directas al controlador para resultados correctos y entradas inválidas, con sus modelos de solicitud y el token de cancelación.

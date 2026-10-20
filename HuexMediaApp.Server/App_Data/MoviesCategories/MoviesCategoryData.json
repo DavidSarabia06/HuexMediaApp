@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "libraryPath": "F:\\Series y Pelis\\Pelis",
+  "categories": [
+    {
+      "id": "f8b1f357-61af-4d19-a903-9a559d09a413",
+      "name": "La Tierra Media",
+      "moviesPaths": [],
+      "moviesSubcategories": [
+        {
+          "id": "84888762-b5d9-44f0-9ebd-60bac8ebd5a5",
+          "name": "El Se\u00F1or de Los Anillos",
+          "moviesPaths": [
+            "F:\\Series y Pelis\\Pelis\\El Se\u00F1or de Los Anillos\\El Se\u00F1or de Los Anillos III - El Retorno Del Rey.mkv",
+            "F:\\Series y Pelis\\Pelis\\El Se\u00F1or de Los Anillos\\El Se\u00F1or de Los Anillos II - Las Dos Torres.mkv",
+            "F:\\Series y Pelis\\Pelis\\El Se\u00F1or de Los Anillos\\El Se\u00F1or de Los Anillos I - La Comunidad Del Anillo.mkv"
+          ]
+        },
+        {
+          "id": "de6dc9de-d43b-46bb-b632-c02df2244584",
+          "name": "El Hobbit",
+          "moviesPaths": [
+            "F:\\Series y Pelis\\Pelis\\El Se\u00F1or de Los Anillos\\El Hobbit I - Un Viaje Inesperado.mkv"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ad178374-9eea-42b3-82c9-3b116efb507b",
+      "name": "Harry Potter",
+      "moviesPaths": [
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 1 - La Piedra Filosofal.mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 2 - La Camara Secreta.mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 3 - El Prisionero del Azkaban.mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 4 - El Caliz de Fuego.mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 5 - La Orden del Fenix.mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 6 - El Misterio del Principe.mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 7 - Las Reliquias de la Muerte (Parte 1).mkv",
+        "F:\\Series y Pelis\\Pelis\\Harry Potter\\Harry Potter 8 - Las Reliquias de la Muerte (Parte 2).mkv"
+      ],
+      "moviesSubcategories": []
+    },
+    {
+      "id": "743516b2-3bce-4722-bdbc-4533a8daa5ca",
+      "name": "La Guerra de las Galaxias",
+      "moviesPaths": [
+        "F:\\Series y Pelis\\Pelis\\Star Wars\\Star Wars I - La amenaza fantasma.mkv",
+        "F:\\Series y Pelis\\Pelis\\Star Wars\\Star Wars II - El ataque de los clones.mkv",
+        "F:\\Series y Pelis\\Pelis\\Star Wars\\Star Wars III - La venganza de los Sith.mkv",
+        "F:\\Series y Pelis\\Pelis\\Star Wars\\Star Wars IV - Una Nueva Esperanza.mkv",
+        "F:\\Series y Pelis\\Pelis\\Star Wars\\Star Wars V - El Imperio Contraataca.mkv",
+        "F:\\Series y Pelis\\Pelis\\Star Wars\\Star Wars VI - El Retorno del Jedi.mkv"
+      ],
+      "moviesSubcategories": []
+    },
+    {
+      "id": "da3e23b3-d2a5-4388-ac1d-b4b8f110ae3f",
+      "name": "Los Juegos del Hambre",
+      "moviesPaths": [
+        "F:\\Series y Pelis\\Pelis\\Los Juegos del Hambre\\Los Juegos Del Hambre II - En Llamas.mkv",
+        "F:\\Series y Pelis\\Pelis\\Los Juegos del Hambre\\Los Juegos Del Hambre III - Sinsajo Parte 1.avi",
+        "F:\\Series y Pelis\\Pelis\\Los Juegos del Hambre\\Los Juegos Del Hambre III - Sinsajo Parte 2.avi",
+        "F:\\Series y Pelis\\Pelis\\Los Juegos del Hambre\\Los Juegos Del Hambre IV - Balada de pajaros cantores y serpientes .mkv"
+      ],
+      "moviesSubcategories": []
+    },
+    {
+      "id": "2ddddbee-678a-4616-a97c-876bc2145c99",
+      "name": "Piratas del Caribe",
+      "moviesPaths": [
+        "F:\\Series y Pelis\\Pelis\\Piratas del Caribe\\Piratas del Caribe I - La maldicion de la Perla Negra.mkv",
+        "F:\\Series y Pelis\\Pelis\\Piratas del Caribe\\Piratas del Caribe II - El cofre del hombre muerto.mkv",
+        "F:\\Series y Pelis\\Pelis\\Piratas del Caribe\\Piratas del Caribe III -  En el fin del mundo.mkv"
+      ],
+      "moviesSubcategories": []
+    }
+  ]
+}

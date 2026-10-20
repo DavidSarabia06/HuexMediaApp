@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "libraryPath": "F:\\Series y Pelis\\Series",
+  "categories": [
+    {
+      "id": "d6f73427-f6bd-41ff-b52f-95c530f3746f",
+      "name": "Animaci\u00F3n",
+      "seriesPaths": [
+        "F:\\Series y Pelis\\Series\\Arcane",
+        "F:\\Series y Pelis\\Series\\Detective Conan",
+        "F:\\Series y Pelis\\Series\\SteinsGate",
+        "F:\\Series y Pelis\\Series\\Steins;Gate",
+        "F:\\Series y Pelis\\Series\\OnePiece",
+        "F:\\Series y Pelis\\Series\\Doctor Stone",
+        "F:\\Series y Pelis\\Series\\Cyberpunk - Edge Runners",
+        "F:\\Series y Pelis\\Series\\Dead Note"
+      ]
+    },
+    {
+      "id": "b0e2c8aa-0791-4954-8089-89bc2fa1ac11",
+      "name": "Fantas\u00EDa",
+      "seriesPaths": [
+        "F:\\Series y Pelis\\Series\\La Casa Del Dragon",
+        "F:\\Series y Pelis\\Series\\Las Brujas de Mayfair",
+        "F:\\Series y Pelis\\Series\\Loki",
+        "F:\\Series y Pelis\\Series\\El Caballero de los 7 Reinos",
+        "F:\\Series y Pelis\\Series\\Juego de Tronos"
+      ]
+    },
+    {
+      "id": "44ee4b47-3146-4b7e-87bf-24a47b3b2121",
+      "name": "Acci\u00F3n y aventura",
+      "seriesPaths": [
+        "F:\\Series y Pelis\\Series\\Espartaco",
+        "F:\\Series y Pelis\\Series\\Jack Reacher",
+        "F:\\Series y Pelis\\Series\\Person of Interest",
+        "F:\\Series y Pelis\\Series\\Prison Break"
+      ]
+    },
+    {
+      "id": "76696610-26b6-40c4-b7da-41771b25ef50",
+      "name": "Ciencia ficci\u00F3n",
+      "seriesPaths": [
+        "F:\\Series y Pelis\\Series\\Stargate - SG1",
+        "F:\\Series y Pelis\\Series\\The Last of Us"
+      ]
+    },
+    {
+      "id": "b0ccfbca-3448-4e0c-8ca7-6ec5597b4167",
+      "name": "Comedia",
+      "seriesPaths": [
+        "F:\\Series y Pelis\\Series\\Como Conoci A Vuestra Madre"
+      ]
+    },
+    {
+      "id": "40afd339-a7eb-49a1-860f-46a2be7de1ea",
+      "name": "Thriller y misterio",
+      "seriesPaths": [
+        "F:\\Series y Pelis\\Series\\Startup",
+        "F:\\Series y Pelis\\Series\\True Detective",
+        "F:\\Series y Pelis\\Series\\El Mentalista"
+      ]
+    }
+  ]
+}
