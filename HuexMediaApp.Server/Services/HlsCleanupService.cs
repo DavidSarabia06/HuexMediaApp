@@ -21,7 +21,7 @@ public sealed class HlsCleanupService : BackgroundService
 
     #region Limpieza periódica
 
-    /// <summary>Espera cada intervalo y solicita los reintentos hasta el cierre del servidor.</summary>
+    /// <summary>Cada 30 segundos pide al servicio de vídeo que reintente detener sesiones y borrar sus temporales pendientes.</summary>
     protected override async Task ExecuteAsync(
         CancellationToken stoppingToken)
     {
@@ -35,7 +35,8 @@ public sealed class HlsCleanupService : BackgroundService
             {
                 try
                 {
-                    // El servicio mantiene las sesiones pendientes y serializa su limpieza.
+                    // VideoService recuerda qué sesiones quedaron pendientes y coordina sus reintentos.
+                    // Este temporizador solo le pide que vuelva a intentarlo en cada intervalo.
                     await _videoService.RetryPendingCleanupAsync(
                         stoppingToken
                     );
@@ -57,7 +58,8 @@ public sealed class HlsCleanupService : BackgroundService
         catch (OperationCanceledException)
             when (stoppingToken.IsCancellationRequested)
         {
-            // Cierre normal del servidor.
+            // Al cerrar el servidor se cancela la espera del temporizador.
+            // Esa cancelación termina la tarea de fondo de forma normal.
         }
     }
 

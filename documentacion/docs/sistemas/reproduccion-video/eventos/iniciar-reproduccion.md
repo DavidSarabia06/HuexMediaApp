@@ -14,7 +14,7 @@ Sigue los pasos **1 → 11**. La parte inferior muestra los errores, la cancelac
 
 ## 1. El cliente solicita la reproducción
 
-El efecto de reproducción de `VideoPlayer.jsx` depende de `videoPath`, `seekTarget` y `selectedAudio`. `startPlayback` activa los estados de carga, libera la instancia HLS anterior y limpia el origen del elemento de vídeo. Si conserva una sesión anterior, solicita detenerla en segundo plano.
+El efecto de reproducción de `VideoPlayer.tsx` depende de `videoPath`, `seekTarget` y `selectedAudio`. `startPlayback` activa los estados de carga, libera la instancia HLS anterior y limpia el origen del elemento de vídeo. Si conserva una sesión anterior, solicita detenerla en segundo plano.
 
 Envía `POST /api/video/start` con estos parámetros:
 

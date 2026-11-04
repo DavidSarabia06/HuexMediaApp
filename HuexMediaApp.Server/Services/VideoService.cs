@@ -10,8 +10,8 @@ namespace HuexMediaApp.Server.Services;
 /// <summary>Analiza vídeos, extrae subtítulos y administra los procesos y temporales de reproducción HLS.</summary>
 public class VideoService
 {
-    // Margen de transporte para evitar DTS negativos al inicio (AAC y fotogramas B).
-    // Se comunica al cliente y se resta al convertir al tiempo del episodio.
+    // FFmpeg añade este margen a las marcas de tiempo del transporte para evitar valores negativos al inicio.
+    // El cliente recibe el mismo valor y lo resta al calcular el tiempo real dentro del episodio.
     private const double TransportTimestampOffsetSeconds = 10;
 
     private readonly string _ffprobePath;
@@ -21,14 +21,14 @@ public class VideoService
     // Almacena los procesos FFmpeg activos, identificados por sesión.
     private readonly ConcurrentDictionary<string, Process> _activeSessions = new();
 
-    // La marca acompaña al proceso hasta que termina su supervisión.
-    // Las claves débiles evitan conservar procesos que ya no se utilizan.
+    // Recordamos si hemos pedido detener un proceso para distinguir ese cierre de un fallo de FFmpeg.
+    // La tabla usa referencias débiles para no mantener vivos objetos Process que ya dejaron de usarse.
     private readonly System.Runtime.CompilerServices.ConditionalWeakTable<Process, object> _requestedStops = new();
 
-    // Carpetas pendientes de borrar.
+    // Conservamos las carpetas cuyo borrado falló para volver a intentarlo más adelante.
     private readonly ConcurrentDictionary<string, byte> _pendingCleanup = new();
 
-    // Evita ejecutar dos limpiezas simultáneas.
+    // Permite una sola limpieza a la vez, aunque coincidan una salida del reproductor y el temporizador.
     private readonly SemaphoreSlim _cleanupLock = new(1, 1);
     
     #region Construcción
@@ -243,7 +243,7 @@ public class VideoService
         return videoInfo;
     }
 
-    /// <summary>Extrae una pista de subtítulos de texto como WebVTT en memoria; la cancelación detiene FFmpeg.</summary>
+    /// <summary>Ejecuta FFmpeg para convertir la pista elegida a texto WebVTT y devolverla al reproductor.</summary>
     public async Task<string> GetSubtitlesAsync(string path, int trackIndex, CancellationToken cancellationToken)
     {
         VideoInfo info = await GetVideoInfoAsync(path, cancellationToken);
@@ -300,7 +300,8 @@ public class VideoService
             _logger.LogWarning("Error al extraer subtítulos: {Error}", error);
             throw new InvalidOperationException("No se han podido extraer los subtítulos.");
         }
-        // Se devuelve en memoria: no se crean nuevas carpetas temporales.
+        // La salida de FFmpeg se ha recogido como texto en memoria.
+        // Ese contenido WebVTT es el que enviará el controlador al navegador.
         return output;
     }
 
@@ -339,10 +340,10 @@ public class VideoService
             );
         }
 
-        // Genera un identificador único para la sesión.
+        // Cada reproducción tiene un identificador propio para separar su proceso y sus temporales.
         string sessionId = Guid.NewGuid().ToString("N");
 
-        // Crea una carpeta temporal independiente.
+        // Los segmentos y el manifiesto de esta sesión se guardan en su propia carpeta.
         string outputDirectory = Path.Combine(
             Path.GetTempPath(),
             "HuexMedia",
@@ -411,8 +412,8 @@ public class VideoService
                 throw;
             }
 
-            // Lee los errores de FFmpeg en segundo plano
-            // para evitar que se bloquee su búfer de salida.
+            // Leemos los mensajes de error mientras FFmpeg trabaja.
+            // Así su búfer no se llena y el proceso puede seguir generando los segmentos.
             Task<string> errorTask =
                 process.StandardError.ReadToEndAsync();
 
@@ -440,7 +441,8 @@ public class VideoService
                 );
             }
 
-            // La supervisión acompaña al proceso después de responder al reproductor.
+            // El proceso continúa trabajando después de devolver los datos de sesión al cliente.
+            // Esta tarea espera su salida y registra si terminó por solicitud o por un error.
             _ = Task.Run(() => MonitorSessionAsync(sessionId, process, errorTask));
 
             _logger.LogInformation(
@@ -462,8 +464,8 @@ public class VideoService
         }
         catch
         {
-            // La limpieza no utiliza el token cancelado de la petición.
-            // StopHlsAsync conserva los fallos para reintentarlos después.
+            // Aunque se haya cancelado la petición, debemos intentar detener el proceso y retirar sus archivos.
+            // Por eso la limpieza usa un token independiente y conserva los borrados pendientes para reintentarlos.
             await StopHlsAsync(sessionId);
             throw;
         }
@@ -526,7 +528,7 @@ public class VideoService
         string path, double startSeconds, int? audioTrackIndex, VideoInfo videoInfo,
         string outputDirectory, string playlistPath)
     {
-        // Configura FFmpeg.
+        // Ejecutamos FFmpeg sin abrir consola y recogemos sus mensajes de error desde C#.
         ProcessStartInfo startInfo = new()
         {
             FileName = _ffmpegPath,
@@ -546,7 +548,8 @@ public class VideoService
         startInfo.ArgumentList.Add("-readrate");
         startInfo.ArgumentList.Add("1.5");
 
-        // Conserva la línea temporal original incluso al buscar en un fotograma clave.
+        // Conservamos las marcas de tiempo de la entrada y ajustamos su origen con start_at_zero.
+        // Esto permite relacionar los segmentos generados con la línea temporal del episodio.
         startInfo.ArgumentList.Add("-copyts");
         startInfo.ArgumentList.Add("-start_at_zero");
 
@@ -569,12 +572,13 @@ public class VideoService
         startInfo.ArgumentList.Add("-map");
         startInfo.ArgumentList.Add("0:v:0");
 
-        // Selecciona la primera pista de audio si existe.
+        // Usamos la pista de audio elegida por el cliente.
+        // Si no indicó ninguna, intentamos utilizar la primera pista de audio disponible.
         startInfo.ArgumentList.Add("-map");
         startInfo.ArgumentList.Add(audioTrackIndex.HasValue ? $"0:{audioTrackIndex.Value}" : "0:a:0?");
 
-        // Conserva H.264 si es compatible.
-        // En caso contrario, convierte el vídeo.
+        // Si el vídeo ya usa H.264, copiamos sus datos sin recodificarlo.
+        // Para otro códec, FFmpeg lo convierte a H.264 mediante libx264.
         startInfo.ArgumentList.Add("-c:v");
         startInfo.ArgumentList.Add(
             videoInfo.VideoCodec == "h264"
@@ -598,7 +602,8 @@ public class VideoService
         startInfo.ArgumentList.Add("-ac");
         startInfo.ArgumentList.Add("2");
 
-        // Conserva las marcas del episodio y añade el margen de transporte.
+        // Añadimos el margen de transporte de forma explícita en lugar de dejar que FFmpeg
+        // desplace automáticamente las marcas negativas. El cliente conoce este margen para restarlo.
         startInfo.ArgumentList.Add("-avoid_negative_ts");
         startInfo.ArgumentList.Add("disabled");
         startInfo.ArgumentList.Add("-output_ts_offset");
@@ -614,8 +619,8 @@ public class VideoService
         startInfo.ArgumentList.Add("-hls_time");
         startInfo.ArgumentList.Add("4");
 
-        // Mantiene los últimos 20 segmentos
-        // dentro del manifiesto HLS.
+        // El manifiesto anuncia los últimos 20 segmentos generados.
+        // El reproductor utiliza esa lista para saber qué archivos puede descargar.
         startInfo.ArgumentList.Add("-hls_list_size");
         startInfo.ArgumentList.Add("20");
 
@@ -626,8 +631,8 @@ public class VideoService
             "delete_segments+omit_endlist"
         );
 
-        // Conserva algunos segmentos antiguos temporalmente
-        // para permitir descargas que todavía estén pendientes.
+        // Conservamos cinco segmentos adicionales fuera del manifiesto antes de borrarlos.
+        // Esto da margen para terminar descargas que el reproductor ya había solicitado.
         startInfo.ArgumentList.Add("-hls_delete_threshold");
         startInfo.ArgumentList.Add("5");
 
@@ -663,8 +668,8 @@ public class VideoService
                     cancellationToken
                 );
 
-                // No basta con que exista el manifiesto:
-                // debe incluir un segmento que ya se haya generado.
+                // FFmpeg puede crear el manifiesto antes de terminar el primer segmento.
+                // Buscamos un segmento anunciado y comprobamos después que su archivo exista y tenga datos.
                 string? segmentName = playlist
                     .Split('\n')
                     .Select(line => line.Trim())
@@ -709,8 +714,8 @@ public class VideoService
 
             string error = await errorTask;
 
-            // Una detención solicitada por el reproductor
-            // no debe registrarse como fallo de FFmpeg.
+            // Detener FFmpeg desde la aplicación puede producir un código de salida distinto de cero.
+            // Consultamos la marca de parada para no confundir ese caso con un fallo del proceso.
             if (process.ExitCode != 0 &&
                 !_requestedStops.TryGetValue(process, out _))
             {
