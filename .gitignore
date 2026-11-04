@@ -438,3 +438,6 @@ __pycache__/
 
 # Paquetes locales con cliente, servidor y runtimes incluidos.
 distribucion/
+
+# Archivos Photoshop 
+*.psd
