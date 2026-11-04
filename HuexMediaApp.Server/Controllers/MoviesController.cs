@@ -6,51 +6,60 @@ using System.Security;
 
 namespace HuexMediaApp.Server.Controllers
 {
+    /// <summary>Expone la selección de carpeta, el escaneo de películas y sus carátulas locales.</summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
         private readonly MoviesService _moviesService;
+        private readonly WindowsFolderSelectionService _windowsFolderSelectionService;
         private readonly ILogger<MoviesController> _logger;
 
         #region Construcción
 
-        public MoviesController(MoviesService moviesService, ILogger<MoviesController> logger)
+        /// <summary>Recibe el explorador de películas, el selector de carpetas y el registro de errores.</summary>
+        public MoviesController(MoviesService moviesService, WindowsFolderSelectionService windowsFolderSelectionService, ILogger<MoviesController> logger)
         {
             _moviesService = moviesService;
+            _windowsFolderSelectionService = windowsFolderSelectionService;
             _logger = logger;
         }
+
         #endregion
 
         #region Operaciones HTTP
 
-        /// <summary>Abre el selector de Windows y devuelve la ruta; no actualiza la configuración.</summary>
+        /// <summary>Abre el selector de carpetas y devuelve la ruta elegida.</summary>
         [HttpGet("select-folder")]
-        public IActionResult SelectFolder()
+        public Task<IActionResult> SelectFolder()
         {
-            return Execute(() => Ok(_moviesService.SelectFolder()), "No se ha podido seleccionar la carpeta.");
+            return ExecuteAsync(() =>
+            {
+                return Task.FromResult<IActionResult>(Ok(_windowsFolderSelectionService.SelectFolder()));
+            }, "No se ha podido seleccionar la carpeta.");
         }
 
-        /// <summary>Devuelve las películas disponibles con sus URLs de imagen.</summary>
+        /// <summary>Escanea la biblioteca indicada y prepara las URLs de sus carátulas.</summary>
         [HttpGet("scan")]
-        public IActionResult ScanMovies([FromQuery] string path)
+        public Task<IActionResult> ScanMovies([FromQuery] Guid libraryId, CancellationToken cancellationToken)
         {
-            return Execute(() =>
+            return ExecuteAsync(async () =>
             {
-                List<MoviesMediaItem> movies = _moviesService.ScanMovies(path);
-                SetImageUrls(movies);
+                List<MediaItem> movies = await _moviesService.ScanMoviesAsync(libraryId, cancellationToken);
+                SetImageUrls(movies, libraryId);
+
                 return Ok(movies);
             }, "No se han podido escanear las películas.");
         }
 
-
-        /// <summary>Sirve una imagen existente y permitida de la biblioteca configurada.</summary>
+        /// <summary>Sirve una imagen perteneciente a la biblioteca indicada.</summary>
         [HttpGet("image")]
-        public IActionResult GetImage([FromQuery] string path)
+        public Task<IActionResult> GetImage([FromQuery] Guid libraryId, [FromQuery] string path, CancellationToken cancellationToken)
         {
-            return Execute(() =>
+            return ExecuteAsync(async () =>
             {
-                SeriesImageFile? image = _moviesService.GetImage(path);
+                ImageFile? image = await _moviesService.GetImageAsync(libraryId, path, cancellationToken);
+
                 if (image is null)
                 {
                     return NotFound();
@@ -64,50 +73,62 @@ namespace HuexMediaApp.Server.Controllers
 
         #region URLs de imágenes
 
-        /// <summary>Convierte rutas internas a URLs usando el enrutamiento de ASP.NET Core.</summary>
-        private void SetImageUrls(List<MoviesMediaItem> items)
+        /// <summary>Asigna a cada película una URL de imagen vinculada a su biblioteca.</summary>
+        private void SetImageUrls(List<MediaItem> items, Guid libraryId)
         {
-            foreach (MoviesMediaItem item in items)
+            foreach (MediaItem item in items)
             {
-                item.UrlImagen = GetImageUrl(item.ImagePath, item.UrlImagen);
+                item.UrlImagen = GetImageUrl(item.ImagePath, item.UrlImagen, libraryId);
             }
         }
 
-        /// <summary>Usa la imagen predeterminada si no existe una local o no se puede generar su URL.</summary>
-        private string GetImageUrl(string? imagePath, string defaultImage)
+        /// <summary>Genera la URL de la carátula o devuelve la imagen predeterminada.</summary>
+        private string GetImageUrl(string? imagePath, string defaultImage, Guid libraryId)
         {
             if (imagePath is null)
             {
                 return defaultImage;
             }
-            
-            return Url.Action(nameof(GetImage), "Movies", new { path = imagePath }) ?? defaultImage;
+
+            // La petición de imagen lleva el identificador de biblioteca y la ruta.
+            return Url.Action(nameof(GetImage), "Movies", new { libraryId, path = imagePath }) ?? defaultImage;
         }
 
         #endregion
 
         #region Ejecución y respuestas
 
-        /// <summary>Centraliza los errores esperados y conserva el mensaje general de cada operación.</summary>
-        private IActionResult Execute(Func<IActionResult> operation, string errorMessage)
+        /// <summary>Ejecuta la operación y centraliza las respuestas de error.</summary>
+        private async Task<IActionResult> ExecuteAsync(Func<Task<IActionResult>> operation, string errorMessage)
         {
             try
             {
-                return operation();
+                return await operation();
             }
-            catch (ArgumentException ex)
+            catch (OperationCanceledException)
             {
-                return BadRequest(new { error = ex.Message });
+                // ASP.NET Core recibe la cancelación de la petición.
+                throw;
+            }
+            catch (ArgumentException exception)
+            {
+                return BadRequest(new { error = exception.Message });
+            }
+            catch (KeyNotFoundException exception)
+            {
+                return NotFound(new { error = exception.Message });
             }
             catch (SecurityException)
             {
-                // La validación del servicio distingue una ruta externa de un fallo de permisos de disco.
-                return StatusCode(StatusCodes.Status403Forbidden);
+                return StatusCode(StatusCodes.Status403Forbidden, new
+                {
+                    error = "La imagen no pertenece a la biblioteca indicada."
+                });
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                _logger.LogError(ex, "{ErrorMessage}", errorMessage);
-                return StatusCode(500, new { error = errorMessage });
+                _logger.LogError(exception, "{ErrorMessage}", errorMessage);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { error = errorMessage });
             }
         }
 

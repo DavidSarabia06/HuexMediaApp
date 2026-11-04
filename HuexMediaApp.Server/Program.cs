@@ -1,3 +1,4 @@
+using HuexMediaApp.Server.Models.Categories;
 
 using HuexMediaApp.Server.Services;
 using System.Diagnostics;
@@ -13,11 +14,19 @@ if (!builder.Environment.IsDevelopment())
 
 // Registra los servicios de la aplicación.
 builder.Services.AddSingleton<ConfigurationService>();
+builder.Services.AddSingleton<WindowsFolderSelectionService>();
 builder.Services.AddSingleton<SeriesService>();
 builder.Services.AddSingleton<MoviesService>();
-builder.Services.AddSingleton<SeriesCategoryService>();
-builder.Services.AddSingleton<MoviesCategoryService>();
-builder.Services.AddOptions<HuexMediaApp.Server.Models.PlaybackProgressOptions>()
+builder.Services.AddSingleton<JsonFileStoreService>();
+builder.Services.AddSingleton<LibraryService>();
+builder.Services.AddSingleton<CategoryService>();
+
+builder.Services.AddOptions<HuexMediaApp.Server.Models.Categories.MoviesCategoryOptions>()
+    .Bind(builder.Configuration.GetSection("MoviesCategories"))
+    .Validate(settings => settings.MaxDepth >= 1,
+        "MoviesCategories:MaxDepth debe ser un entero mayor o igual a 1.")
+    .ValidateOnStart();
+builder.Services.AddOptions<HuexMediaApp.Server.Models.PlaybackProgress.PlaybackProgressOptions>()
     .Bind(builder.Configuration.GetSection("PlaybackProgress"))
     .Validate(settings => double.IsFinite(settings.WatchedThresholdPercent) &&
         settings.WatchedThresholdPercent > 0 && settings.WatchedThresholdPercent <= 100,

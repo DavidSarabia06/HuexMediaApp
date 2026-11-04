@@ -1,10 +1,11 @@
-using HuexMediaApp.Server.Models;
+using HuexMediaApp.Server.Models.PlaybackProgress;
+using HuexMediaApp.Server.Models.PlaybackProgress.Legacy;
 using HuexMediaApp.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HuexMediaApp.Server.Controllers;
 
-/// <summary>Expone la consulta y los cambios de progreso y centraliza sus respuestas HTTP.</summary>
+/// <summary>Expone el progreso de series y películas por identificador de biblioteca.</summary>
 [ApiController]
 [Route("api/playbackprogress")]
 public sealed class PlaybackProgressController : ControllerBase
@@ -24,62 +25,104 @@ public sealed class PlaybackProgressController : ControllerBase
 
     #region Operaciones HTTP
 
-    /// <summary>Devuelve el progreso completo de la biblioteca indicada en la URL.</summary>
+    /// <summary>Consulta el progreso de la biblioteca indicada.</summary>
     [HttpGet]
-    public Task<IActionResult> Get([FromQuery] string libraryPath, CancellationToken cancellationToken)
+    public Task<IActionResult> Get([FromQuery] Guid libraryId, CancellationToken cancellationToken)
     {
-        return ExecuteAsync(async () => await _service.GetAsync(libraryPath, cancellationToken));
+        return ExecuteAsync(() => _service.GetAsync(libraryId, cancellationToken));
     }
 
-    /// <summary>Guarda una muestra de reproducción recibida en el cuerpo JSON.</summary>
+    /// <summary>Guarda la posición de un vídeo y su estado de finalización.</summary>
     [HttpPost]
-    public Task<IActionResult> Save([FromBody] SavePlaybackProgressRequest request, CancellationToken cancellationToken)
+    public Task<IActionResult> Save([FromQuery] Guid libraryId,
+        [FromBody] SavePlaybackProgressRequest request, CancellationToken cancellationToken)
     {
-        return ExecuteAsync(async () => await _service.SaveAsync(request, cancellationToken));
+        return ExecuteAsync(() => _service.SaveAsync(libraryId, request, cancellationToken));
     }
 
-    /// <summary>Reinicia los episodios vistos y el episodio en curso de una serie.</summary>
+    /// <summary>Reinicia los vistos y el episodio en curso de una serie.</summary>
     [HttpPost("reset")]
-    public Task<IActionResult> Reset([FromBody] ResetSeriesProgressRequest request, CancellationToken cancellationToken)
+    public Task<IActionResult> Reset([FromQuery] Guid libraryId,
+        [FromBody] ResetSeriesProgressRequest request, CancellationToken cancellationToken)
     {
-        return ExecuteAsync(async () => await _service.ResetAsync(request, cancellationToken));
+        return ExecuteAsync(() => _service.ResetAsync(libraryId, request, cancellationToken));
     }
 
-    /// <summary>Marca o desmarca manualmente un episodio como visto.</summary>
+    /// <summary>Cambia el estado visto de una película o un episodio.</summary>
     [HttpPost("watched")]
-    public Task<IActionResult> SetWatched([FromBody] SetEpisodeWatchedRequest request, CancellationToken cancellationToken)
+    public Task<IActionResult> SetWatched([FromQuery] Guid libraryId,
+        [FromBody] SetPlaybackWatchedRequest request, CancellationToken cancellationToken)
     {
-        return ExecuteAsync(async () => await _service.SetWatchedAsync(request, cancellationToken));
+        return ExecuteAsync(() => _service.SetWatchedAsync(libraryId, request, cancellationToken));
+    }
+
+    /// <summary>Oculta una serie de continuar viendo sin reiniciar su progreso.</summary>
+    [HttpPost("hide-series")]
+    public Task<IActionResult> HideSeries([FromQuery] Guid libraryId,
+        [FromBody] ResetSeriesProgressRequest request, CancellationToken cancellationToken)
+    {
+        return ExecuteAsync(async () =>
+        {
+            return await _service.HideSeriesAsync(libraryId, request.SeriesPath, cancellationToken);
+        });
+    }
+
+    /// <summary>Oculta una película de «Continuar viendo» conservando su progreso.</summary>
+    [HttpPost("hide")]
+    public Task<IActionResult> HideMovie([FromQuery] Guid libraryId, [FromBody] HideContinueWatchingRequest request, CancellationToken cancellationToken)
+    {
+        return ExecuteAsync(async () =>
+        {
+            return await _service.HideMovieAsync(
+                libraryId,
+                request.VideoPath,
+                cancellationToken);
+        });
+    }
+    /// <summary>Lista los archivos antiguos disponibles para migración manual.</summary>
+    [HttpGet("legacy")]
+    public Task<IActionResult> GetLegacyProgress(CancellationToken cancellationToken)
+    {
+        return ExecuteAsync(() => _service.GetLegacyProgressAsync(cancellationToken));
+    }
+
+    /// <summary>Importa el progreso elegido a la biblioteca indicada desde Ajustes.</summary>
+    [HttpPost("legacy/migrate")]
+    public Task<IActionResult> MigrateLegacyProgress([FromBody] MigratePlaybackProgressRequest request,
+        CancellationToken cancellationToken)
+    {
+        return ExecuteAsync(() => _service.MigrateLegacyProgressAsync(
+            request.FileName, request.LibraryId, cancellationToken));
     }
 
     #endregion
 
     #region Ejecución y respuestas
 
-    /// <summary>Ejecuta la operación y convierte los fallos esperados de validación y almacenamiento en respuestas.</summary>
-    private async Task<IActionResult> ExecuteAsync(Func<Task<object>> operation)
+    private async Task<IActionResult> ExecuteAsync<T>(Func<Task<T>> operation)
     {
         try
         {
-            // El delegado sitúa la llamada al servicio dentro del try; cada acción conserva su modelo de respuesta.
             return Ok(await operation());
         }
-        catch (ArgumentException ex)
+        catch (ArgumentException exception)
         {
-            return BadRequest(new { error = ex.Message });
+            return BadRequest(new { error = exception.Message });
         }
-        catch (InvalidDataException ex)
+        catch (KeyNotFoundException exception)
         {
-            // Un archivo almacenado incoherente se comunica como un fallo del servidor.
-            _logger.LogError(ex, "No se ha podido leer el progreso de reproducción.");
-            return StatusCode(500, new { error = ex.Message });
+            return NotFound(new { error = exception.Message });
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        catch (InvalidDataException exception)
         {
-            _logger.LogError(ex, "No se ha podido guardar o cargar el progreso de reproducción.");
+            _logger.LogError(exception, "No se ha podido leer el progreso de reproducción.");
+            return StatusCode(500, new { error = exception.Message });
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            _logger.LogError(exception, "No se ha podido guardar o cargar el progreso de reproducción.");
             return StatusCode(500, new { error = "No se ha podido guardar o cargar el progreso. Comprueba los permisos y el espacio disponible." });
         }
-        // La cancelación se propaga a ASP.NET Core para respetar el fin de la petición.
     }
 
     #endregion

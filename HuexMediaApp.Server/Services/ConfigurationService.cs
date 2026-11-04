@@ -10,12 +10,10 @@ namespace HuexMediaApp.Server.Services;
 public class ConfigurationService
 {
     private const string SectionName = "HuexMediaAppSettings";
-    // Se aplica a todos los consumidores, no solo a las solicitudes HTTP.
-    // Los nombres deben coincidir exactamente, incluidas sus mayúsculas.
+    // Estas son las claves que el servicio permite consultar y actualizar.
+    // La comprobación se aplica también a llamadas internas y distingue mayúsculas de minúsculas.
     private static readonly HashSet<string> AllowedKeys =
     [
-        "SeriesLibraryPath",
-        "MoviesLibraryPath",
         "DownloadSeriesPosters",
         "DownloadMoviePosters",
         "DownloadEpisodeThumbnails"
@@ -33,7 +31,7 @@ public class ConfigurationService
 
     #region Operaciones públicas
 
-    /// <summary>Obtiene una clave conservando el JSON o convirtiéndolo al tipo solicitado.</summary>
+    /// <summary>Lee una clave permitida y devuelve su valor como JsonNode o como el tipo solicitado por quien llama.</summary>
     public T Get<T>(string key)
     {
         ValidateKey(key);
@@ -46,7 +44,7 @@ public class ConfigurationService
         return value.GetValue<T>();
     }
 
-    /// <summary>Actualiza una clave existente sin cambiar su tipo JSON ni las otras secciones.</summary>
+    /// <summary>Comprueba la clave y el tipo del nuevo valor, lo sustituye en los ajustes y guarda el documento.</summary>
     public void Update(string key, JsonNode? value)
     {
         ValidateKey(key);
@@ -61,10 +59,10 @@ public class ConfigurationService
         JsonObject settings = root[SectionName]!.AsObject();
         JsonNode? currentValue = settings[key];
 
-        ValidateUpdate(key, currentValue, value);
+        ValidateUpdate(currentValue, value);
 
-        // Un JsonNode solo puede pertenecer a un padre: se inserta una copia
-        // para no modificar ni reutilizar el nodo recibido por el controlador.
+        // Un nodo JSON no puede estar dentro de dos objetos a la vez.
+        // Copiamos el valor recibido antes de añadirlo al documento de configuración.
         settings[key] = value.DeepClone();
         SaveSettingsRoot(settingsPath, root);
     }
@@ -73,12 +71,12 @@ public class ConfigurationService
 
     #region Lectura y escritura
 
-    /// <summary>Devuelve una copia de la clave; una clave ausente o con valor null se rechaza.</summary>
+    /// <summary>Busca la clave en los ajustes y devuelve una copia de su nodo; si falta o vale null, comunica el error.</summary>
     private JsonNode GetNode(string key)
     {
         JsonObject settings = LoadSettings();
         return settings[key]?.DeepClone()
-            ?? throw new KeyNotFoundException($"No se ha encontrado la configuración '{key}'.");
+            ?? throw new KeyNotFoundException("No se ha encontrado la configuración solicitada.");
     }
 
     /// <summary>Lee el archivo y selecciona el objeto HuexMediaAppSettings.</summary>
@@ -92,16 +90,16 @@ public class ConfigurationService
     /// <summary>Lee y convierte el documento completo a un objeto JSON.</summary>
     private static JsonObject ReadSettingsRoot(string settingsPath)
     {
-        // Un archivo ausente, dañado o con estructura distinta provoca un error.
-        // No se crea ni se sustituye por una configuración vacía.
+        // Se espera un documento JSON con la estructura de appsettings.
+        // Si falta o no se puede interpretar, la lectura falla antes de modificar los ajustes.
         return JsonNode.Parse(File.ReadAllText(settingsPath))!.AsObject();
     }
 
     /// <summary>Escribe el documento completo con sangría, conservando sus otras secciones.</summary>
     private static void SaveSettingsRoot(string settingsPath, JsonObject root)
     {
-        // Conserva la escritura directa que utiliza este sistema: no usa un temporal
-        // ni un bloqueo para coordinar actualizaciones simultáneas.
+        // Guardamos el documento completo, incluida cualquier otra sección que contenga.
+        // La sangría facilita leer y editar el archivo después.
         File.WriteAllText(settingsPath, root.ToJsonString(new JsonSerializerOptions
         {
             WriteIndented = true
@@ -127,26 +125,23 @@ public class ConfigurationService
         }
     }
 
-    /// <summary>Exige una clave existente, un tipo compatible y, para series, una carpeta existente.</summary>
-    private static void ValidateUpdate(string key, JsonNode? currentValue, JsonNode newValue)
+    /// <summary>Exige una clave existente y un tipo compatible.</summary>
+    private static void ValidateUpdate(JsonNode? currentValue, JsonNode newValue)
     {
-        // No permite añadir claves ni sustituir una clave cuyo valor almacenado sea null.
+        // La actualización necesita un valor previo para comprobar que el nuevo tiene el mismo tipo.
         if (currentValue is null)
         {
-            throw new KeyNotFoundException($"No se ha encontrado la configuración '{key}'.");
+            throw new KeyNotFoundException("No se ha encontrado la configuración solicitada.");
         }
 
-        // Compara tipos JSON: por ejemplo, true no puede sustituirse por el texto "true".
+        // Comprobamos la familia de tipos JSON: un booleano true no puede sustituirse
+        // por la cadena de texto "true", aunque visualmente se parezcan.
         if (!IsValidValue(currentValue, newValue))
         {
             throw new ArgumentException("El tipo de dato no es válido.");
         }
 
-        // Esta regla adicional solo corresponde a la ubicación de la biblioteca de series.
-        if (key == "SeriesLibraryPath" && !Directory.Exists(newValue.GetValue<string>()))
-        {
-            throw new ArgumentException("La carpeta de series no existe.");
-        }
+
     }
 
     /// <summary>Admite texto, booleanos o números si el nuevo valor conserva la misma familia JSON.</summary>
