@@ -1,17 +1,42 @@
 # playbackProgress
 
-[Frontend](../README.md) · [Sistema de progreso](../../sistemas/progreso-reproduccion/README.md) · [Código JavaScript](../../codigo/PlaybackProgressClient.md)
+[Frontend](../README.md) · [Sistema de progreso](../../sistemas/progreso-reproduccion/README.md) · [Código TypeScript](../../codigo/PlaybackProgressClient.md)
 
-`src/playbackProgress.js` prepara los episodios de «Continuar viendo» y coordina las muestras de reproducción que se envían al servidor. Sus funciones se utilizan desde [Series](../paginas/series.md), [SeriesDetail](../paginas/series-detail.md) y [VideoPlayer](../paginas/video-player.md).
+`src/utils/playbackProgress.ts` prepara las tarjetas de películas y episodios de «Continuar viendo» y coordina las muestras de reproducción que se envían al servidor. Sus funciones se utilizan desde [Movies](../paginas/movies.md), [Series](../paginas/series.md), [SeriesDetail](../paginas/series-detail.md) y [VideoPlayer](../paginas/video-player.md).
 
 ## Organización
 
+El archivo agrupa las funciones con separadores de guiones y títulos centrados. Las funciones interiores del guardador tienen también sus propios bloques.
+
 | Bloque | Funciones | Propósito |
 | --- | --- | --- |
-| Coordinación de guardados | `waitForProgressSaves` | Esperar envíos activos antes de consultar o modificar el progreso. |
-| Funciones auxiliares | `pathKey`, `formatProgressTime`, `readProgressResponse` | Comparar rutas, presentar tiempos y leer respuestas. |
-| Continuar viendo | `loadContinueWatching`, `loadSeriesEpisode`, `compareNames` | Elegir y preparar una tarjeta por serie con un episodio para continuar. |
-| Guardador de progreso | `createProgressSaver`, `drain`, `record`, `flush` | Registrar muestras y enviarlas de forma coordinada. |
+| Coordinación de guardados | `waitForProgressSaves` | Esperar los envíos activos antes de leer o modificar el progreso. |
+| Consultas al servidor | `getLibraryProgress`, `getSeriesEpisodes` | Obtener el documento común y los episodios disponibles. |
+| Acciones sobre el progreso | `hideMovieFromContinueWatching`, `updateSeriesProgress`, `resetSeriesProgress`, `hideSeriesFromContinueWatching`, `setVideoWatched` | Ocultar tarjetas, reiniciar series y cambiar marcas de visto. |
+| Tarjetas de continuar viendo | `buildContinueWatchingMovies`, `buildContinueWatchingSeries` | Relacionar las rutas del progreso con los elementos disponibles y preparar las tarjetas. |
+| Guardador de progreso | `createProgressSaver` | Conservar el estado de las muestras y devolver `record` y `flush`. |
+
+Dentro de `createProgressSaver`, los separadores distinguen **Estado de las muestras**, **Envío de muestras**, **Registro de posición** y **Solicitud de guardado**. Los comentarios interiores anteriores se conservan.
+
+## Datos de entrada y salida
+
+Las firmas TypeScript tipan los parámetros y resultados; los comentarios documentan su propósito, incluidas `loadSeriesEpisode`, `compareNames`, `drain`, `record` y `flush`. Los parámetros `[signal]` son opcionales y reciben un `AbortSignal`.
+
+El bloque **Tipos de progreso** describe los objetos utilizados por las funciones y permite consultar sus campos desde el editor:
+
+| Tipo | Datos |
+| --- | --- |
+| `MediaItem` | Reutiliza `CategoryRowItem`: ruta, nombre, imagen y progreso visual de la tarjeta. |
+| `EpisodePlaybackProgress` | Posición, duración, etiqueta opcional y ruta del episodio. |
+| `SeriesPlaybackProgress` | Carpeta de serie, vistos, episodio en curso, último visto, fecha y ocultación. |
+| `MoviePlaybackProgress` | Ruta de película, posición, duración, visto, fecha y ocultación. |
+| `LibraryPlaybackProgress` | Versión, identificador de biblioteca y listas de series y películas. |
+| `SeriesEpisodes` | Temporadas con su nombre y episodios. |
+| `SeriesContinuationItem` | Tarjeta que incluye la carpeta de su serie. |
+| `ProgressIdentity` | Identificador de biblioteca, ruta de vídeo y carpeta de serie opcional. |
+| `ProgressSaver` | Métodos `record(positionSeconds, durationSeconds)` y `flush()`. |
+
+Las consultas y acciones devuelven promesas de sus modelos. `loadSeriesEpisode` devuelve una tarjeta o `null`; `compareNames`, un número de ordenación. `record` registra la posición en memoria y devuelve `void`; `flush` y `drain` devuelven `Promise<void>`.
 
 ## Coordinación de guardados
 
@@ -21,59 +46,77 @@
 
 Espera con `Promise.allSettled` una copia de las promesas registradas al llamar a la función. La espera termina cuando todas se han resuelto o rechazado. Esto permite que las páginas consulten el progreso después de los intentos de guardado activos.
 
-## Funciones auxiliares
+## Utilidades compartidas
 
-### pathKey(path)
+El módulo importa estas funciones de [generalUtils.ts](general-utils.md).
+
+### normalizePathForComparison(path) — generalUtils.ts
 
 Recibe una ruta y devuelve una clave para compararla: sustituye `/` por `\`, elimina barras finales y convierte el texto a mayúsculas. Se usa al relacionar el historial con las series y los episodios encontrados en disco.
 
-### formatProgressTime(seconds)
+### formatProgressTime(seconds) — generalUtils.ts
 
-Redondea hacia abajo los segundos, con un mínimo de cero. Devuelve `minutos:segundos` o `horas:minutos:segundos`, con dos cifras para segundos y para los minutos cuando hay horas. Por ejemplo, `75` produce `1:15` y `3675` produce `1:01:15`.
+Redondea hacia abajo los segundos, con un mínimo de cero. Para valores no finitos devuelve `0:00`. Devuelve `minutos:segundos` o `horas:minutos:segundos`, con dos cifras para segundos y para los minutos cuando hay horas. Por ejemplo, `75` produce `1:15` y `3675` produce `1:01:15`.
 
-### readProgressResponse(response)
+### readJson(response) — generalUtils.ts
 
-Intenta leer el JSON de una respuesta `fetch`. Si falla la lectura, trata el contenido como nulo. Si el estado HTTP indica un fallo o el contenido es nulo, lanza un error con el mensaje `error` del servidor cuando está disponible. En una respuesta correcta devuelve el objeto leído.
+Intenta leer el JSON de una respuesta `fetch`. Si falla la lectura, trata el contenido como nulo. Si el estado HTTP indica un fallo o el contenido es nulo, lanza un error con el campo `error` o `message` del servidor cuando está disponible. En una respuesta correcta devuelve el objeto leído.
 
-## Continuar viendo
+## Consultas al servidor
 
-### loadContinueWatching(libraryPath, series, signal)
+### getLibraryProgress(libraryId, signal)
 
-Recibe la ruta de biblioteca, las series disponibles y una señal opcional de cancelación. Devuelve una promesa con las tarjetas de continuación.
+Espera `waitForProgressSaves`, comprueba la cancelación y solicita `GET /api/playbackprogress?libraryId=…`. Verifica que el documento corresponda al identificador elegido y que incluya los arrays `movies` y `series`. Devuelve el documento completo.
 
-1. Espera los guardados activos. Si la señal está cancelada, devuelve una lista vacía.
-2. Consulta `GET /api/playbackprogress?libraryPath=...` con esa señal.
-3. Relaciona las series disponibles por su ruta normalizada y filtra el historial que tiene un episodio en curso o referencias a episodios vistos.
-4. Ordena las series por `lastRecordedAtUtc`, de más reciente a más antigua.
-5. Consulta los episodios de cada serie en paralelo mediante `loadSeriesEpisode`.
-6. Conserva las tarjetas con un episodio localizado. `Promise.all` mantiene el orden de las series aunque las consultas terminen en otro orden.
+### getSeriesEpisodes(libraryId, seriesPath, signal)
 
-Los errores de las consultas se propagan a la página que llamó a la función.
+Solicita `GET /api/series/scan-episodes?libraryId=…&path=…` con la señal de cancelación. Devuelve el objeto con sus temporadas y episodios, leído mediante `readJson`.
 
-### loadSeriesEpisode(entry)
+## Acciones sobre el progreso
 
-Es una función interna de `loadContinueWatching`. Consulta `GET /api/series/scan-episodes?path=...` para la serie y ordena copias de las temporadas y los episodios por nombre.
+### hideMovieFromContinueWatching(libraryId, videoPath, signal)
 
-Si existe `inProgress`, busca ese episodio por su ruta. En otro caso, localiza `lastWatchedEpisodePath` y busca el primer episodio pendiente situado después de él. Para historiales anteriores utiliza como alternativa la última ruta de `watchedEpisodePaths`.
+Espera los envíos activos y comprueba la cancelación. Envía `POST /api/playbackprogress/hide?libraryId=…` con `{ videoPath }`. Comprueba el identificador y la lista de películas de la respuesta y devuelve el documento confirmado. El servidor conserva el minuto y la marca de visto.
 
-Devuelve `null` cuando la búsqueda termina sin un episodio. Cuando lo encuentra, conserva sus propiedades y añade:
+### updateSeriesProgress(libraryId, action, body, signal)
 
-| Propiedad | Contenido |
-| --- | --- |
-| `nombre` | Nombre de serie y episodio, separados por `·`. |
-| `seriesPath` | Ruta de la serie. |
-| `nextEpisode` | `true` cuando la tarjeta representa el siguiente pendiente. |
-| `playbackProgress` | Muestra en curso con el texto «Continuar desde…», o posición y duración cero para el siguiente episodio. |
+Es el auxiliar utilizado por las acciones de Series. Espera los guardados activos, comprueba la cancelación y envía `body` como JSON a `POST /api/playbackprogress/{action}?libraryId=…`. Verifica el identificador y el array `series` del resultado y devuelve el documento actualizado.
 
-### compareNames(left, right)
+### resetSeriesProgress(libraryId, seriesPath, signal)
 
-Es una función interna de `loadSeriesEpisode`. Compara nombres con `localeCompare` en español, con comparación numérica e ignorando diferencias de mayúsculas y acentos. Así, los números de temporada o episodio siguen el orden natural.
+Llama a `updateSeriesProgress` con la acción `reset` y `{ seriesPath }`. El servidor reinicia los episodios vistos y el episodio en curso de esa serie.
+
+### hideSeriesFromContinueWatching(libraryId, seriesPath, signal)
+
+Llama al mismo auxiliar con `hide-series` y `{ seriesPath }`. El servidor oculta la tarjeta y conserva el progreso.
+
+### setVideoWatched(libraryId, videoPath, seriesPath, watched, signal)
+
+Utiliza la acción `watched` y envía `{ videoPath, seriesPath, watched }`. La página recibe el documento común y aplica la entrada de la serie actualizada.
+
+## Tarjetas de continuar viendo
+
+### buildContinueWatchingMovies(movies, progress)
+
+Construye un `Map` de las películas disponibles con sus rutas normalizadas. Filtra las entradas pendientes, visibles, con posición positiva y menor que la duración, y con una película presente en ese mapa. Las ordena por `lastRecordedAtUtc`, de más reciente a más antigua.
+
+Devuelve copias de las películas con `playbackProgress`, que contiene posición, duración y la etiqueta `Continuar desde …`.
+
+### buildContinueWatchingSeries(libraryId, series, progress, signal)
+
+Espera los guardados activos. Si la señal ya está cancelada, devuelve una lista vacía. Relaciona las series disponibles con las entradas visibles que tienen un episodio en curso o historial de vistos y las ordena por su última reproducción.
+
+`loadSeriesEpisode(entry)` consulta los episodios mediante `getSeriesEpisodes`. Su función interior `compareNames` utiliza comparación en español con orden numérico para ordenar temporadas y episodios.
+
+Si hay `inProgress`, busca ese episodio. En el resto de casos, localiza el último visto y busca después de él el primer episodio pendiente. El nombre mostrado combina serie y episodio; `nextEpisode` distingue una continuación con minuto de un siguiente episodio que empieza desde cero.
+
+`Promise.all` reúne las tarjetas conservando el orden de las entradas. `filter(Boolean)` retira los resultados `null` de las series que carecen de un episodio candidato.
 
 ## Guardador de progreso
 
 ### createProgressSaver(identity, onError)
 
-Recibe la identidad del episodio (`libraryPath`, `seriesPath` y `episodePath`) y una función para actualizar el aviso de guardado. Devuelve `{ record, flush }`. Cada guardador conserva estas variables en su cierre:
+Recibe la identidad del vídeo (`libraryId`, `videoPath` y `seriesPath` opcional) y una función para actualizar el aviso de guardado. Devuelve `{ record, flush }`. Cada guardador conserva estas variables en su cierre:
 
 | Variable | Contenido |
 | --- | --- |
@@ -95,7 +138,7 @@ Marca `pending` para solicitar una revisión. Si ya hay un ciclo activo, devuelv
 
 ### drain()
 
-Mientras hay trabajo pendiente, retira la marca y toma una referencia a `latest`. Si la muestra existe y su fecha es distinta de `savedAt`, envía `POST /api/playbackprogress` con JSON y `keepalive: true`.
+Mientras hay trabajo pendiente, retira la marca y toma una referencia a `latest`. Si la muestra existe y su fecha es distinta de `savedAt`, envía `POST /api/playbackprogress?libraryId=…` con JSON y `keepalive: true`.
 
 Al confirmar el envío, actualiza `savedAt` y llama a `onError('')`. Si durante la espera se ha llamado otra vez a `flush`, el bucle revisa la última muestra disponible. Las muestras intermedias quedan agrupadas en la más reciente.
 

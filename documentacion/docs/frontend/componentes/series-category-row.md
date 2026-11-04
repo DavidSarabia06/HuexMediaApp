@@ -1,6 +1,6 @@
 # SeriesCategoryRow
 
-[Frontend](../README.md) · [Código JSX](../../codigo/SeriesCategoryRow.md) · [HuexCard](huex-card.md) · [HuexCardMenu](huex-card-menu.md)
+[Frontend](../README.md) · [Código TSX](../../codigo/SeriesCategoryRow.md) · [HuexCard](huex-card.md) · [HuexCardMenu](huex-card-menu.md)
 
 Representa una fila de la biblioteca con título, contador y tarjetas. Se utiliza para las categorías, «Sin categoría» y «Continuar viendo». Cuando hay más elementos que columnas visibles, presenta un carrusel circular que avanza por tandas.
 
@@ -53,11 +53,9 @@ Recibe un valor y la longitud de la lista. Devuelve una posición dentro de esa 
 | `scrollSettleTimerRef` | Temporizador del reajuste tras detener el desplazamiento manual. |
 | `isDropTarget` | Activa el resaltado de la fila al aceptar un arrastre. |
 | `suppressClickUntilRef` | Instante hasta el que se ignora el clic para evitar abrir una tarjeta recién arrastrada. |
-| `categoryMenu` | `null` cuando está cerrado; al abrir contiene el botón de origen y los estilos de posición. |
 | `rowRef` | Elemento desplazable, cuyo `scrollLeft` mueve las tarjetas. |
 | `sectionRef` | Sección completa, utilizada también como destino alternativo del foco. |
-| `categoryMenuRef` | Desplegable de la cabecera para controlar el foco y reconocer eventos interiores. |
-| `rowId` | Identificador generado con `useId` que vincula flechas, fila y menú de cabecera. |
+| `rowId` | Identificador generado con `useId` que vincula las flechas con la fila. |
 
 `canLoop` compara el número de elementos con `layout.columns`, usando provisionalmente una columna hasta medir. `copies` contiene `[0, 1, 2, 3, 4]` en modo circular y `[0]` cuando toda la lista cabe en una tanda.
 
@@ -86,7 +84,7 @@ Esto permite que cambios de altura por hover o carga de imágenes conserven un d
 
 El JSX repite la lista cinco veces. La fila empieza en la copia central para disponer de tarjetas por ambos lados. Cada tarjeta tiene un índice global:
 
-```javascript
+```typescript
 const slot = copy * series.length + index;
 ```
 
@@ -214,38 +212,13 @@ Construye la lista enviada a [HuexCardMenu](huex-card-menu.md), a través de Hue
 - Con `onMoveSeries`, añade «Mover a categoría». Sus hijos incluyen «Sin categoría» y las categorías recibidas. `checked` marca la actual y cada destino distinto llama a `onMoveSeries`.
 - Con `onResetSeries`, añade «Reiniciar serie». Su acción entrega el elemento al padre y utiliza `restoreFocus=false` para que la confirmación controle el foco.
 
-## Menú de categoría
+## Eliminación de categoría
 
-El botón de la cabecera aparece cuando `categoryId` está informado y existe `onDeleteCategory`. Su menú ofrece «Eliminar categoría» y se renderiza mediante un portal en `document.body`.
-
-### Efecto del menú
-
-Depende de `categoryMenu`. Cuando está abierto, enfoca su opción y registra `pointerdown` y `scroll` en el documento, en captura, y `resize` en la ventana. Al cerrar, repetir el efecto o desmontar la fila, elimina esos manejadores.
-
-### dismissOutside
-
-Función interna del efecto. Cierra cuando el objetivo pulsado está fuera tanto del desplegable como del botón que lo abrió.
-
-### dismissOnScroll
-
-Función interna del efecto. Cierra ante un cambio de tamaño o un scroll exterior. Permite el desplazamiento dentro del menú.
-
-### toggleCategoryMenu
-
-Alterna la apertura al pulsar el botón. Al abrir, guarda el botón como `anchor`, copia su acento y calcula un ancho máximo de 260 px. Elige la zona inferior o superior según el espacio, limita la altura hasta 340 px y guarda los estilos usados por el desplegable con posición fija.
-
-### closeCategoryMenu
-
-Cierra el desplegable. Con `restoreFocus=true`, solicita un fotograma para devolver el foco a su botón si continúa conectado al DOM; si falta, utiliza la sección. `preventScroll` conserva el desplazamiento.
-
-### handleCategoryMenuKeyDown
-
-`Escape` y `Tab` cierran y devuelven el foco. Las flechas verticales recorren las opciones, con retorno al otro extremo mediante `modulo`. `Home` y `End` seleccionan la primera y la última.
+La cabecera muestra una papelera roja junto al contador cuando `categoryId` está informado y existe `onDeleteCategory`. Aparece al pasar el ratón por la fila o usar el teclado.
 
 ### handleDeleteCategory
 
-Llama a `closeCategoryMenu(false)` y después a `onDeleteCategory({ id: categoryId, name: title })`. El padre abre la confirmación y controla el borrado.
-
+Llama a `onDeleteCategory({ id: categoryId, name: title })`. La página abre la confirmación y controla el borrado.
 ## Estilos y resoluciones
 
 Las reglas de la fila están en `HuexStyles.css`; las tarjetas utilizan [HuexCard.css](../../codigo/HuexCardStyles.md).
@@ -261,7 +234,7 @@ El CSS define `--series-columns`, `--series-gap` y `--series-peek`. En el modo c
 
 ## Ejemplo de uso
 
-```jsx
+```tsx
 <SeriesCategoryRow
     title={category.name}
     series={categorySeries}

@@ -1,8 +1,8 @@
 # Home
 
-[Frontend](../README.md) · [App y rutas](../app.md) · [Código JSX](../../codigo/Home.md)
+[Frontend](../README.md) · [App y rutas](../app.md) · [Código TSX](../../codigo/Home.md)
 
-`src/Home.jsx` presenta la biblioteca principal en la ruta `/`. Muestra el título «Mi biblioteca», una descripción y tres tarjetas para acceder a películas, series y música.
+`src/pages/Home.tsx` presenta la biblioteca principal en la ruta `/`. Muestra el título «Mi biblioteca», una descripción y tres tarjetas para acceder a películas, series y música.
 
 ## Organización
 
@@ -55,4 +55,4 @@ La representación de la imagen y del título corresponde a [HuexCard](../compon
 
 Las reglas compartidas están en `src/css/HuexStyles.css` y los estilos de tarjeta en `src/css/HuexCard.css`. Las reglas de la cuadrícula adaptan las columnas al ancho de pantalla; las reglas de los temas de Home aplican los colores de interacción de películas, series y música.
 
-MkDocs genera el código de referencia desde `Home.jsx` y observa el archivo durante la consulta local para reflejar sus cambios.
+MkDocs genera el código de referencia desde `Home.tsx` y observa el archivo durante la consulta local para reflejar sus cambios.

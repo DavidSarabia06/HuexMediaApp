@@ -1,17 +1,40 @@
 # subtitles
 
-[Frontend](../README.md) · [VideoPlayer](../paginas/video-player.md) · [Código JavaScript](../../codigo/Subtitles.md)
+[Frontend](../README.md) · [VideoPlayer](../paginas/video-player.md) · [Código TypeScript](../../codigo/Subtitles.md)
 
-`src/subtitles.js` interpreta el WebVTT devuelto por el servidor, obtiene el texto correspondiente a un instante y prepara las etiquetas de las pistas de audio y subtítulos del reproductor.
+`src/utils/subtitles.ts` interpreta el WebVTT devuelto por el servidor, obtiene el texto correspondiente a un instante y prepara las etiquetas de las pistas de audio y subtítulos del reproductor.
 
 ## Organización
 
 | Bloque | Funciones | Responsabilidad |
 | --- | --- | --- |
+| Tipos de subtítulos | `SubtitleCue`, `MediaTrack` | Describir las intervenciones y pistas para los parámetros y resultados. |
 | Conversión de tiempos | `timestamp` | Convertir marcas temporales a segundos. |
 | Lectura de subtítulos | `parseSubtitles`, `parseBlock` | Construir las intervenciones de texto. |
 | Texto activo en pantalla | `subtitleAt` | Seleccionar las intervenciones activas. |
 | Etiquetas de pistas | `trackLabel` | Presentar número, idioma y datos de cada pista. |
+
+Los separadores de guiones utilizan el título centrado. Los comentarios existentes se conservan y cada función, incluida la interna `parseBlock`, tiene parámetros y retorno tipados en su firma TypeScript.
+
+## Tipos de subtítulos
+
+### SubtitleCue
+
+Representa una intervención con `start` y `end`, números en segundos, y `text`, el texto plano. `parseSubtitles` produce `SubtitleCue[]` y `subtitleAt` recibe esa misma lista.
+
+### MediaTrack
+
+Describe una pista recibida del servidor con `index`, `language`, `title`, `codec`, `isDefault`, `isForced` e `isSupported`. `trackLabel` utiliza su idioma, título y marca de forzados junto con la posición que recibe como segundo parámetro.
+
+## Parámetros y retornos
+
+| Función | Entradas | Resultado |
+| --- | --- | --- |
+| `timestamp` | `value: string`, marca temporal. | `number`, con `NaN` para una marca no admitida. |
+| `parseSubtitles` | `vtt: string`, archivo WebVTT completo. | `SubtitleCue[]`, intervenciones válidas. |
+| `parseBlock` | `block: string`, bloque del archivo. | `SubtitleCue[]`, con una intervención o vacío. |
+| `subtitleAt` | `cues: SubtitleCue[]` y `time: number`, tiempo en segundos. | `string`, texto activo o cadena vacía. |
+| `trackLabel` | `track: MediaTrack` y `position: number`, índice del selector desde cero. | `string`, etiqueta visible de la pista. |
 
 ## timestamp(value)
 
@@ -71,4 +94,4 @@ Por ejemplo, una pista con idioma `spa`, título `Castellano`, marca de forzados
 
 La relación entre el tiempo del episodio y el de la sesión HLS se explica en [Sincronización de tiempos](../../sistemas/reproduccion-video/sincronizacion.md). El recorrido de carga está documentado en [Cargar y mostrar subtítulos](../../sistemas/reproduccion-video/eventos/subtitulos.md).
 
-MkDocs genera el código de referencia desde `subtitles.js` y observa el archivo durante la consulta local para reflejar sus cambios.
+MkDocs genera el código de referencia desde `subtitles.ts` y observa el archivo durante la consulta local para reflejar sus cambios.

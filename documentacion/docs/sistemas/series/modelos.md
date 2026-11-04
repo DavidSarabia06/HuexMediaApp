@@ -1,12 +1,12 @@
 # Modelos de exploración de series
 
-[Sistema Series](README.md) · [Código de los modelos](../../codigo/SeriesLibrary.md)
+[Sistema Series](README.md) · [Código de los modelos](../../codigo/MediaItem.md)
 
-Los modelos de `SeriesLibrary.cs` representan resultados de exploración, selección e imágenes. ASP.NET Core serializa las propiedades de respuesta con los mismos nombres camelCase que utiliza React.
+Los modelos de `MediaItem.cs` representan resultados de exploración, selección e imágenes. ASP.NET Core serializa las propiedades de respuesta con los mismos nombres camelCase que utiliza React.
 
 ## Exploración de la biblioteca
 
-### SeriesMediaItem
+### MediaItem
 
 Representa una tarjeta de serie o episodio.
 
@@ -24,7 +24,7 @@ El servicio asigna la imagen predeterminada y, si encuentra una local, su `Image
 | Propiedad | Tipo | Valor inicial | Uso |
 | --- | --- | --- | --- |
 | `NombreTemporada` | `string` | Cadena vacía | Nombre del grupo. JSON: `nombreTemporada`. |
-| `Episodios` | `List<SeriesMediaItem>` | Lista vacía | Episodios ordenados por nombre. JSON: `episodios`. |
+| `Episodios` | `List<MediaItem>` | Lista vacía | Episodios ordenados por nombre. JSON: `episodios`. |
 
 ### SeriesEpisodesResponse
 
@@ -32,14 +32,14 @@ Contiene `List<SeriesSeason> Temporadas`, inicializada vacía. La respuesta mant
 
 ## Selección de carpeta
 
-### SeriesFolderSelection
+### FolderSelection
 
 Contiene `string Ruta`, inicialmente vacía. El selector asigna la carpeta elegida. Cancelar produce HTTP 200 con `{ "ruta": "" }`.
 
 ## Imágenes locales
 
-### SeriesImageFile
+### ImageFile
 
 Contiene `string FullPath` y `string ContentType`, inicialmente vacías. Es un descriptor interno de una imagen validada. El controlador usa esos datos para crear `PhysicalFileResult` y enviar el archivo.
 
-`SeriesService.GetImage` devuelve este descriptor si la imagen está permitida y existe, o `null` si falta el archivo.
+`SeriesService.GetImageAsync` devuelve este descriptor si la imagen está permitida y existe, o `null` si falta el archivo.

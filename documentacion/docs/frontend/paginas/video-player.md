@@ -1,8 +1,8 @@
 # VideoPlayer
 
-[Frontend](../README.md) · [Código JSX](../../codigo/VideoPlayer.md) · [Estilos CSS](../../codigo/VideoPlayerStyles.md) · [Sistema de vídeo](../../sistemas/reproduccion-video/README.md)
+[Frontend](../README.md) · [Código TSX](../../codigo/VideoPlayer.md) · [Estilos CSS](../../codigo/VideoPlayerStyles.md) · [Sistema de vídeo](../../sistemas/reproduccion-video/README.md)
 
-`VideoPlayer.jsx` representa `/player`. Conecta el elemento HTML `video` con una sesión HLS del servidor y coordina los controles, el audio, los subtítulos y el guardado del progreso.
+`VideoPlayer.tsx` representa `/player`. Conecta el elemento HTML `video` con una sesión HLS del servidor y coordina los controles, el audio, los subtítulos y el guardado del progreso.
 
 Las funciones están agrupadas por los separadores del código: volumen, progreso, controles, información, subtítulos, sesión HLS, reproducción, búsqueda, audio y navegación.
 
@@ -13,7 +13,7 @@ La página lee el estado de navegación mediante `useLocation`:
 | Dato | Uso |
 | --- | --- |
 | `episode` | Elemento con `rutaCompleta` y `nombre`. |
-| `libraryPath` | Biblioteca asociada al progreso. |
+| `libraryId` | Identificador de la biblioteca asociada al progreso. |
 | `seriesPath` | Serie asociada al progreso y destino del botón de volver. |
 | `startSeconds` | Posición inicial solicitada; se utiliza cero si falta y se limita a un valor no negativo. |
 
@@ -38,9 +38,9 @@ La página lee el estado de navegación mediante `useLocation`:
 
 ## Funciones auxiliares
 
-### formatTime y pad
+### formatProgressTime — generalUtils.ts
 
-`formatTime` convierte segundos finitos a `mm:ss` o `hh:mm:ss`, redondeando hacia abajo y limitando los negativos a cero. Para un valor no finito devuelve `00:00`. Su función interna `pad` completa cada parte del reloj con dos dígitos.
+El reproductor importa `formatProgressTime` de `utils/generalUtils.ts` para presentar el tiempo actual, la duración, los textos accesibles y la posición inicial de sesión. Comparte el formato `minutos:segundos` o `horas:minutos:segundos` con las tarjetas y diálogos de progreso. La función redondea hacia abajo, limita los negativos a cero y presenta `0:00` para valores no finitos.
 
 ### stopSession
 
@@ -81,7 +81,7 @@ Utiliza dependencias vacías. Su limpieza al desmontar cancela el aviso temporal
 
 ### Efecto del guardador
 
-Depende de `libraryPath`, `seriesPath` y `videoPath`. Con esa identidad completa crea un guardador mediante `createProgressSaver`, lo conserva en `progressSaverRef` y programa un envío cada 10 segundos.
+Depende de `libraryId`, `seriesPath`, `videoPath` e `isMovie`. Con esa identidad completa crea un guardador mediante `createProgressSaver`, lo conserva en `progressSaverRef` y programa un envío cada 10 segundos.
 
 Sus funciones internas son:
 
@@ -173,7 +173,7 @@ Solo reproduce si la ejecución sigue vigente y `playAfterSeekRef` solicita repr
 
 La posición local del vídeo se transforma en la posición del episodio:
 
-```javascript
+```typescript
 const globalTime = startOffsetRef.current + video.currentTime;
 ```
 

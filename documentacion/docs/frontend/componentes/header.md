@@ -1,8 +1,10 @@
 # Header
 
-[Frontend](../README.md) · [Código JSX](../../codigo/Header.md) · [Estilos CSS](../../codigo/HeaderStyles.md)
+[Frontend](../README.md) · [Código TSX](../../codigo/Header.md) · [Estilos CSS](../../codigo/HeaderStyles.md)
 
-`src/Header.jsx` muestra la cabecera de la aplicación: el icono y nombre de HUEX MEDIA APP, un botón de pantalla completa y los enlaces de navegación. Utiliza `Link` de React Router y carga sus estilos desde `src/css/Header.css`.
+`src/components/Header.tsx` muestra la cabecera de la aplicación: el icono y nombre de HUEX MEDIA APP, un botón de pantalla completa y los enlaces de navegación. Utiliza `Link` de React Router y carga sus estilos desde `src/css/Header.css`.
+
+En `/series` y `/movies`, la zona central incluye también el [slider de tamaño de carátulas](library-density.md). Header recibe `seriesView` y `moviesView` desde App y utiliza `useLocation` para seleccionar la preferencia de la página actual. El slider y pantalla completa se agrupan con una separación vertical. En pantallas de hasta 900 píxeles, la marca ocupa la primera fila. El slider y pantalla completa se alinean a la izquierda de la segunda fila, mientras los enlaces de navegación quedan a la derecha.
 
 ## Organización
 
@@ -64,7 +66,7 @@ F11 controla el modo de pantalla completa propio del navegador. La lectura del c
 
 La cabecera usa una cuadrícula de tres columnas: marca a la izquierda, pantalla completa en el centro y enlaces a la derecha. `position: sticky`, `top: 0` y `z-index: 100` mantienen su posición superior dentro de su contenedor de desplazamiento.
 
-Hasta 900 píxeles, la cuadrícula pasa a dos columnas y los enlaces ocupan una segunda fila centrada. Las reglas adaptables definen estas variables:
+Hasta 900 píxeles, la cuadrícula pasa a dos columnas: los controles de tamaño y pantalla completa ocupan la primera y los enlaces la segunda, compartiendo una fila debajo de la marca, con los controles a la izquierda y los enlaces a la derecha. Las reglas adaptables definen estas variables:
 
 | Variable | Controla |
 | --- | --- |

@@ -1,51 +1,39 @@
-# Movies: categorías y subcategorías
+# Movies
 
-[Frontend](../README.md) · [Código JSX](../../codigo/MoviesPage.md)
+[Código TSX](../../codigo/MoviesPage.md) · [Sistema de películas](../../sistemas/peliculas/README.md)
 
-`Movies.jsx` presenta las películas de la biblioteca configurada en `MoviesLibraryPath` y su organización en categorías y subcategorías.
+`Movies.tsx` permite seleccionar una biblioteca guardada y muestra sus categorías, subcategorías y carátulas. Utiliza el hook común para gestionar las bibliotecas.
 
-## Crear una categoría
+## Propiedades y estados
 
-El botón «Nueva Categoria» llama a `openCreateCategoryDialog()` y abre el formulario compartido. `subcategoryParent` queda en `null`, indicando que se creará una categoría principal.
+`moviesList` y `setMoviesList` comparten las películas con App. `densityStyle` aplica el tamaño elegido en el header. La página conserva progreso y estados de reproducción. [useCategories](../hooks/use-categories.md) gestiona las categorías y sus acciones. [useLibraries](../hooks/use-libraries.md) mantiene el listado, selección y formularios de bibliotecas.
 
-`handleCategoryNameChange` actualiza el nombre y limpia el error del formulario. Al enviar, `handleCreateCategory` recorta el nombre, comprueba su longitud y solicita `POST /api/MoviesCategory` con `libraryPath` y `categoryName`.
+## Carga inicial
 
-El controlador delega en `MoviesCategoryService.CreateCategoryAsync`. El servicio comprueba el nombre, su unicidad en la biblioteca y la ruta de biblioteca, genera un identificador y guarda la lista completa.
+`resetMovieLibrary` limpia películas, progreso y errores de continuación. `applyLoadedLibrary` recibe el contenido y progreso consultados por el hook y los aplica a los estados.
 
-## Crear una subcategoría
+Movies estabiliza ambos callbacks con `useCallback` y los pasa al hook. Este consulta el listado y carga la biblioteca recordada o la única disponible. Consulta contenido y progreso en paralelo, los entrega al callback y guarda la selección y su identificador recordado.
 
-Cada categoría ofrece «Nueva subcategoría en…». Abre el mismo diálogo pasando la categoría a `openCreateCategoryDialog(category)`.
+Movies dibuja el selector y los diálogos utilizando las acciones del hook para seleccionar carpeta, crear, seleccionar, renombrar y eliminar bibliotecas. El hook cancela las peticiones al salir y comparte el controlador con las operaciones de categorías.
 
-El formulario adapta el título y la descripción al destino. Al enviarlo, `handleCreateCategory` solicita `POST /api/MoviesCategory/subcategories` con `libraryPath`, `categoryId` y `subcategoryName`.
+## Datos de visualización
 
-`MoviesCategoryController.CreateSubcategory` delega en `MoviesCategoryService.CreateSubcategoryAsync`. El servicio exige una categoría existente, un nombre de entre 1 y 80 caracteres y un nombre único dentro de esa categoría, ignorando mayúsculas. «Sin subcategoría» es un nombre reservado.
+Las funciones se reparten entre [generalUtils.ts](../../codigo/GeneralUtils.md), con `readJson` y `normalizePathForComparison`, y [categoryUtils.ts](../../codigo/CategoryUtils.md), con las operaciones de categorías. `getCategoryItems(moviesList, paths)` y `countCategoryItems(moviesList, group)` reciben la lista de películas como argumento. `useCategories` obtiene las categorías de la biblioteca seleccionada y calcula destinos y elementos sin categoría. `Movies.tsx` conserva el selector y el dibujado. Las categorías comunes utilizan `itemPaths` y `subcategories`.
 
-## Guardado y respuesta
+- `normalizePathForComparison` unifica barras, quita las finales y convierte la ruta a mayúsculas.
+- `collectItemPaths` reúne las rutas directas y las de los grupos hijos mediante recursión. `flatMap` une las listas de rutas y `concat` las incorpora al resultado.
+- `getCategoryItems` relaciona las rutas guardadas con las películas disponibles del escaneo.
+- `countCategoryItems` calcula el total de una rama completa.
+- `assignedPaths` reúne las asignaciones y `uncategorizedMovies` obtiene las películas de «Sin categoría».
 
-Ambas operaciones utilizan el bloqueo compartido del servicio para coordinar la lectura y la escritura. Publican el JSON mediante el archivo temporal y el reemplazo existentes en `MoviesCategoryData.json`.
+## Dibujo de la página
 
-El servidor devuelve la lista completa de categorías. El cliente aplica esa respuesta con `setCategories` y cierra el diálogo. En caso de error, conserva el formulario y muestra el mensaje para corregirlo o reintentar. `busyRef` bloquea solicitudes simultáneas y `handleDialogCancel` evita cerrar con Escape mientras se guarda.
+`renderGroups(group, depth)` dibuja cada grupo completo: título, contador total, películas directas y grupos hijos. La página inicia el dibujo con `categories.map(category => renderGroups(category, 1))` cuando hay una biblioteca seleccionada; cada grupo llama a la misma función con sus hijos y `depth + 1`. El nivel 1 utiliza el contenedor de categoría principal y los siguientes los estilos de subcategoría. El fragmento `content` reúne carrusel e hijos; las categorías lo colocan dentro de `movies-category-group-content` y las subcategorías directamente en su sección. Los padres conservan sus películas directas encima de sus subcategorías.
 
-## Visualización
+`SeriesCategoryRow` aporta los carruseles y utiliza `HuexCard` para dibujar las carátulas. La página aplica los estilos existentes de categorías y niveles, y el selector del header mantiene el control del tamaño de las carátulas.
 
-Una categoría sin subcategorías muestra sus películas directamente bajo su título, utilizando `moviesPaths`, y el contador de películas disponibles aparece junto al nombre de la categoría. El carrusel recibe `showHeader={false}` porque el contenedor ya presenta el nombre de la categoría. Cuando existen subcategorías, el contenedor muestra sus carruseles, cada uno con su nombre, contador y sus `moviesPaths`. `getSubcategoryMovies` relaciona cada lista de rutas con las películas escaneadas.
+## Limpieza de los archivos guardados
 
-Al crear la primera subcategoría, el servicio mueve las películas directas a ella y vacía `moviesPaths` de la categoría en el mismo guardado. Si un documento anterior contiene películas directas junto a subcategorías, al cargarlo se trasladan a la primera subcategoría y se guarda la organización resultante.
+Las consultas de bibliotecas limpian las asignaciones de categorías cuyos elementos ya no existen. La consulta de progreso limpia las referencias ausentes antes de preparar las tarjetas. Estas operaciones se realizan en el servidor y publican el JSON solo si hay cambios.
 
-La fila «Sin categoría» permanece fuera de los contenedores y muestra las películas cuya ruta está fuera de todas las asignaciones. Los documentos guardados antes de añadir las asignaciones directas reciben una lista `moviesPaths` vacía al deserializarse; conservan sus subcategorías y sus asignaciones.
-
-## Mover películas
-
-El menú «Mover a categoría» ofrece «Sin categoría», las categorías que aún carecen de subcategorías y los destinos «Categoría · Subcategoría» de las demás. Cada fila permite también arrastrar una película a su destino. Cuando una categoría tiene subcategorías, el servicio exige seleccionar una de ellas.
-
-El cliente reutiliza los destinos de `SeriesCategoryRow` y los traduce a `categoryId` y `subcategoryId` en `POST /api/MoviesCategory/move`, junto con `libraryPath` y `moviePath`:
-
-| Destino | categoryId | subcategoryId |
-| --- | --- | --- |
-| Sin categoría | `null` | `null` |
-| Directamente en una categoría | Id de categoría | `null` |
-| Dentro de una subcategoría | Id de categoría | Id de subcategoría |
-
-El servicio comprueba que el vídeo existe dentro de la biblioteca, incluidas sus subcarpetas, y que la subcategoría pertenece a la categoría seleccionada. Retira la asignación anterior de todas las listas y guarda el nuevo destino. La lectura del JSON comprueba la unicidad entre asignaciones directas y subcategorías.
-
-Las filas reutilizan `SeriesCategoryRow` y el formulario utiliza los estilos existentes de `category-dialog` y `action-btn`. Las reglas `movies-category-group` de `HuexStyles.css` delimitan el contenedor de categoría y separan su cabecera de las filas interiores.
+Los grupos vacíos y el progreso de los archivos disponibles se conservan. Si la raíz no está accesible o falla el recorrido del disco, se mantienen las referencias guardadas.

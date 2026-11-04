@@ -1,6 +1,6 @@
 # HuexCardMenu
 
-[Frontend](../README.md) · [Código JSX](../../codigo/HuexCardMenu.md) · [Tarjeta HuexCard](huex-card.md)
+[Frontend](../README.md) · [Código TSX](../../codigo/HuexCardMenu.md) · [Tarjeta HuexCard](huex-card.md)
 
 Muestra los tres puntos de una tarjeta y las acciones que proporciona su componente padre. `HuexCard` lo incorpora cuando recibe una lista `menuItems` con opciones. Los episodios de `SeriesDetail` proporcionan la acción de visto/no visto. `SeriesCategoryRow` proporciona mover a categoría y reiniciar serie.
 
@@ -13,7 +13,7 @@ Muestra los tres puntos de una tarjeta y las acciones que proporciona su compone
 | `title` | Texto opcional | Encabezado del menú principal. Su valor predeterminado es una cadena vacía. |
 | `disabled` | Booleano opcional | Deshabilita tanto el botón de opciones como la acción del menú. |
 
-`HuexCardMenuProps` y `HuexCardMenuItem` declaran las propiedades con JSDoc. El componente recibe `props` y desestructura sus valores dentro de la función. `disabled` tiene como valor predeterminado `false`.
+`HuexCardMenuProps` y `HuexCardMenuItem` declaran las propiedades con interfaces TypeScript. El componente recibe `props` y desestructura sus valores dentro de la función. `disabled` tiene como valor predeterminado `false`.
 
 ### Datos de cada opción
 
@@ -146,7 +146,7 @@ Atiende `dragstart` del botón de tres puntos. Cancela el arrastre con `preventD
 
 ## Ejemplo de uso
 
-```jsx
+```tsx
 <HuexCardMenu
     name={episode.nombre}
     menuItems={[{

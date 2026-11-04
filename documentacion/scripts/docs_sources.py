@@ -11,7 +11,7 @@ def on_files(files, config):
     # conservar una lista antigua en el módulo Python cargado al arrancar.
     for name, relative_path in config["extra"]["source_files"].items():
         source = (root / relative_path).read_text(encoding="utf-8-sig")
-        language = {".cs": "csharp", ".jsx": "jsx", ".js": "javascript", ".css": "css"}.get(
+        language = {".cs": "csharp", ".jsx": "jsx", ".js": "javascript", ".css": "css", ".ts": "typescript", ".tsx": "tsx"}.get(
             Path(relative_path).suffix.lower(), "text"
         )
         content = (

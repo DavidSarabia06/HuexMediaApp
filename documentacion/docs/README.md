@@ -4,7 +4,8 @@ La documentación se organiza por sistemas del servidor y componentes del fronte
 
 ## Sistemas
 
-- [Categorías de series](sistemas/categorias-series/README.md): organización de series, asignaciones y persistencia por biblioteca.
+- [Películas](sistemas/peliculas/README.md): exploración, carátulas y categorías anidadas con profundidad configurable.
+- [Categorías de bibliotecas](sistemas/categorias/README.md): organización de series, asignaciones y persistencia por biblioteca.
 - [Configuración](sistemas/configuracion/README.md): consulta y actualización de los ajustes de la aplicación.
 - [Exploración de series](sistemas/series/README.md): selección de carpetas, series, episodios e imágenes locales.
 - [Reproducción de vídeo](sistemas/reproduccion-video/README.md): análisis, audio, subtítulos, sesiones HLS y limpieza de temporales.

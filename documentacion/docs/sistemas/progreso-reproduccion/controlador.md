@@ -1,51 +1,22 @@
 # PlaybackProgressController
 
-[Visión general](README.md) · [Código fuente](../../codigo/PlaybackProgressController.md)
+[Sistema](README.md) · [Código fuente](../../codigo/PlaybackProgressController.md)
 
-Expone `/api/playbackprogress`. El servicio realiza las validaciones y el almacenamiento; el controlador delega las operaciones y centraliza sus respuestas HTTP.
+Las operaciones de reproducción reciben `libraryId` en la consulta y devuelve HTTP 200 con el documento común `LibraryPlaybackProgress`. Los cuerpos JSON se vinculan directamente a modelos tipados de ASP.NET Core.
 
-## Construcción
+| Método y ruta | Modelo recibido | Servicio |
+| --- | --- | --- |
+| `GET /api/playbackprogress?libraryId=…` | Identificador de biblioteca. | `GetAsync`. |
+| `POST /api/playbackprogress?libraryId=…` | `SavePlaybackProgressRequest`. | `SaveAsync`. |
+| `POST /api/playbackprogress/reset?libraryId=…` | `ResetSeriesProgressRequest`. | `ResetAsync`. |
+| `POST /api/playbackprogress/watched?libraryId=…` | `SetPlaybackWatchedRequest`. | `SetWatchedAsync`. |
+| `POST /api/playbackprogress/hide-series?libraryId=…` | `ResetSeriesProgressRequest`, con `SeriesPath`. | `HideSeriesAsync`. |
+| `POST /api/playbackprogress/hide?libraryId=…` | `HideContinueWatchingRequest`, con `VideoPath`. | `HideMovieAsync`. |
 
-Recibe `PlaybackProgressService` y `ILogger<PlaybackProgressController>`. Cada acción pasa su token de cancelación al servicio.
+## Migración desde Ajustes
 
-## Operaciones HTTP
+`GET /api/playbackprogress/legacy` llama a `GetLegacyProgressAsync` y devuelve los archivos antiguos con sus contadores.
 
-### Get
+`POST /api/playbackprogress/legacy/migrate` recibe `MigratePlaybackProgressRequest`, con `FileName` y `LibraryId`. Llama a `MigrateLegacyProgressAsync` y devuelve el documento común importado.
 
-`GET /api/playbackprogress?libraryPath=...`
-
-Llama a `GetAsync` y devuelve HTTP 200 con `PlaybackProgressLibrary`, que contiene la biblioteca y las entradas de sus series.
-
-### Save
-
-`POST /api/playbackprogress`
-
-Recibe un `SavePlaybackProgressRequest` en JSON y llama a `SaveAsync`. Devuelve HTTP 200 con el `SeriesPlaybackProgress` resultante. Una muestra atrasada devuelve el estado conservado de la serie.
-
-### Reset
-
-`POST /api/playbackprogress/reset`
-
-Recibe `ResetSeriesProgressRequest` con biblioteca y serie. Llama a `ResetAsync` y devuelve el progreso reiniciado de esa serie.
-
-### SetWatched
-
-`POST /api/playbackprogress/watched`
-
-Recibe `SetEpisodeWatchedRequest` con biblioteca, serie, episodio y `watched`. Llama a `SetWatchedAsync` y devuelve el progreso actualizado de la serie.
-
-## Ejecución y respuestas
-
-### ExecuteAsync
-
-Recibe `Func<Task<object>>` para admitir los modelos de respuesta de las distintas acciones. El delegado sitúa la llamada al servicio dentro del `try`. Una operación correcta se devuelve mediante `Ok(...)`.
-
-| Resultado | Tratamiento |
-| --- | --- |
-| Operación correcta | HTTP 200 con su modelo. |
-| `ArgumentException` | HTTP 400 con `error` y el motivo. |
-| `InvalidDataException` | HTTP 500 con `error` del archivo y registro técnico. |
-| `IOException` o `UnauthorizedAccessException` | HTTP 500 con mensaje de almacenamiento y registro técnico. |
-| Cancelación | Se propaga a ASP.NET Core. |
-
-Los atributos `[ApiController]`, `[FromQuery]` y `[FromBody]` intervienen en la vinculación de los parámetros HTTP y los cuerpos de solicitud.
+`ExecuteAsync<T>` ejecuta el delegado dentro del `try` y espera el resultado. Los argumentos inválidos producen 400; una biblioteca o entrada inexistente produce 404. Los documentos inválidos y los fallos de almacenamiento se registran y producen 500. La cancelación se propaga a ASP.NET Core.

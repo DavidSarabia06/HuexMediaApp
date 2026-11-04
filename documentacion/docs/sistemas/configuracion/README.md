@@ -39,7 +39,7 @@ Desde la interfaz, el controlador ejecuta la llamada dentro de `Execute` y const
 
 | Clave exacta | Tipo | Uso |
 | --- | --- | --- |
-| `SeriesLibraryPath` | Texto | Carpeta de la biblioteca de series. Debe existir al actualizarla. |
+| `DownloadMoviePosters` | Booleano | Activa la búsqueda de carátulas de películas. |
 | `DownloadSeriesPosters` | Booleano | Ajuste que consulta la exploración de series para buscar sus imágenes locales. |
 | `DownloadEpisodeThumbnails` | Booleano | Ajuste que consulta la exploración de episodios para buscar sus miniaturas locales. |
 

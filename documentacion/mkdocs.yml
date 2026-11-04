@@ -50,30 +50,53 @@ hooks:
 
 extra:
   source_files:
-    MoviesPage: huexmediaapp.client/src/Movies.jsx
-    Subtitles: huexmediaapp.client/src/subtitles.js
-    Settings: huexmediaapp.client/src/Settings.jsx
-    Home: huexmediaapp.client/src/Home.jsx
-    App: huexmediaapp.client/src/App.jsx
-    Header: huexmediaapp.client/src/Header.jsx
+    LibraryCardSizeSelector: huexmediaapp.client/src/components/LibraryCardSizeSelector.tsx
+    LibraryDensity: huexmediaapp.client/src/hooks/useLibraryDensity.ts
+    UseLibraries: huexmediaapp.client/src/hooks/useLibraries.ts
+    UseCategories: huexmediaapp.client/src/hooks/useCategories.ts
+    TitleBorderStyle: huexmediaapp.client/src/hooks/useTitleBorderStyle.ts
+    AnimatedTitleBorder: huexmediaapp.client/src/components/AnimatedTitleBorder.tsx
+    TitleBorderStyles: huexmediaapp.client/src/css/HuexTitleBorder.css
+    KeyEpisodeStyles: huexmediaapp.client/src/css/HuexKeyEpisode.css
+    AppStoragePaths: HuexMediaApp.Server/Services/AppStoragePaths.cs
+    MoviesService: HuexMediaApp.Server/Services/MoviesService.cs
+    MoviesController: HuexMediaApp.Server/Controllers/MoviesController.cs
+    CategoryService: HuexMediaApp.Server/Services/CategoryService.cs
+    MediaCategory: HuexMediaApp.Server/Models/Categories/MediaCategory.cs
+    MediaLibrary: HuexMediaApp.Server/Models/Libraries/MediaLibrary.cs
+    LibraryService: HuexMediaApp.Server/Services/LibraryService.cs
+    LibraryContentSnapshot: HuexMediaApp.Server/Services/LibraryContentSnapshot.cs
+    JsonFileStoreService: HuexMediaApp.Server/Services/JsonFileStoreService.cs
+    CategoriesController: HuexMediaApp.Server/Controllers/CategoryController.cs
+    MediaItem: HuexMediaApp.Server/Models/MediaItem.cs
+    MoviesCategoryOptions: HuexMediaApp.Server/Models/Categories/MoviesCategoryOptions.cs
+    MoviesPage: huexmediaapp.client/src/pages/Movies.tsx
+    GeneralUtils: huexmediaapp.client/src/utils/generalUtils.ts
+    CategoryUtils: huexmediaapp.client/src/utils/categoryUtils.ts
+    LibraryUtils: huexmediaapp.client/src/utils/libraryUtils.ts
+    LibrariesApi: huexmediaapp.client/src/api/librariesApi.ts
+    CategoriesApi: huexmediaapp.client/src/api/categoriesApi.ts
+    Subtitles: huexmediaapp.client/src/utils/subtitles.ts
+    Settings: huexmediaapp.client/src/pages/Settings.tsx
+    SettingsStyles: huexmediaapp.client/src/css/Settings.css
+    Home: huexmediaapp.client/src/pages/Home.tsx
+    App: huexmediaapp.client/src/App.tsx
+    Header: huexmediaapp.client/src/components/Header.tsx
     HeaderStyles: huexmediaapp.client/src/css/Header.css
-    PlaybackProgressClient: huexmediaapp.client/src/playbackProgress.js
-    HuexCard: huexmediaapp.client/src/HuexCard.jsx
+    PlaybackProgressClient: huexmediaapp.client/src/utils/playbackProgress.ts
+    HuexCard: huexmediaapp.client/src/components/HuexCard.tsx
     HuexCardStyles: huexmediaapp.client/src/css/HuexCard.css
-    HuexCardMenu: huexmediaapp.client/src/HuexCardMenu.jsx
-    SeriesCategoryRow: huexmediaapp.client/src/SeriesCategoryRow.jsx
-    SeriesPage: huexmediaapp.client/src/Series.jsx
-    SeriesDetail: huexmediaapp.client/src/SeriesDetail.jsx
-    VideoPlayer: huexmediaapp.client/src/VideoPlayer.jsx
+    HuexCardMenu: huexmediaapp.client/src/components/HuexCardMenu.tsx
+    SeriesCategoryRow: huexmediaapp.client/src/components/SeriesCategoryRow.tsx
+    Dialogs: huexmediaapp.client/src/components/dialogs.tsx
+    SeriesPage: huexmediaapp.client/src/pages/Series.tsx
+    SeriesDetail: huexmediaapp.client/src/pages/SeriesDetail.tsx
+    VideoPlayer: huexmediaapp.client/src/pages/VideoPlayer.tsx
     VideoPlayerStyles: huexmediaapp.client/src/css/VideoPlayer.css
-    SeriesCategoryService: HuexMediaApp.Server/Services/SeriesCategoryService.cs
-    SeriesCategory: HuexMediaApp.Server/Models/SeriesCategory.cs
-    SeriesCategoriesController: HuexMediaApp.Server/Controllers/SeriesCategoriesController.cs
     ConfigurationService: HuexMediaApp.Server/Services/ConfigurationService.cs
     ConfigurationRequest: HuexMediaApp.Server/Models/ConfigurationRequest.cs
     ConfigurationController: HuexMediaApp.Server/Controllers/ConfigurationController.cs
     SeriesService: HuexMediaApp.Server/Services/SeriesService.cs
-    SeriesLibrary: HuexMediaApp.Server/Models/SeriesLibrary.cs
     SeriesController: HuexMediaApp.Server/Controllers/SeriesController.cs
     VideoService: HuexMediaApp.Server/Services/VideoService.cs
     HlsCleanupService: HuexMediaApp.Server/Services/HlsCleanupService.cs
@@ -81,34 +104,58 @@ extra:
     PlaybackSession: HuexMediaApp.Server/Models/PlaybackSession.cs
     VideoController: HuexMediaApp.Server/Controllers/VideoController.cs
     PlaybackProgressService: HuexMediaApp.Server/Services/PlaybackProgressService.cs
-    PlaybackProgress: HuexMediaApp.Server/Models/PlaybackProgress.cs
+    PlaybackProgress: HuexMediaApp.Server/Models/PlaybackProgress/LibraryPlaybackProgress.cs
+    SeriesPlaybackProgress: HuexMediaApp.Server/Models/PlaybackProgress/SeriesPlaybackProgress.cs
+    MoviePlaybackProgress: HuexMediaApp.Server/Models/PlaybackProgress/MoviePlaybackProgress.cs
+    LegacyPlaybackProgressDocument: HuexMediaApp.Server/Models/PlaybackProgress/Legacy/LegacyPlaybackProgressDocument.cs
+    LegacyPlaybackProgressSummary: HuexMediaApp.Server/Models/PlaybackProgress/Legacy/LegacyPlaybackProgressSummary.cs
+    MigratePlaybackProgressRequest: HuexMediaApp.Server/Models/PlaybackProgress/Legacy/MigratePlaybackProgressRequest.cs
     PlaybackProgressController: HuexMediaApp.Server/Controllers/PlaybackProgressController.cs
 
 watch:
-  - ../huexmediaapp.client/src/Movies.jsx
-  - ../huexmediaapp.client/src/subtitles.js
-  - ../huexmediaapp.client/src/Settings.jsx
-  - ../huexmediaapp.client/src/Home.jsx
-  - ../huexmediaapp.client/src/App.jsx
-  - ../huexmediaapp.client/src/Header.jsx
+  - ../HuexMediaApp.Server/Models/PlaybackProgress
+  - ../HuexMediaApp.Server/Models/Libraries
+  - ../HuexMediaApp.Server/Services/LibraryService.cs
+  - ../HuexMediaApp.Server/Services/LibraryContentSnapshot.cs
+  - ../HuexMediaApp.Server/Services/JsonFileStoreService.cs
+  - ../huexmediaapp.client/src/components/LibraryCardSizeSelector.tsx
+  - ../huexmediaapp.client/src/hooks/useLibraryDensity.ts
+  - ../huexmediaapp.client/src/hooks/useLibraries.ts
+  - ../HuexMediaApp.Server/Services/AppStoragePaths.cs
+  - ../HuexMediaApp.Server/Services/MoviesService.cs
+  - ../HuexMediaApp.Server/Controllers/MoviesController.cs
+  - ../HuexMediaApp.Server/Services/CategoryService.cs
+  - ../HuexMediaApp.Server/Models/Categories/MediaCategory.cs
+  - ../HuexMediaApp.Server/Controllers/CategoryController.cs
+  - ../HuexMediaApp.Server/Models/MediaItem.cs
+  - ../HuexMediaApp.Server/Models/Categories/MoviesCategoryOptions.cs
+  - ../huexmediaapp.client/src/pages/Movies.tsx
+  - ../huexmediaapp.client/src/utils/generalUtils.ts
+  - ../huexmediaapp.client/src/utils/categoryUtils.ts
+  - ../huexmediaapp.client/src/utils/libraryUtils.ts
+  - ../huexmediaapp.client/src/api/librariesApi.ts
+  - ../huexmediaapp.client/src/api/categoriesApi.ts
+  - ../huexmediaapp.client/src/utils/subtitles.ts
+  - ../huexmediaapp.client/src/pages/Settings.tsx
+  - ../huexmediaapp.client/src/css/Settings.css
+  - ../huexmediaapp.client/src/pages/Home.tsx
+  - ../huexmediaapp.client/src/App.tsx
+  - ../huexmediaapp.client/src/components/Header.tsx
   - ../huexmediaapp.client/src/css/Header.css
-  - ../huexmediaapp.client/src/playbackProgress.js
-  - ../huexmediaapp.client/src/HuexCard.jsx
+  - ../huexmediaapp.client/src/utils/playbackProgress.ts
+  - ../huexmediaapp.client/src/components/HuexCard.tsx
   - ../huexmediaapp.client/src/css/HuexCard.css
-  - ../huexmediaapp.client/src/HuexCardMenu.jsx
-  - ../huexmediaapp.client/src/SeriesCategoryRow.jsx
-  - ../huexmediaapp.client/src/Series.jsx
-  - ../huexmediaapp.client/src/SeriesDetail.jsx
-  - ../huexmediaapp.client/src/VideoPlayer.jsx
+  - ../huexmediaapp.client/src/components/HuexCardMenu.tsx
+  - ../huexmediaapp.client/src/components/SeriesCategoryRow.tsx
+  - ../huexmediaapp.client/src/components/dialogs.tsx
+  - ../huexmediaapp.client/src/pages/Series.tsx
+  - ../huexmediaapp.client/src/pages/SeriesDetail.tsx
+  - ../huexmediaapp.client/src/pages/VideoPlayer.tsx
   - ../huexmediaapp.client/src/css/VideoPlayer.css
-  - ../HuexMediaApp.Server/Services/SeriesCategoryService.cs
-  - ../HuexMediaApp.Server/Models/SeriesCategory.cs
-  - ../HuexMediaApp.Server/Controllers/SeriesCategoriesController.cs
   - ../HuexMediaApp.Server/Services/ConfigurationService.cs
   - ../HuexMediaApp.Server/Models/ConfigurationRequest.cs
   - ../HuexMediaApp.Server/Controllers/ConfigurationController.cs
   - ../HuexMediaApp.Server/Services/SeriesService.cs
-  - ../HuexMediaApp.Server/Models/SeriesLibrary.cs
   - ../HuexMediaApp.Server/Controllers/SeriesController.cs
   - ../HuexMediaApp.Server/Services/VideoService.cs
   - ../HuexMediaApp.Server/Services/HlsCleanupService.cs
@@ -116,7 +163,7 @@ watch:
   - ../HuexMediaApp.Server/Models/PlaybackSession.cs
   - ../HuexMediaApp.Server/Controllers/VideoController.cs
   - ../HuexMediaApp.Server/Services/PlaybackProgressService.cs
-  - ../HuexMediaApp.Server/Models/PlaybackProgress.cs
+  - ../HuexMediaApp.Server/Models/PlaybackProgress/LibraryPlaybackProgress.cs
   - ../HuexMediaApp.Server/Controllers/PlaybackProgressController.cs
 
 validation:
@@ -130,66 +177,122 @@ nav:
       - Visión general: frontend/README.md
       - Aplicación:
           - Estructura, rutas y temas: frontend/app.md
-          - Código JSX: codigo/App.md
+          - Código TSX: codigo/App.md
+      - Hooks:
+          - useLibraries:
+              - Consulta de bibliotecas: frontend/hooks/use-libraries.md
+              - Código TypeScript: codigo/UseLibraries.md
+          - useCategories:
+              - Gestión de categorías: frontend/hooks/use-categories.md
+              - Código TypeScript: codigo/UseCategories.md
+      - API:
+          - Peticiones de bibliotecas y categorías: frontend/modulos/library-category-api.md
+          - librariesApi: codigo/LibrariesApi.md
+          - categoriesApi: codigo/CategoriesApi.md
       - Módulos:
+          - categoryUtils:
+              - Peticiones, elementos y destinos: frontend/modulos/category-utils.md
+              - Código TypeScript: codigo/CategoryUtils.md
+          - libraryUtils:
+              - Consultas y selección recordada: frontend/modulos/library-utils.md
+              - Código TypeScript: codigo/LibraryUtils.md
+          - generalUtils:
+              - Respuestas, rutas y tiempos: frontend/modulos/general-utils.md
+              - Código TypeScript: codigo/GeneralUtils.md
           - subtitles:
               - Interpretación y pistas: frontend/modulos/subtitles.md
-              - Código JavaScript: codigo/Subtitles.md
+              - Código TypeScript: codigo/Subtitles.md
           - playbackProgress:
               - Funciones y guardado: frontend/modulos/playback-progress.md
-              - Código JavaScript: codigo/PlaybackProgressClient.md
+              - Código TypeScript: codigo/PlaybackProgressClient.md
       - Páginas:
           - Movies:
               - Categorías y subcategorías: frontend/paginas/movies.md
-              - Código JSX: codigo/MoviesPage.md
+              - Código TSX: codigo/MoviesPage.md
+              - Utilidades generales: codigo/GeneralUtils.md
+              - Utilidades de categorías: codigo/CategoryUtils.md
+              - Consultas de bibliotecas: codigo/LibraryUtils.md
+              - Opciones de profundidad: codigo/MoviesCategoryOptions.md
           - Settings:
               - Página de configuración: frontend/paginas/settings.md
-              - Código JSX: codigo/Settings.md
+              - Estilos CSS: codigo/SettingsStyles.md
+              - Código TSX: codigo/Settings.md
           - Home:
               - Biblioteca y navegación: frontend/paginas/home.md
-              - Código JSX: codigo/Home.md
+              - Código TSX: codigo/Home.md
           - Series:
               - Funcionamiento y propiedades: frontend/paginas/series.md
-              - Código JSX: codigo/SeriesPage.md
+              - Código TSX: codigo/SeriesPage.md
           - SeriesDetail:
               - Funcionamiento y navegación: frontend/paginas/series-detail.md
-              - Código JSX: codigo/SeriesDetail.md
+              - Código TSX: codigo/SeriesDetail.md
           - VideoPlayer:
               - Funcionamiento y eventos: frontend/paginas/video-player.md
-              - Código JSX: codigo/VideoPlayer.md
+              - Código TSX: codigo/VideoPlayer.md
               - Estilos CSS: codigo/VideoPlayerStyles.md
       - Componentes:
+          - Diálogos:
+              - Formularios compartidos: frontend/componentes/dialogs.md
+              - Código TSX: codigo/Dialogs.md
+          - Densidad de biblioteca:
+              - Tamaño de carátulas: frontend/componentes/library-density.md
+              - Código del selector: codigo/LibraryCardSizeSelector.md
+              - Código del hook: codigo/LibraryDensity.md
           - Header:
               - Funcionamiento y eventos: frontend/componentes/header.md
-              - Código JSX: codigo/Header.md
+              - Código TSX: codigo/Header.md
               - Estilos CSS: codigo/HeaderStyles.md
           - HuexCard:
               - Funcionamiento y propiedades: frontend/componentes/huex-card.md
-              - Código JSX: codigo/HuexCard.md
+              - Código TSX: codigo/HuexCard.md
               - Estilos CSS: codigo/HuexCardStyles.md
           - HuexCardMenu:
               - Funcionamiento y propiedades: frontend/componentes/huex-card-menu.md
-              - Código JSX: codigo/HuexCardMenu.md
+              - Código TSX: codigo/HuexCardMenu.md
           - SeriesCategoryRow:
               - Funcionamiento y propiedades: frontend/componentes/series-category-row.md
-              - Código JSX: codigo/SeriesCategoryRow.md
+              - Código TSX: codigo/SeriesCategoryRow.md
+          - Cambiar nombre de categorías:
+              - Funcionamiento: frontend/componentes/dialogs.md
+              - Código TSX: codigo/Dialogs.md
   - Sistemas:
-      - Categorías de series:
-          - Visión general: sistemas/categorias-series/README.md
-          - Servicio:
-              - Funciones y funcionamiento: sistemas/categorias-series/servicio.md
-              - Código fuente: codigo/SeriesCategoryService.md
+      - Películas:
+          - Visión general: sistemas/peliculas/README.md
+          - Servicios:
+              - Funciones y funcionamiento: sistemas/peliculas/servicios.md
+              - Código de exploración: codigo/MoviesService.md
+              - Código de categorías: codigo/CategoryService.md
           - Modelos:
-              - Clases y propiedades: sistemas/categorias-series/modelos.md
-              - Código fuente: codigo/SeriesCategory.md
+              - Clases y propiedades: sistemas/peliculas/modelos.md
+              - Código de película: codigo/MediaItem.md
+              - Código de categorías: codigo/MediaCategory.md
+              - Opciones de profundidad: codigo/MoviesCategoryOptions.md
+          - Controladores:
+              - Operaciones y respuestas: sistemas/peliculas/controladores.md
+              - Código de exploración: codigo/MoviesController.md
+              - Código de categorías: codigo/CategoriesController.md
+      - Categorías de bibliotecas:
+          - Visión general: sistemas/categorias/README.md
+          - Servicio:
+              - Funciones y funcionamiento: sistemas/categorias/servicio.md
+              - Código fuente: codigo/CategoryService.md
+              - Persistencia de bibliotecas: codigo/LibraryService.md
+              - Cómo se recorre la biblioteca: sistemas/categorias/contenido-biblioteca.md
+              - Código del recorrido: codigo/LibraryContentSnapshot.md
+              - Almacenamiento JSON: codigo/JsonFileStoreService.md
+          - Modelos:
+              - Clases y propiedades: sistemas/categorias/modelos.md
+              - Código fuente: codigo/MediaCategory.md
+              - Biblioteca común: codigo/MediaLibrary.md
           - Controlador:
-              - Operaciones y respuestas: sistemas/categorias-series/controlador.md
-              - Código fuente: codigo/SeriesCategoriesController.md
+              - Operaciones y respuestas: sistemas/categorias/controlador.md
+              - Código fuente: codigo/CategoriesController.md
       - Configuración:
           - Visión general: sistemas/configuracion/README.md
           - Servicio:
               - Funciones y funcionamiento: sistemas/configuracion/servicio.md
               - Código fuente: codigo/ConfigurationService.md
+              - Código de rutas de almacenamiento: codigo/AppStoragePaths.md
           - Modelo:
               - Propiedades: sistemas/configuracion/modelos.md
               - Código fuente: codigo/ConfigurationRequest.md
@@ -203,7 +306,7 @@ nav:
               - Código fuente: codigo/SeriesService.md
           - Modelos:
               - Clases y propiedades: sistemas/series/modelos.md
-              - Código fuente: codigo/SeriesLibrary.md
+              - Código fuente: codigo/MediaItem.md
           - Controlador:
               - Operaciones y respuestas: sistemas/series/controlador.md
               - Código fuente: codigo/SeriesController.md
@@ -241,6 +344,11 @@ nav:
           - Modelos:
               - Clases y propiedades: sistemas/progreso-reproduccion/modelos.md
               - Código fuente: codigo/PlaybackProgress.md
+              - Progreso de serie: codigo/SeriesPlaybackProgress.md
+              - Progreso de película: codigo/MoviePlaybackProgress.md
+              - Documento antiguo: codigo/LegacyPlaybackProgressDocument.md
+              - Resumen para Ajustes: codigo/LegacyPlaybackProgressSummary.md
+              - Solicitud de migración: codigo/MigratePlaybackProgressRequest.md
           - Controlador:
               - Operaciones y respuestas: sistemas/progreso-reproduccion/controlador.md
               - Código fuente: codigo/PlaybackProgressController.md

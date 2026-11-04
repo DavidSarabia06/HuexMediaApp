@@ -1,65 +1,46 @@
 # Modelos de progreso
 
-[Visión general](README.md) · [Código fuente](../../codigo/PlaybackProgress.md)
+[Sistema](README.md) · [Documento común](../../codigo/PlaybackProgress.md)
 
-Las agrupaciones coinciden con las regiones del archivo de modelos.
+Los modelos se encuentran en `Models/PlaybackProgress`.
 
-## Configuración
+## LibraryPlaybackProgress
 
-### PlaybackProgressOptions
+Documento de versión 2 con `LibraryId`, `Series` y `Movies`. El identificador asocia el archivo a una biblioteca guardada.
 
-| Propiedad | Tipo | Contenido |
-| --- | --- | --- |
-| `WatchedThresholdPercent` | `double` | Porcentaje de finalización; valor inicial 95. |
-| `RemainingSecondsToMarkWatched` | `double` | Margen final en segundos; valor inicial 120. |
+## SeriesPlaybackProgress
 
-Se vincula a la sección `PlaybackProgress` de `appsettings.json`. Basta con cumplir uno de los dos criterios para marcar un episodio como visto.
+| Propiedad | Uso |
+| --- | --- |
+| `SeriesPath` | Carpeta de la serie. |
+| `WatchedEpisodePaths` | Episodios vistos. |
+| `InProgress` | Único `EpisodePlaybackProgress` en curso. |
+| `LastWatchedEpisodePath` | Último visto, utilizado para ofrecer el siguiente. |
+| `LastRecordedAtUtc` | Fecha del último cambio aceptado. |
+| `HiddenFromContinueWatching` | Oculta la tarjeta conservando el progreso. |
 
-## Datos almacenados
+`EpisodePlaybackProgress` contiene `EpisodePath`, `PositionSeconds` y `DurationSeconds`.
 
-### PlaybackProgressLibrary
+## MoviePlaybackProgress
 
-| Propiedad | Tipo | Contenido |
-| --- | --- | --- |
-| `Version` | `int` | Versión de documento; valor inicial 1. |
-| `LibraryPath` | `string` | Ruta de la biblioteca. |
-| `Series` | `List<SeriesPlaybackProgress>` | Entradas de progreso por serie. |
+Contiene `MoviePath`, `PositionSeconds`, `DurationSeconds`, `Watched`, `LastRecordedAtUtc` y `HiddenFromContinueWatching`. Cada película conserva su propia entrada.
 
-### SeriesPlaybackProgress
+## Solicitudes
 
-| Propiedad | Tipo | Contenido |
-| --- | --- | --- |
-| `SeriesPath` | `string` | Ruta de la serie. |
-| `WatchedEpisodePaths` | `List<string>` | Episodios vistos. |
-| `InProgress` | `EpisodePlaybackProgress?` | Único episodio en curso o `null`. |
-| `LastWatchedEpisodePath` | `string?` | Último episodio registrado como visto. |
-| `LastRecordedAtUtc` | `DateTimeOffset` | Fecha que ordena muestras y cambios manuales. |
+`SavePlaybackProgressRequest` envía `VideoPath`, `SeriesPath` opcional, `PositionSeconds`, `DurationSeconds` y `RecordedAtUtc`.
 
-### EpisodePlaybackProgress
+`SetPlaybackWatchedRequest` envía `VideoPath`, `SeriesPath` opcional y `Watched`. `ResetSeriesProgressRequest` contiene `SeriesPath`. `HideContinueWatchingRequest` contiene `VideoPath`.
 
-| Propiedad | Tipo | Contenido |
-| --- | --- | --- |
-| `EpisodePath` | `string` | Ruta del episodio en curso. |
-| `PositionSeconds` | `double` | Posición global del episodio en segundos. |
-| `DurationSeconds` | `double` | Duración completa en segundos. |
+La biblioteca se identifica mediante el parámetro `libraryId` de la URL.
 
-## Solicitudes de API
+## PlaybackProgressOptions
 
-### SavePlaybackProgressRequest
+`WatchedThresholdPercent` tiene valor inicial 95 y `RemainingSecondsToMarkWatched`, 120. Se enlazan a la sección `PlaybackProgress` de `appsettings.json`. Alcanza con cumplir uno de los dos criterios para considerar visto el vídeo.
 
-| Propiedad | Tipo | Contenido |
-| --- | --- | --- |
-| `LibraryPath` | `string` | Biblioteca. |
-| `SeriesPath` | `string` | Serie. |
-| `EpisodePath` | `string` | Episodio. |
-| `PositionSeconds` | `double` | Posición registrada. |
-| `DurationSeconds` | `double` | Duración completa. |
-| `RecordedAtUtc` | `DateTimeOffset` | Fecha UTC de la muestra. |
+## Modelos de migración manual
 
-### ResetSeriesProgressRequest
+Los modelos de `Models/PlaybackProgress/Legacy` pertenecen al apartado de Ajustes:
 
-Contiene `LibraryPath` y `SeriesPath`, ambos `string`, para identificar el historial que se quiere reiniciar.
-
-### SetEpisodeWatchedRequest
-
-Contiene `LibraryPath`, `SeriesPath` y `EpisodePath`, de tipo `string`, y `Watched`, de tipo `bool`. `true` marca el episodio y `false` lo deja pendiente.
+- `LegacyPlaybackProgressDocument`: `Version`, `LibraryPath` y la lista `Series` del archivo de versión 1.
+- `LegacyPlaybackProgressSummary`: `FileName`, `LibraryPath`, `SeriesCount`, `WatchedEpisodeCount` e `InProgressCount`, utilizados para presentar cada archivo encontrado.
+- `MigratePlaybackProgressRequest`: `FileName` del original y `LibraryId` del destino elegido.

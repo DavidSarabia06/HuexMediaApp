@@ -1,6 +1,6 @@
 # HuexCard
 
-[Frontend](../README.md) · [Código JSX](../../codigo/HuexCard.md) · [Estilos CSS](../../codigo/HuexCardStyles.md)
+[Frontend](../README.md) · [Código TSX](../../codigo/HuexCard.md) · [Estilos CSS](../../codigo/HuexCardStyles.md)
 
 `HuexCard` representa un elemento de la biblioteca mediante un botón con imagen y título. Se utiliza en el inicio, las filas de categorías y los episodios de una temporada. El componente que la utiliza proporciona los datos y la acción del clic.
 
@@ -25,11 +25,11 @@ flowchart TD
     G --> H
 ```
 
-Cada renderizado obtiene estos valores a partir de las propiedades actuales. Las funciones auxiliares y los tipos JSDoc se encuentran en el mismo archivo JSX.
+Cada renderizado obtiene estos valores a partir de las propiedades actuales. Las funciones auxiliares y los tipos TypeScript se encuentran en el mismo archivo JSX.
 
 ## Organización del código
 
-Los separadores del archivo agrupan las imágenes predeterminadas, la preparación de los datos, el evento de carga de imagen y el renderizado. `getDefaultImage` elige la imagen genérica y `handleImageError` atiende el fallo de carga. El clic principal se entrega directamente a `onClick`, recibido del padre.
+Los separadores del archivo agrupan las imágenes predeterminadas, la preparación de los datos, el evento de carga de imagen, el título emergente y el renderizado. `getDefaultImage` elige la imagen genérica y `handleImageError` atiende el fallo de carga. El clic principal se entrega directamente a `onClick`, recibido del padre.
 
 ## Propiedades
 
@@ -56,7 +56,17 @@ El objeto puede incluir los datos completos de la serie, temporada o episodio. L
 | `nombreTemporada` | Alternativa cuando `nombre` está vacío o ausente. |
 | `urlImagen` | Imagen recibida del componente padre. |
 
-Si ambos nombres están vacíos o ausentes, el título es `Sin título`. Ese mismo título se utiliza como texto alternativo de la imagen y en el atributo `title` del texto.
+Si ambos nombres están vacíos o ausentes, el título es `Sin título`. Ese mismo título se utiliza como texto alternativo de la imagen y en el tooltip personalizado de la tarjeta.
+
+## Título completo emergente
+
+El tooltip utiliza fondo oscuro, borde sutil y texto claro desde `HuexCard.css`. Se dibuja mediante un portal en `document.body` para quedar fuera del recorte del carrusel. La tarjeta lo identifica con `aria-describedby` y el panel utiliza `role="tooltip"`.
+
+`scheduleTooltip` espera 450 ms después de entrar con el ratón y comprueba que siga sobre una tarjeta interactiva. `showTooltipOnFocus` muestra el título al enfocar la tarjeta con el teclado. `hideTooltip` cancela el temporizador y cierra el panel al salir, perder el foco, pulsar o iniciar un arrastre.
+
+`positionTooltip` mide la tarjeta y el texto al montar el panel, lo sitúa encima o debajo según el espacio disponible y limita su posición a los bordes de la ventana.
+
+Un efecto cancela el temporizador al desmontar. Otro efecto registra los cierres por desplazamiento, cambio de tamaño y Escape mientras el tooltip está abierto, y retira sus listeners al cerrarlo.
 
 ### Datos de progress
 
@@ -66,7 +76,7 @@ Si ambos nombres están vacíos o ausentes, el título es `Sin título`. Ese mis
 | `durationSeconds` | Número | Duración usada como divisor al calcular el progreso. |
 | `label` | Texto opcional | Descripción accesible de la barra. |
 
-Los consumidores proporcionan una duración positiva para calcular la proporción. `EpisodeProgress` y `HuexCardProps` documentan estos datos mediante JSDoc y ayudan al editor a mostrar sus tipos.
+Los consumidores proporcionan una duración positiva para calcular la proporción. `EpisodeProgress` y `HuexCardProps` declaran estos datos como interfaces TypeScript y permiten al editor mostrar sus tipos.
 
 ## Selección de imagen
 
@@ -133,7 +143,7 @@ El borde de hover utiliza `--huex-card-hover`, y el icono de reproducción utili
 
 ### Carátula de una serie
 
-```jsx
+```tsx
 <HuexCard
     item={serie}
     onClick={() => openSeries(serie)}
@@ -142,7 +152,7 @@ El borde de hover utiliza `--huex-card-hover`, y el icono de reproducción utili
 
 ### Episodio con progreso y menú
 
-```jsx
+```tsx
 <HuexCard
     item={episode}
     variant="horizontal"
@@ -164,3 +174,9 @@ El borde de hover utiliza `--huex-card-hover`, y el icono de reproducción utili
 ```
 
 Las funciones de apertura, reproducción y actualización de estos ejemplos las proporciona el componente padre.
+
+## Bordes de los episodios
+
+Las tarjetas conservan el borde liso habitual durante el hover y foco. Los episodios normales usan blanco y los marcados con `isKey` usan amarillo y la etiqueta «★ CLAVE». `HuexKeyEpisode.css` define el color, la etiqueta y el título amarillo durante la interacción. Los paneles del Home utilizan el color de su sección.
+
+Los títulos principales con contorno utilizan `AnimatedTitleBorder` desde `HuexPageHeader`. `HuexTitleBorder.css` anima de 1 a 6 líneas equidistantes continuamente en el color del título. App aplica la duración y el patrón de trazos mediante variables CSS; Configuración permite entre 2 y 20 segundos por vuelta. Configuración permite elegir entre este contorno animado y el borde liso.

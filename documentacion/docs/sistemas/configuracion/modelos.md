@@ -11,7 +11,7 @@ Es el cuerpo de `POST /api/configuration/update`. Transporta el nombre del ajust
 | `Key` | `string` | `string.Empty` | Nombre exacto de una clave permitida por el servicio. |
 | `Value` | `JsonNode?` | `null` | Valor JSON recibido conservando su tipo. |
 
-`JsonNode` permite representar texto, booleanos, números, objetos o listas. El servicio acepta cada valor según el tipo del dato que ya está almacenado. Actualmente las claves expuestas son una cadena y dos booleanos.
+`JsonNode` permite representar texto, booleanos, números, objetos o listas. El servicio acepta cada valor según el tipo del dato que ya está almacenado. Actualmente las claves expuestas son tres booleanos.
 
 Si se omite `Value` o se envía `null`, el servicio rechaza la actualización y `Execute` convierte el error en HTTP 400. El servicio valida los valores recibidos antes de actualizar la configuración.
 
@@ -26,19 +26,10 @@ Actualizar una opción booleana:
 }
 ```
 
-Cambiar la biblioteca:
-
-```json
-{
-  "key": "SeriesLibraryPath",
-  "value": "F:\\Series"
-}
-```
-
-La carpeta del ejemplo debe existir. Enviar `"false"` entre comillas para una clave booleana no equivale a `false`: su tipo es texto y se rechaza.
+Enviar `"false"` entre comillas para una clave booleana produce texto y se rechaza.
 
 ## Relaciones
 
-[UpdateConfiguration](controlador.md#updateconfiguration) pasa `Key` y `Value` a [Update](servicio.md#update). El servicio comprueba la clave no vacía y permitida, el valor no nulo, su existencia en el archivo, la compatibilidad de tipo y la carpeta de series.
+[UpdateConfiguration](controlador.md#updateconfiguration) pasa `Key` y `Value` a [Update](servicio.md#update). El servicio comprueba la clave no vacía y permitida, el valor no nulo, su existencia en el archivo y la compatibilidad de tipo.
 
 El controlador construye respuestas con `key` y `value`, añadiendo `success` al actualizar.

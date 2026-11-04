@@ -1,8 +1,10 @@
 # App
 
-[Frontend](README.md) · [Código JSX](../codigo/App.md)
+[Frontend](README.md) · [Código TSX](../codigo/App.md)
 
-`src/App.jsx` reúne la estructura general de la aplicación: el navegador de rutas, la cabecera común, el área de contenido y las páginas. Incluye dos funciones de componente: `SectionTheme` y `App`.
+`src/App.tsx` reúne la estructura general de la aplicación: el navegador de rutas, la cabecera común, el área de contenido y las páginas. Incluye dos funciones de componente: `SectionTheme` y `App`.
+
+App mantiene también las preferencias visuales de Series y Películas mediante dos llamadas a `useLibraryDensity`. Header recibe esos estados para mostrar el slider de la biblioteca actual, y cada página recibe su `densityStyle`. De esta forma, el control del header y las carátulas utilizan el mismo estado. [Tamaño de carátulas](componentes/library-density.md).
 
 ## Organización
 
@@ -87,4 +89,4 @@ flowchart TD
 - [SeriesDetail: temporadas y episodios](paginas/series-detail.md).
 - [VideoPlayer: reproducción y eventos](paginas/video-player.md).
 
-MkDocs genera la página de código desde `App.jsx` y observa ese archivo durante la consulta local para reflejar sus cambios.
+MkDocs genera la página de código desde `App.tsx` y observa ese archivo durante la consulta local para reflejar sus cambios.

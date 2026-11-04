@@ -1,8 +1,8 @@
 # SeriesDetail
 
-[Frontend](../README.md) · [Código JSX](../../codigo/SeriesDetail.md) · [Página de series](series.md) · [HuexCard](../componentes/huex-card.md)
+[Frontend](../README.md) · [Código TSX](../../codigo/SeriesDetail.md) · [Página de series](series.md) · [HuexCard](../componentes/huex-card.md)
 
-`SeriesDetail.jsx` representa las temporadas y episodios de una serie. Carga sus vídeos y progreso, selecciona una temporada inicial y permite reproducir, continuar o cambiar el estado visto de cada episodio.
+`SeriesDetail.tsx` representa las temporadas y episodios de una serie. Carga sus vídeos y progreso, selecciona una temporada inicial y permite reproducir, continuar o cambiar el estado visto de cada episodio.
 
 Los grupos de esta página siguen los separadores del código: carga, temporada, reproducción, diálogo de continuación, actualización del progreso, navegación y datos de tarjetas.
 
@@ -14,8 +14,9 @@ La página obtiene los datos de `useLocation().state` al navegar a `/series/epis
 | --- | --- |
 | `folderPath` | Ruta de la serie que se explora y se asocia al progreso. |
 | `seriesName` | Título que muestra la cabecera. |
+| `libraryId` | Identificador de la biblioteca que contiene la serie. |
 
-Estos datos se envían desde la página de series o desde el regreso del reproductor. Si falta `folderPath`, la página muestra un aviso con un botón para volver a `/series`.
+Estos datos se envían desde la página de series o desde el regreso del reproductor. Si falta `folderPath` o `libraryId`, la página muestra un aviso con un botón para volver a `/series`.
 
 ## Estado y referencias
 
@@ -24,7 +25,6 @@ Estos datos se envían desde la página de series o desde el regreso del reprodu
 | `temporadas` | Lista recibida de la exploración; cada temporada incluye `nombreTemporada` y `episodios`. |
 | `temporadaActiva` | Temporada cuyos episodios se muestran en la cuadrícula. |
 | `isLoading` | Activa el mensaje de búsqueda mientras se reúnen los datos. |
-| `libraryPath` | Ruta de biblioteca obtenida de configuración y utilizada para consultar o actualizar progreso. |
 | `progress` | Progreso de esta serie: vistos y episodio en curso. |
 | `loadAttempt` | Contador que provoca un reintento de carga. |
 | `updatingRef` | Bloqueo inmediato frente a cambios de estado simultáneos o apertura de episodios durante una actualización. |
@@ -33,13 +33,13 @@ Estos datos se envían desde la página de series o desde el regreso del reprodu
 | `resumeDialogRef` | Acceso al elemento HTML `dialog` para abrirlo y cerrarlo. |
 | `loadError` y `updateError` | Mensajes de errores de carga y actualización. |
 
-`watchedPaths` es un conjunto derivado de `progress.watchedEpisodePaths`, con rutas normalizadas mediante `pathKey`. `inProgressEpisode` toma `progress.inProgress` y permite consultar su ruta y minuto guardado.
+`watchedPaths` es un conjunto derivado de `progress.watchedEpisodePaths`, con rutas normalizadas mediante `normalizePathForComparison`. `inProgressEpisode` toma `progress.inProgress` y permite consultar su ruta y minuto guardado.
 
 ## Carga de episodios
 
 ### useEffect de carga
 
-Depende de `folderPath` y `loadAttempt`. Al montar, cambiar de serie o reintentar, crea un `AbortController` y ejecuta `loadEpisodes`.
+Depende de `folderPath`, `libraryId` y `loadAttempt`. Al montar, cambiar de serie o reintentar, crea un `AbortController` y ejecuta `loadEpisodes`.
 
 La limpieza llama a `abort()` antes de repetir el efecto o al desmontar la página. Las peticiones reciben su señal y se comprueba si la ejecución está cancelada antes de aplicar el progreso o mostrar un error.
 
@@ -48,13 +48,13 @@ La limpieza llama a `abort()` antes de repetir el efecto o al desmontar la pági
 Función interna del efecto. Su recorrido es:
 
 1. Activa la carga y limpia `loadError`.
-2. Solicita en paralelo los episodios de `folderPath` y `SeriesLibraryPath` de configuración.
+2. Solicita en paralelo los episodios y su progreso mediante `libraryId`.
 3. Espera `waitForProgressSaves()` para coordinar la lectura con los guardados pendientes del reproductor.
-4. Consulta el progreso de la biblioteca y busca la entrada de esta serie comparando rutas con `pathKey`.
+4. Busca la entrada de esta serie en el progreso recibido comparando rutas con `normalizePathForComparison`.
 5. Busca la temporada que contiene el episodio de `inProgress`. Esa temporada tiene prioridad; después se utiliza la primera recibida y, si la lista está vacía, `null`.
-6. Actualiza biblioteca, progreso, temporadas y selección inicial.
+6. Actualiza progreso, temporadas y selección inicial.
 
-Un fallo se muestra en `loadError`. El bloque `finally` termina el indicador de carga si la ejecución sigue activa. Las respuestas se procesan mediante `readProgressResponse`, del módulo de progreso.
+Un fallo se muestra en `loadError`. El bloque `finally` termina el indicador de carga si la ejecución sigue activa. Las respuestas se procesan mediante `readJson`, de `generalUtils.ts`.
 
 ### retryLoad
 
@@ -69,7 +69,7 @@ config:
     padding: 20
 ---
 flowchart TD
-    A["Entrar, cambiar serie<br/>o reintentar"] --> B["Cargar episodios y<br/>configuración en paralelo"]
+    A["Entrar, cambiar serie<br/>o reintentar"] --> B["Cargar episodios y<br/>biblioteca y progreso"]
     B --> C["Esperar guardados pendientes"]
     C --> D["Consultar progreso<br/>de la biblioteca"]
     D --> E["Seleccionar progreso<br/>de esta serie"]
@@ -93,7 +93,7 @@ Recibe el episodio pulsado. Si hay una actualización de estado en curso, espera
 
 Recibe un episodio y `startSeconds`, cuyo valor predeterminado es `0`. Cierra el diálogo de continuación y navega a `/player` con:
 
-```javascript
+```typescript
 {
     episode,
     libraryPath,
@@ -145,16 +145,15 @@ flowchart TD
 
 Recibe el episodio y el nuevo booleano `watched`. Activa `updatingRef`, `isUpdating` y limpia `updateError`. Espera los guardados pendientes y envía:
 
-```javascript
+```typescript
 {
-    libraryPath,
     seriesPath: folderPath,
-    episodePath: episode.rutaCompleta,
+    videoPath: episode.rutaCompleta,
     watched
 }
 ```
 
-La respuesta contiene el progreso actualizado de la serie y se asigna a `progress`. Esto vuelve a calcular los vistos y el episodio en curso, actualizando las imágenes, barras y acciones de las tarjetas.
+La petición incluye `libraryId` en la URL. La respuesta contiene el documento común; se busca la entrada de esta serie y se asigna a `progress`. Esto vuelve a calcular los vistos y el episodio en curso, actualizando las imágenes, barras y acciones de las tarjetas.
 
 Si falla, muestra `updateError`. El bloque `finally` libera el bloqueo y vuelve a habilitar los menús.
 
@@ -168,7 +167,7 @@ Abre `/series` desde la cabecera o desde el aviso de ruta ausente.
 
 ### isEpisodeWatched
 
-Normaliza la ruta del episodio con `pathKey` y consulta su presencia en `watchedPaths`.
+Normaliza la ruta del episodio con `normalizePathForComparison` y consulta su presencia en `watchedPaths`.
 
 ### getEpisodeMenuItems
 
@@ -188,9 +187,8 @@ Cada episodio utiliza [HuexCard](../componentes/huex-card.md) con variante horiz
 
 | Operación | Petición |
 | --- | --- |
-| Explorar temporadas y episodios | `GET /api/series/scan-episodes?path=...` |
-| Obtener la biblioteca configurada | `GET /api/configuration/get?key=SeriesLibraryPath` |
-| Consultar progreso de biblioteca | `GET /api/playbackprogress?libraryPath=...` |
-| Marcar visto/no visto | `POST /api/playbackprogress/watched` |
+| Explorar temporadas y episodios | `GET /api/series/scan-episodes?libraryId=...&path=...` |
+| Consultar progreso de biblioteca | `GET /api/playbackprogress?libraryId=...` |
+| Marcar visto/no visto | `POST /api/playbackprogress/watched?libraryId=…` |
 
 El guardado de muestras y la coordinación con el reproductor se explican en [Cliente y continuar viendo](../../sistemas/progreso-reproduccion/cliente.md).

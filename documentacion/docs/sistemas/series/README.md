@@ -15,7 +15,7 @@ config:
     padding: 20
 ---
 flowchart TD
-    A["Interfaz"] --> B["Controlador · Execute"]
+    A["Interfaz"] --> B["Controlador · ExecuteAsync"]
     B --> C{"Operación del servicio"}
     C -->|Seleccionar carpeta| D["Abrir diálogo de Windows en<br/>STA"]
     C -->|Explorar series o episodios| E["Validar carpeta y enumerar<br/>archivos"]
@@ -25,21 +25,21 @@ flowchart TD
     F --> I["Enviar archivo de imagen"]
 ```
 
-El servicio obtiene los datos de las carpetas y de la configuración. El controlador prepara las URLs y el tipo de respuesta que recibe la interfaz. Cuando falta una imagen solicitada devuelve HTTP 404.
+El servicio obtiene la raíz desde la biblioteca guardada y consulta las opciones de imágenes de la configuración. El controlador prepara las URLs y el tipo de respuesta que recibe la interfaz. Cuando falta una imagen solicitada devuelve HTTP 404.
 
 ## Componentes
 
 | Componente | Documentación | Código |
 | --- | --- | --- |
 | Servicio | [SeriesService](servicio.md) | [Ver código](../../codigo/SeriesService.md) |
-| Modelos | [SeriesLibrary](modelos.md) | [Ver código](../../codigo/SeriesLibrary.md) |
+| Modelos | [SeriesLibrary](modelos.md) | [Ver código](../../codigo/MediaItem.md) |
 | Controlador | [SeriesController](controlador.md) | [Ver código](../../codigo/SeriesController.md) |
 
 ## Recorrido
 
 `SeriesController` recibe la solicitud y llama a `SeriesService`. El servicio valida las rutas y consulta `ConfigurationService` para decidir si busca imágenes locales. Devuelve modelos con sus datos y rutas internas de imagen. El controlador convierte esas rutas en URLs de su acción `GetImage` y devuelve el JSON.
 
-La selección de una carpeta solo devuelve la ruta; guardar la biblioteca seleccionada sigue siendo una operación del sistema de configuración. El diálogo se abre en el equipo del servidor.
+La selección de una carpeta solo devuelve la ruta; registrar la biblioteca elegida corresponde a `LibraryService`. El diálogo se abre en el equipo del servidor.
 
 ## Reglas conservadas
 
@@ -52,7 +52,7 @@ La selección de una carpeta solo devuelve la ruta; guardar la biblioteca selecc
 
 ## Rutas e imágenes
 
-Los escaneos validan que la ruta corresponda a una carpeta existente. La acción de imágenes exige que la ruta completa se encuentre dentro de `SeriesLibraryPath`.
+Los escaneos validan que la ruta corresponda a una carpeta existente. La acción de imágenes exige que la ruta completa se encuentre dentro del `LibraryPath` de la biblioteca identificada por `libraryId`.
 
 La comprobación de pertenencia de imágenes compara rutas normalizadas mediante `Path.GetRelativePath`.
 

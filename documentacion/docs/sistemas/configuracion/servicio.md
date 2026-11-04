@@ -120,18 +120,17 @@ Serializa el documento completo con `WriteIndented = true` y llama a `File.Write
 
 **Recibe:** `string key`. **Devuelve:** nada si la clave está permitida.
 
-Rechaza claves nulas, vacías, de solo espacios o que no estén en `AllowedKeys`, lanzando `ArgumentException`. La lista contiene `SeriesLibraryPath`, `DownloadSeriesPosters` y `DownloadEpisodeThumbnails`. La comparación exige el nombre exacto de la clave, incluidas las mayúsculas.
+Rechaza claves nulas, vacías, de solo espacios o que no estén en `AllowedKeys`, lanzando `ArgumentException`. La lista contiene `DownloadSeriesPosters`, `DownloadMoviePosters` y `DownloadEpisodeThumbnails`. La comparación exige el nombre exacto de la clave, incluidas las mayúsculas.
 
 **La llaman:** [Get de T](#get) y [Update](#update), antes de acceder al archivo. La clave debe figurar en `AllowedKeys` para autorizar su acceso. La misma regla se aplica a la API y a los consumidores internos.
 
 <a id="validateupdate"></a>
 ### ValidateUpdate
 
-**Recibe:** `key`, `JsonNode? currentValue` y `JsonNode newValue`. **Devuelve:** nada si todas las comprobaciones pasan.
+**Recibe:** `JsonNode? currentValue` y `JsonNode newValue`. **Devuelve:** nada si todas las comprobaciones pasan.
 
 1. El valor actual debe existir y no ser `null`; en otro caso lanza `KeyNotFoundException`.
 2. [IsValidValue](#isvalidvalue) debe aceptar el tipo nuevo; si no, lanza `ArgumentException` con el mensaje de tipo no válido.
-3. Para `SeriesLibraryPath`, `Directory.Exists` debe confirmar que la carpeta existe. Si no, lanza `ArgumentException` con el mensaje de carpeta inexistente.
 
 **La llama:** [Update](#update), antes de asignar el valor y escribir.
 

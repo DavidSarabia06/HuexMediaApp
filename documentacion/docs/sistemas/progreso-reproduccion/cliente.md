@@ -2,7 +2,7 @@
 
 [Visión general](README.md) · [Pausa y guardado](../reproduccion-video/eventos/pausar-reanudar.md)
 
-`playbackProgress.js` reúne el guardador de muestras, la interpretación de respuestas y la construcción de «Continuar viendo». `VideoPlayer.jsx`, `Series.jsx` y `SeriesDetail.jsx` utilizan estas funciones.
+`playbackProgress.ts` reúne el guardador de muestras, la interpretación de respuestas y la construcción de «Continuar viendo». `VideoPlayer.tsx`, `Series.tsx` y `SeriesDetail.tsx` utilizan estas funciones.
 
 [Referencia de todas las funciones del módulo](../../frontend/modulos/playback-progress.md) · [Código JavaScript actualizado](../../codigo/PlaybackProgressClient.md)
 
@@ -38,15 +38,15 @@ Espera con `Promise.allSettled` las operaciones de guardado registradas en ese m
 
 ## Consultar y mostrar
 
-### readProgressResponse
+### readJson — generalUtils.ts
 
-Interpreta JSON. Una respuesta HTTP fallida o un contenido JSON nulo produce un error utilizando el campo `error` disponible o el mensaje general.
+Interpreta JSON. Una respuesta HTTP fallida o un contenido JSON nulo produce un error utilizando el campo `error`, después `message` o el mensaje general de `generalUtils.ts`.
 
-### pathKey
+### normalizePathForComparison — generalUtils.ts
 
 Cambia `/` por `\`, retira separadores finales y convierte a mayúsculas para comparar rutas en el cliente.
 
-### formatProgressTime
+### formatProgressTime — generalUtils.ts
 
 Convierte segundos a `minutos:segundos` o `horas:minutos:segundos` y mantiene dos cifras para los segundos.
 
@@ -81,4 +81,4 @@ Devuelve tarjetas con nombre de serie y episodio, ruta de serie, indicador `next
 
 `SeriesDetail.setEpisodeWatched` espera guardados activos y llama a `/api/playbackprogress/watched`. Actualiza el progreso utilizado por las tarjetas, sus estados y sus barras.
 
-El reinicio de `Series.jsx` espera guardados y envía biblioteca y serie a `/api/playbackprogress/reset`. Después retira esa serie de las tarjetas de continuar viendo. El servidor conserva la fecha del reinicio para descartar muestras anteriores que puedan llegar después.
+El reinicio de `Series.tsx` espera guardados y envía biblioteca y serie a `/api/playbackprogress/reset`. Después retira esa serie de las tarjetas de continuar viendo. El servidor conserva la fecha del reinicio para descartar muestras anteriores que puedan llegar después.

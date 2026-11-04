@@ -1,163 +1,68 @@
 # PlaybackProgressService
 
-[Visión general](README.md) · [Código fuente](../../codigo/PlaybackProgressService.md)
+[Sistema](README.md) · [Código fuente](../../codigo/PlaybackProgressService.md)
 
-El servicio concentra las validaciones, la clasificación de episodios, el orden de las muestras y el almacenamiento JSON. Sus regiones coinciden con las agrupaciones de esta página.
+Recibe `AppStoragePaths`, `LibraryService`, `JsonFileStoreService` e `IOptionsMonitor<PlaybackProgressOptions>`. El servicio obtiene la biblioteca mediante su identificador y conserva el progreso de Series y Películas en el mismo formato.
 
-## Construcción y operaciones públicas
+## Consulta y guardado de muestras
 
-### Constructor
+`GetAsync(libraryId, token)` carga el documento común mediante `LoadAsync`. Si falta, prepara uno vacío en memoria. El archivo se crea al guardar progreso o al confirmar una migración desde Ajustes.
 
-Recibe `AppStoragePaths` para localizar `PlaybackProgress` dentro del directorio de datos activo y un `IOptionsMonitor<PlaybackProgressOptions>` para consultar los márgenes vigentes. Se registra como singleton en `Program.cs`; `_gate`, un `SemaphoreSlim`, serializa las lecturas y modificaciones de esa instancia. `JsonOptions` utiliza nombres web y JSON indentado.
+`SaveAsync` valida la posición, duración y fecha, toma los márgenes activos y ejecuta el cambio mediante `ExecuteAsync`. `ValidateVideo` comprueba que el vídeo exista, tenga una extensión admitida y pertenezca a la biblioteca. En Series exige también una carpeta de serie hija directa y un episodio dentro de ella.
 
-### GetAsync
-
-**Entrada:** ruta de biblioteca y token. **Resultado:** `PlaybackProgressLibrary`.
-
-Normaliza y comprueba la biblioteca, espera `_gate` y llama a `LoadAsync`. Devuelve el documento completo y libera el semáforo en `finally`. Un archivo ausente devuelve una biblioteca vacía en memoria.
-
-### SaveAsync
-
-**Entrada:** `SavePlaybackProgressRequest` y token. **Resultado:** `SeriesPlaybackProgress`.
-
-Este es el recorrido de una muestra enviada por el reproductor:
-
-1. Normaliza biblioteca, serie y episodio y llama a `ValidateEpisode`.
-2. Comprueba posición y duración con `ValidateTimes` y fecha con `ValidateRecordedAt`.
-3. Captura los ajustes de `_options.CurrentValue`, espera `_gate` y carga el JSON.
-4. Obtiene o crea la entrada de la serie mediante `GetOrCreateSeries`.
-5. Si la fecha recibida es anterior o igual a `LastRecordedAtUtc`, devuelve el estado conservado.
-6. Si la posición es cero, conserva el progreso anterior y devuelve la entrada en memoria.
-7. Actualiza la fecha y decide si el episodio cuenta como visto.
-8. Si acaba de cumplir los criterios, lo añade a `WatchedEpisodePaths` sin duplicados y actualiza `LastWatchedEpisodePath`.
-9. Si el episodio está visto, deja `InProgress` vacío. Si está pendiente, sustituye `InProgress` por ruta, posición y duración de esta muestra.
-10. Llama a `WriteAsync`, devuelve el progreso y libera `_gate` en `finally`.
-
-La comparación de fecha se hace por serie: permite mantener el último episodio en curso que se ha reproducido. Reproducir un episodio ya visto conserva su marca y deja el campo de episodio en curso vacío.
-
-El criterio de visto se calcula así:
+Una muestra con posición cero conserva el dato anterior. Las muestras con fecha anterior o igual a la última aceptada se descartan.
 
 ```csharp
 bool watched = request.PositionSeconds / request.DurationSeconds * 100 >= settings.WatchedThresholdPercent ||
     request.DurationSeconds - request.PositionSeconds <= settings.RemainingSecondsToMarkWatched;
 ```
 
-Por ejemplo, con duración 2000 y posición 1880 quedan 120 segundos: se marca como visto aunque el porcentaje sea 94 %. Con duración 10000 y posición 9500 se alcanza el 95 % aunque queden 500 segundos.
+Con duración 2000 y posición 1880 quedan 120 segundos: se marca como visto aunque el porcentaje sea 94 %. Con duración 10000 y posición 9500 se alcanza el 95 % aunque queden 500 segundos.
 
-### SetWatchedAsync
+`SaveSeriesSample` conserva los vistos y solo el último episodio pendiente de cada serie. Si el vídeo cumple los márgenes, lo incorpora a los vistos y actualiza el último visto. Si está pendiente y aún no estaba visto, guarda su posición en `InProgress`. Una nueva muestra aceptada desactiva la ocultación de la tarjeta.
 
-**Entrada:** `SetEpisodeWatchedRequest` y token. **Resultado:** progreso de la serie.
+`SaveMovieSample` conserva una entrada por película. Actualiza posición y duración y mantiene la marca de visto cuando ya estaba activa. Una nueva muestra aceptada vuelve a mostrar la película en continuar viendo cuando cumple el filtro del cliente.
 
-Valida las rutas y el episodio, espera el turno y carga su entrada. Si `Watched` es `true`, añade la ruta si falta y la convierte en el último visto. Si es `false`, elimina la ruta; cuando era el último visto, utiliza la última ruta que quede en la lista o `null`.
+## Marcas manuales y reinicio
 
-Si el episodio elegido es el de `InProgress`, vacía su posición parcial. La posición en curso de otro episodio se conserva. `AdvanceRecordedAt` avanza la fecha para proteger la decisión manual frente a muestras antiguas y `WriteAsync` publica el cambio.
+`SetWatchedAsync` añade o retira el episodio de los vistos. Actualiza el último visto y vacía `InProgress` cuando corresponde al episodio elegido. En películas cambia `Watched` y pone la posición en cero. `LatestDate` conserva la mayor fecha entre la actual y la anterior para proteger la decisión frente a muestras atrasadas.
 
-### ResetAsync
+`ResetAsync` exige una biblioteca de Series y una carpeta válida. Vacía los vistos, el episodio en curso y el último visto; restablece la visibilidad y actualiza la fecha. Las otras series se conservan.
 
-**Entrada:** `ResetSeriesProgressRequest` y token. **Resultado:** progreso reiniciado de esa serie.
+## Visibilidad de continuar viendo
 
-Exige una serie hija directa de la biblioteca y una carpeta existente. Tras esperar el semáforo y cargar la entrada, vacía `WatchedEpisodePaths`, `InProgress` y `LastWatchedEpisodePath`. Avanza la fecha para descartar muestras previas al reinicio y publica el JSON actualizado. Las otras entradas de la biblioteca se conservan.
+`HideSeriesAsync` y `HideMovieAsync` buscan la entrada y activan `HiddenFromContinueWatching`. Conservan la posición y las marcas de visto. Una entrada sin progreso produce `KeyNotFoundException`.
 
-## Estado de la serie
+## Coordinación y almacenamiento
 
-### GetOrCreateSeries
+`ExecuteAsync` obtiene la biblioteca y adquiere `_gate`. Dentro del bloqueo carga y valida el progreso. Las consultas llaman a `CleanupMissingProgress`; las operaciones de guardado aplican su delegado. Cuando hay cambios, valida el documento y lo escribe. El bloqueo se libera en `finally`.
 
-Busca una entrada por `SeriesPath` sin distinguir mayúsculas. Si falta, añade una `SeriesPlaybackProgress` a los datos cargados en memoria. La publicación corresponde a la operación que llama a este auxiliar.
+`GetFilePath` utiliza `Progress-{LibraryId:N}.json`, dentro de `App_Data/PlaybackProgress`. `JsonFileStoreService` lee y publica el JSON mediante su temporal, vaciado de datos y sustitución del archivo.
 
-### AdvanceRecordedAt
+## Migración manual del progreso antiguo
 
-Obtiene `DateTimeOffset.UtcNow` y lo asigna cuando supera la fecha conservada. Lo utilizan el reinicio y las marcas manuales para ordenar esas decisiones respecto a muestras de reproducción.
+`GetLegacyProgressAsync` recorre los JSON de `App_Data/PlaybackProgress`. Selecciona los documentos de versión 1, valida sus datos y devuelve nombre de archivo, raíz original y contadores de series, episodios vistos y episodios en curso. La búsqueda conserva los archivos.
 
-## Validación y rutas
+`MigrateLegacyProgressAsync(fileName, libraryId, token)` recibe el archivo elegido y una biblioteca de Series ya registrada. Comprueba el nombre del archivo y obtiene el destino desde la biblioteca. Dentro del mismo semáforo que coordina los guardados, comprueba que el destino esté disponible y vuelve a leer y validar el original.
 
-### Same
+`ValidateLegacyDocument` comprueba la versión y la raíz original y reutiliza `ValidateLibraryData` para revisar las rutas, fechas y estados de cada serie. Después `RebasePath` sustituye la raíz utilizando `Path.GetRelativePath` y `Path.Combine`: conserva las carpetas de series, temporadas y nombres de episodios aunque cambie la unidad del ordenador.
 
-Compara dos rutas con `StringComparison.OrdinalIgnoreCase`.
+Se adaptan `SeriesPath`, los episodios vistos, el último visto y el episodio en curso. La posición, duración, fechas y marcas se conservan. El resultado se valida con la biblioteca de destino y se escribe mediante `JsonFileStoreService`. El archivo original permanece intacto. Si ya existe un documento de progreso en el destino, la operación devuelve el motivo y lo conserva.
 
-### IsDescendant
+## Validación
 
-Comprueba que el hijo empiece por la ruta padre seguida de un separador. Esto permite episodios en subcarpetas de temporada y distingue una carpeta de otra cuyo nombre solo comparte el prefijo.
+`NormalizePath` exige una ruta absoluta y elimina el separador final. `Same` compara rutas sin distinguir mayúsculas; `IsDescendant` comprueba la pertenencia a una carpeta.
 
-### NormalizePath
+`ValidateTimes` exige números finitos, posición no negativa, duración positiva y posición menor o igual a la duración. `ValidateRecordedAt` rechaza fechas vacías o adelantadas más de un minuto respecto al servidor.
 
-Exige contenido y una ruta plenamente cualificada. Utiliza `Path.GetFullPath` y retira el separador final redundante. Un argumento inválido produce `ArgumentException`.
+`ValidateLibraryData` comprueba la versión, el identificador de biblioteca, el tipo de contenido, las listas, las rutas, los duplicados, las fechas y la coherencia del progreso. Los errores de documento se convierten en `InvalidDataException` y el archivo se conserva.
 
-### NormalizeLibrary
+## Limpieza de referencias al consultar progreso
 
-Llama a `NormalizePath` y exige que la carpeta exista.
+`GetAsync` ejecuta `CleanupMissingProgress` antes de devolver los datos. [`LibraryContentSnapshot.TryRead`](../categorias/contenido-biblioteca.md) enumera las carpetas de Series y los vídeos disponibles en toda la raíz. El resultado completo permite distinguir las referencias ausentes de un recorrido que ha fallado.
 
-### ValidateEpisode
+La limpieza retira las películas cuyo archivo falta y las entradas de Series cuya carpeta ya no está. En las series que siguen disponibles, elimina los episodios vistos ausentes y vacía `InProgress` cuando falta su vídeo. Si falta el último visto, utiliza la última ruta de vistos que queda o `null`.
 
-Comprueba que la serie sea hija directa de la biblioteca, el episodio esté dentro de la serie, ambas ubicaciones existan y la extensión sea `.mkv`, `.mp4` o `.avi`, sin distinguir mayúsculas. Una comprobación fallida produce `ArgumentException`.
+Los estados y minutos de los archivos presentes se conservan. La operación guarda el documento únicamente cuando hubo cambios y utiliza el mismo semáforo que las muestras del reproductor. Si la raíz está desconectada o el recorrido falla por permisos o acceso al disco, conserva el JSON.
 
-### ValidateTimes
-
-Exige números finitos, duración positiva y posición comprendida entre cero y la duración. Una comprobación fallida produce `ArgumentException`.
-
-### ValidateRecordedAt
-
-Exige una fecha distinta del valor inicial y admite como máximo un minuto de adelanto respecto al reloj UTC del servidor.
-
-### GetFilePath
-
-Convierte la ruta normalizada de biblioteca a mayúsculas, obtiene sus bytes UTF-8 y calcula SHA256. Usa los primeros ocho caracteres hexadecimales del hash.
-
-La parte legible se obtiene del nombre de la carpeta: sustituye caracteres inválidos por `_`, recorta espacios y puntos finales, utiliza `Biblioteca` si queda vacía y limita la longitud a ochenta caracteres. El resultado se combina con `_directory` y la extensión `.json`.
-
-## Lectura y validación del archivo
-
-### LoadAsync
-
-Abre el JSON con acceso de lectura y `FileShare.Read` y lo deserializa como `PlaybackProgressLibrary`. Si el archivo o su directorio faltan, devuelve una biblioteca nueva con la ruta solicitada.
-
-Un JSON ilegible se convierte en `InvalidDataException`. Si la lectura tiene éxito, llama a `ValidateLibraryData`; una incoherencia detectada también se comunica como `InvalidDataException`. Los cambios se publican después de superar esta lectura y validación.
-
-### ValidateLibraryData
-
-Comprueba en orden:
-
-1. Documento presente, versión 1, biblioteca coincidente y lista de series.
-2. Entradas de serie presentes, rutas normalizables e hijas directas, rutas únicas, lista de vistos y fecha informada.
-3. Rutas de vistos pertenecientes a su serie y únicas, mediante un `HashSet` que compara sin distinguir mayúsculas.
-4. `LastWatchedEpisodePath`, cuando existe, incluido entre los vistos.
-5. `InProgress`, cuando existe, con tiempos válidos, ruta descendiente y episodio pendiente de ver.
-
-`HashSet.Add` devuelve `false` cuando la ruta ya estaba registrada; la expresión `!set.Add(...)` detecta así un duplicado. La validación de lectura comprueba la coherencia de las rutas almacenadas; las operaciones sobre episodios comprueban además su existencia mediante `ValidateEpisode`.
-
-## Guardado seguro
-
-### WriteAsync
-
-```mermaid
----
-config:
-  htmlLabels: false
-  flowchart:
-    useMaxWidth: true
-    padding: 20
----
-flowchart TD
-    A["Datos actualizados en<br/>memoria"] --> B["Crear temporal único"]
-    B --> C["Serializar JSON"]
-    C --> D["FlushAsync y Flush hasta<br/>disco"]
-    D --> E["Cerrar temporal y comprobar<br/>cancelación"]
-    E --> F["Replace o Move al destino"]
-    F --> G["finally · intentar borrar<br/>temporal sobrante"]
-```
-
-Crea el directorio de almacenamiento, calcula el destino y añade un GUID y `.tmp` para el nombre temporal. Lo abre con `FileMode.CreateNew`, escritura exclusiva, búfer de 4096 bytes y opciones `Asynchronous | WriteThrough`.
-
-| Operación | Función en el guardado |
-| --- | --- |
-| `WriteThrough` | Solicita escribir a través de los búferes intermedios. |
-| `FlushAsync(token)` | Vacía los datos pendientes del flujo de forma asíncrona. |
-| `Flush(flushToDisk: true)` | Solicita además el vaciado de los búferes intermedios hacia disco. |
-| Cierre de `await using` | Libera el archivo antes de publicarlo. |
-| `File.Replace` | Publica el temporal sobre un destino existente. |
-| `File.Move` | Publica el temporal cuando el destino es nuevo. |
-
-La cancelación se comprueba después de cerrar el temporal y antes de publicarlo. `finally` llama a `TryDeleteTemporary` tanto ante éxito como ante fallo.
-
-### TryDeleteTemporary
-
-Intenta borrar el temporal sobrante con `File.Delete`. Captura fallos de E/S y permisos para conservar el resultado o la excepción principal del guardado.
+Un archivo renombrado pasa a ser una ruta distinta: la referencia anterior se retira cuando se comprueba su ausencia. La limpieza utiliza los documentos comunes; la conversión del formato antiguo sigue siendo una acción manual desde Ajustes.
