@@ -1,0 +1,48 @@
+/* --------------------------- Color de episodio clave ------------------------- */
+
+.huex-card.is-key {
+    --huex-key-color: #f0d84a;
+}
+
+/* --------------------------- Etiqueta y título ------------------------------- */
+
+/* Episodios clave: borde habitual en reposo y amarillo al interactuar. */
+.huex-card.is-key:hover,
+.huex-card.is-key:focus-visible,
+.episode-card-shell:hover > .huex-card.is-key,
+.episode-card-shell:focus-within > .huex-card.is-key,
+.series-category-card:hover .huex-card.is-key,
+.series-category-card:focus-within .huex-card.is-key {
+    border-color: var(--huex-key-color);
+}
+
+.huex-card-key-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 7px;
+    border: 1px solid #98926080;
+    border-radius: 5px;
+    background-color: #23231deb;
+    color: var(--huex-key-color);
+    font-size: .65rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+/* El título acompaña al borde amarillo durante la interacción. */
+.huex-card.is-key:hover .huex-card-title,
+.huex-card.is-key:focus-visible .huex-card-title,
+.episode-card-shell:hover > .huex-card.is-key .huex-card-title,
+.episode-card-shell:focus-within > .huex-card.is-key .huex-card-title,
+.series-category-card:hover .huex-card.is-key .huex-card-title,
+.series-category-card:focus-within .huex-card.is-key .huex-card-title {
+    color: var(--huex-key-color);
+}
+

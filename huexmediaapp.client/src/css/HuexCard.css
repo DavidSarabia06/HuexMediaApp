@@ -1,4 +1,30 @@
 /* Tarjeta y respuesta al cursor. */
+.huex-card-tooltip {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    z-index: 1100;
+    width: max-content;
+    max-width: min(360px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background: #222;
+    color: #eee;
+    box-shadow: 0 6px 20px #0008;
+    font-family: var(--sans, system-ui, sans-serif);
+    font-size: .85rem;
+    font-weight: 400;
+    line-height: 1.45;
+    text-align: center;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    pointer-events: none;
+}
+
 .huex-card {
     background-color: #1e1e1e;
     border-radius: 8px;
@@ -19,10 +45,6 @@
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
     border: 1px solid var(--huex-card-hover);
-}
-
-.huex-card-episode {
-    text-align: left;
 }
 
 /* Imagen y proporciones de la carátula. */
@@ -49,12 +71,16 @@
 
 /* Título y espacio de información. */
 .huex-card-info {
+    display: grid;
+    grid-template-rows: 2.5rem;
+    align-items: center;
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
 }
 
 .huex-card-title {
+    text-align: center;
     font-weight: 400;
     color: #e5e5e5;
     display: -webkit-box;
@@ -67,8 +93,9 @@
     margin: 0;
 }
 
-.huex-card-episode .huex-card-title {
-    height: 2.5rem;
+/* La celda de información reserva dos líneas y centra el título dentro de ese espacio. */
+.huex-home-grid .huex-card-info {
+    grid-template-rows: auto;
 }
 
 /* Icono de reproducción sobre la imagen. */
@@ -209,4 +236,20 @@
     .huex-card-title {
         font-size: .9rem;
     }
+}
+/* Acción para retirar una tarjeta de Continuar viendo. */
+.huex-card-remove {
+    width: 28px;
+    height: 28px;
+    border-color: #444;
+    color: #ff6262;
+    background: #191919e6;
+}
+
+.huex-card-remove:hover {
+    background: #333;
+}
+
+.huex-card-remove:focus-visible {
+    outline-color: #ff6262;
 }

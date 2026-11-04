@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import './css/Header.css';
+import { Link, useLocation } from 'react-router-dom';
+import LibraryCardSizeSelector from './LibraryCardSizeSelector';
+import '../css/Header.css';
 
 /** Muestra la marca, el control de pantalla completa y los enlaces principales de la aplicación. */
-function Header() {
+function Header({ seriesView, moviesView }: { seriesView: import('../hooks/useLibraryDensity').LibraryDensityState; moviesView: import('../hooks/useLibraryDensity').LibraryDensityState }) {
+    const { pathname } = useLocation();
+    const libraryView = pathname === '/series' ? seriesView : pathname === '/movies' ? moviesView : null;
     // ---------------------------------- Estados ----------------------------------
 
     // Indica si el elemento raíz de la aplicación está en pantalla completa.
@@ -46,13 +49,15 @@ function Header() {
     // -------------------------------- Renderizado --------------------------------
 
     return (
-        <header className="huex-app-header">
+        <header className={`huex-app-header${libraryView ? ' has-library-controls' : ''}`}>
             <Link to="/" className="huex-header-brand">
                 <img src="/HuexMediaAppIcon.png" alt="" />
                 HUEX MEDIA APP
             </Link>
 
-            <div className="huex-header-fullscreen">
+            <div className="huex-header-controls">
+                {libraryView && <LibraryCardSizeSelector value={libraryView.density} onChange={libraryView.setDensity} />}
+                <div className="huex-header-fullscreen">
                 <button
                     type="button"
                     className="nav-icon"
@@ -70,6 +75,7 @@ function Header() {
                     </svg>
                 </button>
                 {fullscreenError && <span role="status" className="huex-header-fullscreen-error">{fullscreenError}</span>}
+                </div>
             </div>
 
             {/* Contenedor que agrupa todos los botones a la derecha */}

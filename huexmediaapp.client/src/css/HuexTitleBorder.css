@@ -1,0 +1,50 @@
+/* ------------------------ Contorno de los títulos ---------------------------- */
+
+.huex-title-outline {
+    position: relative;
+    isolation: isolate;
+}
+
+.huex-title-orbit-border {
+    position: absolute;
+    inset: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    overflow: visible;
+    pointer-events: none;
+    display: none;
+}
+
+.huex-title-orbit-lines {
+    width: calc(100% - 3px);
+    height: calc(100% - 3px);
+    fill: none;
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    stroke-dasharray: var(--huex-title-border-dasharray, 18 32);
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 2px color-mix(in srgb, currentColor 30%, transparent));
+}
+
+.huex-title-gradient-highlight {
+    stop-color: color-mix(in srgb, currentColor 65%, white);
+}
+
+/* Los trazos equidistantes recorren el borde continuamente, sin depender del hover. */
+[data-title-border-style="animated"] .huex-title-outline {
+    border-color: color-mix(in srgb, currentColor 30%, transparent);
+}
+
+[data-title-border-style="animated"] .huex-title-orbit-border {
+    display: block;
+}
+
+[data-title-border-style="animated"] .huex-title-orbit-lines {
+    animation: huex-title-border-orbit var(--huex-title-border-duration, 8s) linear infinite;
+}
+
+@keyframes huex-title-border-orbit {
+    to {
+        stroke-dashoffset: -100;
+    }
+}

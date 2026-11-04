@@ -1,37 +1,35 @@
-
+import { errorMessage } from '../utils/generalUtils';
+import type { ProgressSaver } from '../utils/playbackProgress';
+import type { MediaTrack, SubtitleCue } from '../utils/subtitles';
+import type { CategoryRowItem } from '../components/SeriesCategoryRow';
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Hls from "hls.js";
-import HuexPageHeader from "./HuexPageHeader";
-import "./css/VideoPlayer.css";
-import { parseSubtitles, subtitleAt, trackLabel } from "./subtitles";
-import { createProgressSaver } from "./playbackProgress";
+import HuexPageHeader from "../components/HuexPageHeader";
+import "../css/VideoPlayer.css";
+import { parseSubtitles, subtitleAt, trackLabel } from "../utils/subtitles";
+import { createProgressSaver } from "../utils/playbackProgress";
+import { formatProgressTime } from "../utils/generalUtils";
+
+interface PlayerNavigationState {
+    libraryId?: string;
+    mediaType?: 'Series' | 'Movies';
+    episode?: CategoryRowItem;
+    seriesPath?: string;
+    startSeconds?: number;
+}
+interface AudioGraph { context: AudioContext; source: MediaElementAudioSourceNode; gain: GainNode; }
+interface SubtitleResult { cues: SubtitleCue[]; error?: string; }
+interface SubtitleData extends SubtitleResult { path: string; track: string; attempt: number; }
+interface VideoInfo { duration: number; audioTracks: MediaTrack[]; subtitleTracks: MediaTrack[]; }
+interface PlaybackSession { sessionId: string; timelineStartSeconds: number; transportTimestampOffsetSeconds: number; playlistUrl: string; }
+
+
 
 // --------------------------- Funciones auxiliares ----------------------------
 
-/** Convierte segundos en mm:ss o hh:mm:ss para los tiempos y mensajes del reproductor. */
-function formatTime(seconds) {
-    if (!Number.isFinite(seconds)) {
-        return "00:00";
-    }
-
-    const totalSeconds = Math.floor(Math.max(0, seconds));
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const remainingSeconds = totalSeconds % 60;
-
-    /** Completa cada parte del reloj con dos dígitos. */
-    function pad(value) {
-        return String(value).padStart(2, "0");
-    }
-
-    return hours > 0
-        ? `${pad(hours)}:${pad(minutes)}:${pad(remainingSeconds)}`
-        : `${pad(minutes)}:${pad(remainingSeconds)}`;
-}
-
 /** Solicita al servidor detener la sesión HLS y limpiar sus temporales, incluso al salir de la página. */
-async function stopSession(sessionId) {
+async function stopSession(sessionId: string | null | undefined) {
     if (!sessionId) {
         return;
     }
@@ -54,29 +52,32 @@ export default function VideoPlayer() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const episode = location.state?.episode;
-    const videoPath = episode?.rutaCompleta;
-    const libraryPath = location.state?.libraryPath;
-    const seriesPath = location.state?.seriesPath;
+    const navigationState = location.state as PlayerNavigationState | null;
+    const libraryId = navigationState?.libraryId;
+    const isMovie = navigationState?.mediaType === 'Movies';
+    const episode = navigationState?.episode;
+    const videoPath = episode?.rutaCompleta ?? '';
+    const seriesPath = navigationState?.seriesPath;
+
     // Guardador asociado a la identidad de biblioteca, serie y episodio.
-    const progressSaverRef = useRef(null);
+    const progressSaverRef = useRef<ProgressSaver | null>(null);
     const [progressError, setProgressError] = useState('');
 
     // Elementos del DOM y estado de reproducción que muestran los controles.
-    const videoRef = useRef(null);
-    const playerRef = useRef(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const playerRef = useRef<HTMLDivElement>(null);
     const playAfterSeekRef = useRef(true);
     const [isPlaying, setIsPlaying] = useState(false);
     // El volumen usa 0..2; las referencias conservan la amplificación y el aviso temporal.
     const [volume, setVolume] = useState(1);
     const [muted, setMuted] = useState(false);
-    const audioGraphRef = useRef(null);
+    const audioGraphRef = useRef<AudioGraph | null>(null);
     const volumeRef = useRef(1);
-    const volumeNoticeTimerRef = useRef(null);
-    const [volumeNotice, setVolumeNotice] = useState(null);
+    const volumeNoticeTimerRef = useRef<number | undefined>(undefined);
+    const [volumeNotice, setVolumeNotice] = useState<number | null>(null);
     // Sesión vigente y versión de petición para descartar respuestas anteriores.
-    const hlsRef = useRef(null);
-    const sessionRef = useRef(null);
+    const hlsRef = useRef<Hls | null>(null);
+    const sessionRef = useRef<string | null>(null);
     const requestRef = useRef(0);
     const startOffsetRef = useRef(0);
 
@@ -84,13 +85,13 @@ export default function VideoPlayer() {
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [startOffset, setStartOffset] = useState(0);
-    const [seekTarget, setSeekTarget] = useState(() => Math.max(0, location.state?.startSeconds ?? 0));
+    const [seekTarget, setSeekTarget] = useState(() => Math.max(0, navigationState?.startSeconds ?? 0));
     // Pistas disponibles, selección y resultado del último intento de subtítulos.
-    const [audioTracks, setAudioTracks] = useState([]);
-    const [subtitleTracks, setSubtitleTracks] = useState([]);
-    const [selectedAudio, setSelectedAudio] = useState(null);
+    const [audioTracks, setAudioTracks] = useState<MediaTrack[]>([]);
+    const [subtitleTracks, setSubtitleTracks] = useState<MediaTrack[]>([]);
+    const [selectedAudio, setSelectedAudio] = useState<number | null>(null);
     const [selectedSubtitle, setSelectedSubtitle] = useState("");
-    const [subtitleData, setSubtitleData] = useState(null);
+    const [subtitleData, setSubtitleData] = useState<SubtitleData | null>(null);
     const [subtitleAttempt, setSubtitleAttempt] = useState(0);
 
     // Previsualización de la barra, espera de vídeo y ocultación de controles.
@@ -98,7 +99,7 @@ export default function VideoPlayer() {
     const [dragTime, setDragTime] = useState(0);
     const [loading, setLoading] = useState(true);
     const [buffering, setBuffering] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const [controlsIdle, setControlsIdle] = useState(false);
     const [lastInteraction, setLastInteraction] = useState(0);
 
@@ -107,7 +108,7 @@ export default function VideoPlayer() {
     // ---------------------------- Volumen y silencio -----------------------------
 
     /** Ajusta el volumen entre 0 y 200 %, activa la amplificación cuando hace falta y muestra el porcentaje. */
-    function changeVolume(value) {
+    function changeVolume(value: number) {
         const video = videoRef.current;
         if (!video) {
             return;
@@ -151,19 +152,19 @@ export default function VideoPlayer() {
     /** Sincroniza volumen y silencio con el vídeo, incluyendo la ganancia de amplificación. */
     function handleVolumeChange() {
         const gain = audioGraphRef.current?.gain.gain.value ?? 1;
-        const currentVolume = videoRef.current.volume * gain;
+        const currentVolume = videoRef.current!.volume * gain;
         volumeRef.current = currentVolume;
         setVolume(currentVolume);
-        setMuted(videoRef.current.muted);
+        setMuted(videoRef.current!.muted);
     }
 
     /** Alterna el silencio sin cambiar el nivel de volumen guardado. */
     function toggleMute() {
-        videoRef.current.muted = !muted;
+        videoRef.current!.muted = !muted;
     }
 
     /** Aplica el valor de la barra de volumen al audio del reproductor. */
-    function handleVolumeInput(event) {
+    function handleVolumeInput(event: React.ChangeEvent<HTMLInputElement>) {
         changeVolume(Number(event.target.value));
     }
 
@@ -175,11 +176,11 @@ export default function VideoPlayer() {
             return;
         }
         /** Sube o baja un 5 % con la rueda, respetando el zoom y los selectores de pistas. */
-        function handleWheel(event) {
+        function handleWheel(event: WheelEvent) {
             if (event.ctrlKey || event.deltaY === 0) {
                 return;
             }
-            if (event.target.closest("select")) {
+            if ((event.target as Element | null)?.closest("select")) {
                 return;
             }
             event.preventDefault();
@@ -206,43 +207,60 @@ export default function VideoPlayer() {
 
     // --------------------------- Guardado del progreso ---------------------------
 
-    // Al cambiar de episodio o biblioteca, crea su guardador y programa un envío cada 10 segundos.
-    // También guarda al ocultar/salir; la limpieza envía lo pendiente y retira eventos y temporizador.
+    // Crea un guardador por vídeo y envía el progreso cada 10 segundos.
+    // La limpieza guarda lo pendiente y retira los eventos y el temporizador.
     useEffect(() => {
-        if (!libraryPath || !seriesPath || !videoPath) {
+        if (!libraryId || !videoPath || (!isMovie && !seriesPath)) {
             return;
         }
+
+        const identity = {
+            libraryId,
+            videoPath,
+            seriesPath: isMovie ? null : seriesPath
+        };
+
         let active = true;
-        const saver = createProgressSaver({ libraryPath, seriesPath, episodePath: videoPath }, message => {
+
+        const saver = createProgressSaver(identity, message => {
             if (active) {
                 setProgressError(message);
             }
         });
+
         progressSaverRef.current = saver;
-        /** Solicita enviar la última muestra pendiente del episodio. */
+
+        /** Envía la última muestra registrada. */
         function save() {
             void saver.flush();
         }
-        /** Envía el progreso cuando la pestaña pasa a estar oculta. */
+
+        /** Guarda cuando la pestaña pasa a estar oculta. */
         function onVisibility() {
             if (document.visibilityState === 'hidden') {
                 save();
             }
         }
+
         const timer = window.setInterval(save, 10_000);
+
         window.addEventListener('pagehide', save);
         document.addEventListener('visibilitychange', onVisibility);
+
         return () => {
             active = false;
+
             window.clearInterval(timer);
             window.removeEventListener('pagehide', save);
             document.removeEventListener('visibilitychange', onVisibility);
+
             void saver.flush();
+
             if (progressSaverRef.current === saver) {
                 progressSaverRef.current = null;
             }
         };
-    }, [libraryPath, seriesPath, videoPath]);
+    }, [libraryId, seriesPath, videoPath, isMovie]);
 
     // ----------------------- Visibilidad de los controles ------------------------
 
@@ -286,7 +304,7 @@ export default function VideoPlayer() {
                     );
                 }
 
-                const info = await response.json();
+                const info: VideoInfo = await response.json();
 
                 if (!controller.signal.aborted) {
                     setDuration(info.duration ?? 0);
@@ -296,7 +314,7 @@ export default function VideoPlayer() {
             } catch (err) {
                 if (!controller.signal.aborted) {
                     console.error(err);
-                    setError(err.message);
+                    setError(errorMessage(err));
                 }
             }
         }
@@ -315,9 +333,9 @@ export default function VideoPlayer() {
             return;
         }
         const controller = new AbortController();
-        let timeoutId;
+        let timeoutId: number | undefined;
         /** Asocia el resultado al vídeo, pista e intento que lo han solicitado. */
-        function saveResult(result) {
+        function saveResult(result: SubtitleResult) {
             setSubtitleData({ path: videoPath, track: selectedSubtitle, attempt: subtitleAttempt, ...result });
         }
         /** Informa del tiempo agotado y cancela la petición de esta pista. */
@@ -352,7 +370,7 @@ export default function VideoPlayer() {
                 }
             } catch (err) {
                 if (!controller.signal.aborted) {
-                    saveResult({ cues: [], error: err.message || "No se ha podido conectar para cargar los subtítulos." });
+                    saveResult({ cues: [], error: errorMessage(err) || "No se ha podido conectar para cargar los subtítulos." });
                 }
             } finally {
                 window.clearTimeout(timeoutId);
@@ -367,7 +385,7 @@ export default function VideoPlayer() {
     }, [videoPath, selectedSubtitle, subtitleAttempt]);
 
     /** Selecciona o desactiva subtítulos y renueva la visibilidad de los controles. */
-    function changeSubtitle(event) {
+    function changeSubtitle(event: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedSubtitle(event.target.value);
         showControls();
     }
@@ -390,9 +408,9 @@ export default function VideoPlayer() {
         const controller = new AbortController();
 
         let cancelled = false;
-        let localSessionId = null;
-        let localHls = null;
-        let detachNativeTimeline = null;
+        let localSessionId: string | null = null;
+        let localHls: Hls | null = null;
+        let detachNativeTimeline: (() => void) | null = null;
 
         const video = videoRef.current;
 
@@ -408,19 +426,19 @@ export default function VideoPlayer() {
                     return;
                 }
                 // Si el navegador bloquea el inicio con sonido, prueba silenciado.
-                if (err.name === "NotAllowedError") {
+                if ((err instanceof Error ? err.name : "") === "NotAllowedError") {
                     video.muted = true;
                     setMuted(true);
                     try {
                         await video.play();
                         return;
                     } catch (retryError) {
-                        if (cancelled || requestId !== requestRef.current || retryError.name === "AbortError") {
+                        if (cancelled || requestId !== requestRef.current || (retryError instanceof Error ? retryError.name : "") === "AbortError") {
                             return;
                         }
                     }
                     setError("Pulsa Reproducir para iniciar el vídeo.");
-                } else if (err.name !== "AbortError") {
+                } else if ((err instanceof Error ? err.name : "") !== "AbortError") {
                     setError("No se ha podido iniciar el vídeo. Pulsa Reproducir para intentarlo de nuevo.");
                 }
             }
@@ -475,7 +493,7 @@ export default function VideoPlayer() {
                     );
                 }
 
-                const data = await response.json();
+                const data: PlaybackSession = await response.json();
 
                 localSessionId = data.sessionId;
 
@@ -525,7 +543,7 @@ export default function VideoPlayer() {
                         const offset = timing.initPTS / timing.timescale - data.transportTimestampOffsetSeconds;
                         startOffsetRef.current = offset;
                         setStartOffset(offset);
-                        setCurrentTime(Math.max(0, offset + video.currentTime));
+                        setCurrentTime(Math.max(0, offset + video!.currentTime));
                     });
 
                     /** Registra el error HLS vigente y muestra los fallos fatales en la interfaz. */
@@ -574,14 +592,14 @@ export default function VideoPlayer() {
                     let calibrated = false;
                     /** Calibra una vez la posición del episodio usando el primer tiempo nativo disponible. */
                     function calibrateTimeline() {
-                        if (calibrated || cancelled || requestId !== requestRef.current || !video.seekable.length) {
+                        if (calibrated || cancelled || requestId !== requestRef.current || !video!.seekable.length) {
                             return;
                         }
                         calibrated = true;
-                        const offset = data.timelineStartSeconds - video.seekable.start(0);
+                        const offset = data.timelineStartSeconds - video!.seekable.start(0);
                         startOffsetRef.current = offset;
                         setStartOffset(offset);
-                        setCurrentTime(Math.max(0, offset + video.currentTime));
+                        setCurrentTime(Math.max(0, offset + video!.currentTime));
                     }
                     video.addEventListener("loadedmetadata", calibrateTimeline);
                     video.addEventListener("canplay", calibrateTimeline);
@@ -605,7 +623,7 @@ export default function VideoPlayer() {
                 }
 
                 console.error(err);
-                setError(err.message);
+                setError(errorMessage(err));
                 setLoading(false);
             }
         }
@@ -719,7 +737,7 @@ export default function VideoPlayer() {
     }
 
     /** Limita el salto al episodio y solicita otra sesión, o ajusta la actual si coincide su inicio. */
-    function handleSeek(seconds) {
+    function handleSeek(seconds: number) {
         setIsDragging(false);
         if (!duration || loading) {
             return;
@@ -730,7 +748,7 @@ export default function VideoPlayer() {
             Math.min(seconds, duration - 0.1)
         );
 
-        playAfterSeekRef.current = !videoRef.current.paused;
+        playAfterSeekRef.current = !videoRef.current!.paused;
         setCurrentTime(target);
         setIsDragging(false);
 
@@ -738,8 +756,8 @@ export default function VideoPlayer() {
         // no necesitamos reiniciar la sesión.
         if (Math.abs(target - seekTarget) < 0.1) {
             const video = videoRef.current;
-            const firstAvailable = video.seekable.length ? video.seekable.start(0) : 0;
-            video.currentTime = Math.max(firstAvailable, target - startOffsetRef.current);
+            const firstAvailable = video!.seekable.length ? video!.seekable.start(0) : 0;
+            video!.currentTime = Math.max(firstAvailable, target - startOffsetRef.current);
             return;
         }
 
@@ -748,18 +766,18 @@ export default function VideoPlayer() {
     }
 
     /** Actualiza la posición de previsualización mientras se mueve la barra del episodio. */
-    function handleSeekInput(event) {
+    function handleSeekInput(event: React.ChangeEvent<HTMLInputElement>) {
         setIsDragging(true);
         setDragTime(Number(event.target.value));
     }
 
     /** Mantiene los eventos del puntero en la barra aunque salga de sus límites durante el arrastre. */
-    function handleSeekPointerDown(event) {
+    function handleSeekPointerDown(event: React.PointerEvent<HTMLInputElement>) {
         event.currentTarget.setPointerCapture(event.pointerId);
     }
 
     /** Confirma el salto al soltar el puntero sobre la barra. */
-    function handleSeekPointerUp(event) {
+    function handleSeekPointerUp(event: React.PointerEvent<HTMLInputElement>) {
         handleSeek(Number(event.currentTarget.value));
     }
 
@@ -776,7 +794,7 @@ export default function VideoPlayer() {
     }
 
     /** Confirma el salto pendiente si el foco abandona la barra. */
-    function handleSeekBlur(event) {
+    function handleSeekBlur(event: React.FocusEvent<HTMLInputElement>) {
         if (isDragging) {
             handleSeek(Number(event.currentTarget.value));
         }
@@ -785,7 +803,7 @@ export default function VideoPlayer() {
     // ------------------------------ Cambio de audio ------------------------------
 
     /** Cambia la pista de audio creando otra sesión desde la posición actual y conservando pausa/reproducción. */
-    function changeAudio(event) {
+    function changeAudio(event: React.ChangeEvent<HTMLSelectElement>) {
         if (loading) {
             return;
         }
@@ -793,9 +811,9 @@ export default function VideoPlayer() {
         if (index === (selectedAudio ?? audioTracks[0]?.index)) {
             return;
         }
-        playAfterSeekRef.current = !videoRef.current.paused;
+        playAfterSeekRef.current = !videoRef.current!.paused;
         const position = Math.max(0, Math.min(
-            startOffsetRef.current + videoRef.current.currentTime, Math.max(0, duration - 0.1)));
+            startOffsetRef.current + videoRef.current!.currentTime, Math.max(0, duration - 0.1)));
         setCurrentTime(position);
         setSeekTarget(position);
         setSelectedAudio(index);
@@ -810,23 +828,34 @@ export default function VideoPlayer() {
             if (document.fullscreenElement === playerRef.current) {
                 await document.exitFullscreen();
             } else {
-                await playerRef.current.requestFullscreen();
+                await playerRef.current?.requestFullscreen();
             }
         } catch {
             setError("No se ha podido cambiar la pantalla completa.");
         }
     }
 
-    /** Pausa y guarda antes de volver a los episodios; utiliza la biblioteca si falta la ruta de serie. */
+    /** Vuelve a películas o a los episodios según el contenido reproducido. */
     async function handleBack() {
         videoRef.current?.pause();
         await progressSaverRef.current?.flush();
+
+        if (isMovie) {
+            navigate('/movies', { replace: true });
+            return;
+        }
+
         if (seriesPath) {
             navigate('/series/episodes', {
                 replace: true,
                 state: {
                     folderPath: seriesPath,
-                    seriesName: seriesPath.replaceAll('\\', '/').replace(/\/+$/, '').split('/').pop()
+                    libraryId,
+                    seriesName: seriesPath
+                        .replaceAll('\\', '/')
+                        .replace(/\/+$/, '')
+                        .split('/')
+                        .pop()
                 }
             });
         } else {
@@ -932,7 +961,7 @@ export default function VideoPlayer() {
             >
                 <input
                     aria-label="Posición del episodio"
-                    aria-valuetext={`${formatTime(displayedTime)} de ${formatTime(duration)}`}
+                    aria-valuetext={`${formatProgressTime(displayedTime)} de ${formatProgressTime(duration)}`}
                     type="range"
                     min="0"
                     max={duration || 1}
@@ -961,8 +990,8 @@ export default function VideoPlayer() {
                         color: "#ccc"
                     }}
                 >
-                    <span>{formatTime(displayedTime)}</span>
-                    <span>{formatTime(duration)}</span>
+                    <span>{formatProgressTime(displayedTime)}</span>
+                    <span>{formatProgressTime(duration)}</span>
                 </div>
                 <div className="custom-video-buttons">
                     <button disabled={loading} aria-label={isPlaying ? "Pausar" : "Reproducir"}
@@ -1019,7 +1048,7 @@ export default function VideoPlayer() {
                     marginTop: "12px"
                 }}
             >
-                Sesión iniciada desde: {formatTime(startOffset)}
+                Sesión iniciada desde: {formatProgressTime(startOffset)}
             </p>
         </div>
     );

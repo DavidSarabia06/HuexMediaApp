@@ -1,6 +1,8 @@
-import './css/HuexStyles.css';
+import '../css/HuexStyles.css';
+import '../css/HuexTitleBorder.css';
+import AnimatedTitleBorder from './AnimatedTitleBorder';
 
-export default function HuexPageHeader({ title, onBack, children, outlinedTitle = false }) {
+export default function HuexPageHeader({ title, onBack, children, outlinedTitle = false, titleAccessory }: { title: string; onBack?: () => void; children?: React.ReactNode; outlinedTitle?: boolean; titleAccessory?: React.ReactNode }) {
     return (
         <>
             <div className={`huex-header${outlinedTitle ? ' huex-header-outlined' : ''}`}>
@@ -12,8 +14,14 @@ export default function HuexPageHeader({ title, onBack, children, outlinedTitle 
                     </button>
                 )}
                 <h2 className="huex-title">
-                    {outlinedTitle ? <span className="huex-title-outline">{title}</span> : title}
+                    {outlinedTitle ? (
+                        <span className="huex-title-outline">
+                            {title}
+                            <AnimatedTitleBorder />
+                        </span>
+                    ) : title}
                 </h2>
+                {titleAccessory}
                 {children && <div className="huex-header-actions">{children}</div>}
             </div>
             <hr className="huex-divider" />

@@ -1,5 +1,4 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import HuexCard from './HuexCard';
 
 const ANIMATION_DURATION = 1500;
@@ -8,38 +7,61 @@ const CENTER_COPY = 2;
 const SERIES_DRAG_TYPE = 'application/x-huex-series';
 
 /** Mantiene el índice dentro de la lista, incluso al retroceder desde la primera posición. */
-function modulo(value, length) {
+function modulo(value: number, length: number) {
     return ((value % length) + length) % length;
 }
 
-/**
- * @typedef {Object} CategoryRowItem
- * @property {string} rutaCompleta Ruta del elemento, usada como identificador y en el arrastre.
- * @property {string} nombre Título de la tarjeta.
- * @property {string} [urlImagen] Imagen de la tarjeta.
- * @property {import('./HuexCard').EpisodeProgress|null} [playbackProgress] Progreso mostrado en tarjetas horizontales.
- * @property {boolean} [nextEpisode] Indica que se ofrece el siguiente episodio en lugar de uno empezado.
- */
+export interface CategoryRowItem {
+    /** Ruta del elemento, usada como identificador y en el arrastre. */
+    rutaCompleta: string;
+    /** Título de la tarjeta. */
+    nombre: string;
 
-/**
- * @typedef {Object} SeriesCategoryRowProps
- * @property {string} title Título de la fila.
- * @property {CategoryRowItem[]} series Elementos que se muestran en la fila.
- * @property {(item: CategoryRowItem) => void} onSelectSeries Acción al pulsar una tarjeta.
- * @property {string} [categoryId] Categoría de destino; una cadena vacía representa «Sin categoría».
- * @property {{id: string, name: string}[]} [categories] Destinos disponibles en el menú de mover.
- * @property {(seriesPath: string, categoryId: string) => void} [onMoveSeries] Solicita mover una serie.
- * @property {(item: CategoryRowItem) => void} [onResetSeries] Abre la confirmación de reinicio.
- * @property {(category: {id: string, name: string}) => void} [onDeleteCategory] Abre la confirmación de eliminación.
- * @property {string} [cardVariant] Formato de las tarjetas; vertical por defecto.
- * @property {boolean} [showHeader] Muestra la cabecera de la fila; se puede ocultar dentro de una categoría con título propio.
- */
+    /** Episodio clave. */
+    isKey?: boolean;
+    /** Imagen de la tarjeta. */
+    urlImagen?: string;
+    /** Progreso mostrado en tarjetas horizontales. */
+    playbackProgress?: import('./HuexCard').EpisodeProgress|null;
+    /** Indica que se ofrece el siguiente episodio en lugar de uno empezado. */
+    nextEpisode?: boolean;
+}
+
+export interface SeriesCategoryRowProps<T extends CategoryRowItem = CategoryRowItem> {
+    /** Título de la fila. */
+    title: string;
+    typeVariant?: string;
+    /** Elementos que se muestran en la fila. */
+    series: T[];
+    /** Acción al pulsar una tarjeta. */
+    onSelectSeries: (item: T) => void;
+    /** Categoría de destino; una cadena vacía representa «Sin categoría». */
+    categoryId?: string;
+    /** Destinos disponibles en el menú de mover. */
+    categories?: {id: string, name: string}[];
+    /** Solicita mover una serie. */
+    onMoveSeries?: (seriesPath: string, categoryId: string) => void;
+    /** Abre la confirmación de reinicio. */
+    onResetSeries?: (item: T) => void;
+    /** Abre la confirmación de eliminación. */
+    onDeleteCategory?: (category: {id: string, name: string}) => void;
+    /** Abre el editor del nombre al pulsar dos veces el título. */
+    onRenameCategory?: (category: {id: string, name: string}) => void;
+    /** Formato de las tarjetas; vertical por defecto. */
+    cardVariant?: string;
+    /** Muestra la cabecera de la fila; se puede ocultar dentro de una categoría con título propio. */
+    showHeader?: boolean;
+    /** Retira una tarjeta de esta sección. */
+    onRemoveItem?: (item: T) => void;
+    /** Deshabilita las acciones de las tarjetas. */
+    actionsDisabled?: boolean;
+}
 
 /**
  * Muestra una fila de tarjetas con desplazamiento circular y acciones de categoría.
- * @param {SeriesCategoryRowProps} props Propiedades de la fila.
+ * @param props Propiedades de la fila.
  */
-function SeriesCategoryRow(props) {
+function SeriesCategoryRow<T extends CategoryRowItem>(props: SeriesCategoryRowProps<T>) {
     const {
         title,
         series,
@@ -49,13 +71,16 @@ function SeriesCategoryRow(props) {
         onMoveSeries,
         onResetSeries,
         onDeleteCategory,
+        onRenameCategory,
         cardVariant = 'vertical',
         showHeader = true,
-        typeVariant = 'serie'
+        typeVariant = 'serie',
+        onRemoveItem,
+        actionsDisabled = false
     } = props;
 
-    const rowRef = useRef(null);
-    const sectionRef = useRef(null);
+    const rowRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
     const rowId = useId();
 
     // Las medidas y el índice visible determinan qué copias del carrusel son interactivas.
@@ -67,16 +92,13 @@ function SeriesCategoryRow(props) {
     const seriesPositionRef = useRef(0);
 
     // Las referencias permiten controlar cada fotograma sin esperar a un renderizado.
-    const animationFrameRef = useRef(null);
+    const animationFrameRef = useRef<number | null>(null);
     const animationActiveRef = useRef(false);
-    const scrollSettleTimerRef = useRef(null);
+    const scrollSettleTimerRef = useRef<number | undefined>(undefined);
 
     const [isDropTarget, setIsDropTarget] = useState(false);
     const suppressClickUntilRef = useRef(0);
 
-    // Este menú pertenece a la cabecera; las tarjetas utilizan HuexCardMenu.
-    const [categoryMenu, setCategoryMenu] = useState(null);
-    const categoryMenuRef = useRef(null);
 
     const canLoop = series.length > (layout.columns || 1);
 
@@ -85,7 +107,7 @@ function SeriesCategoryRow(props) {
     // Al montar o cambiar series/canLoop, prepara la medición inicial y observa el tamaño de la fila.
     // La limpieza cancela fotogramas y temporizadores pendientes y desconecta el observador.
     useEffect(() => {
-        const row = rowRef.current;
+        const row = rowRef.current!;
         if (!row) {
             return;
         }
@@ -112,7 +134,7 @@ function SeriesCategoryRow(props) {
             if (measurementsUnchanged) {
                 return;
             }
-            window.cancelAnimationFrame(animationFrameRef.current);
+            window.cancelAnimationFrame(animationFrameRef.current ?? 0);
             window.clearTimeout(scrollSettleTimerRef.current);
             animationActiveRef.current = false;
             setIsAnimating(false);
@@ -138,9 +160,15 @@ function SeriesCategoryRow(props) {
         const frame = window.requestAnimationFrame(measure);
         const observer = new ResizeObserver(measure);
         observer.observe(row);
+        // El selector de carátulas puede cambiar las columnas sin cambiar el ancho exterior de la fila.
+        // Observamos también una tarjeta para volver a medir su paso y recolocar las copias.
+        const firstCard = row.querySelector('.series-category-card');
+        if (firstCard) {
+            observer.observe(firstCard);
+        }
         return () => {
             window.cancelAnimationFrame(frame);
-            window.cancelAnimationFrame(animationFrameRef.current);
+            window.cancelAnimationFrame(animationFrameRef.current ?? 0);
             window.clearTimeout(scrollSettleTimerRef.current);
             animationActiveRef.current = false;
             observer.disconnect();
@@ -151,7 +179,7 @@ function SeriesCategoryRow(props) {
 
     /** Vuelve a la copia central mostrando las mismas tarjetas, sin animar ese reajuste. */
     function normalizePosition() {
-        const row = rowRef.current;
+        const row = rowRef.current!;
         const { step, loop } = metricsRef.current;
         if (!row || !step || !loop) {
             return;
@@ -176,7 +204,7 @@ function SeriesCategoryRow(props) {
         if (!animationActiveRef.current) {
             return;
         }
-        window.cancelAnimationFrame(animationFrameRef.current);
+        window.cancelAnimationFrame(animationFrameRef.current ?? 0);
         animationActiveRef.current = false;
         setIsAnimating(false);
         normalizePosition();
@@ -184,7 +212,7 @@ function SeriesCategoryRow(props) {
 
     /** Actualiza las tarjetas visibles y reajusta la posición cuando termina el scroll manual. */
     function handleScroll() {
-        const row = rowRef.current;
+        const row = rowRef.current!;
         const { step } = metricsRef.current;
         if (!row || !step || animationActiveRef.current) {
             return;
@@ -195,8 +223,8 @@ function SeriesCategoryRow(props) {
     }
 
     /** Avanza o retrocede una tanda completa durante 1,5 segundos. */
-    function scrollRow(direction) {
-        const row = rowRef.current;
+    function scrollRow(direction: number) {
+        const row = rowRef.current!;
         const { step, columns, loop } = metricsRef.current;
         if (!row || !step || !loop || animationActiveRef.current) {
             return;
@@ -211,7 +239,7 @@ function SeriesCategoryRow(props) {
         let startedAt;
 
         /** Calcula y dibuja un fotograma; al llegar al destino, reajusta la copia y termina la animación. */
-        function animate(now) {
+        function animate(now: number) {
             startedAt ??= now;
             const progress = duration ? Math.min(1, (now - startedAt) / duration) : 1;
             // Acelera al principio y frena al final para suavizar el desplazamiento.
@@ -231,7 +259,7 @@ function SeriesCategoryRow(props) {
     }
 
     /** Desplaza una tanda con las flechas cuando el foco está en la fila, sin interceptar sus botones. */
-    function handleRowKeyDown(event) {
+    function handleRowKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
         if (event.target !== event.currentTarget) {
             return;
         }
@@ -244,12 +272,12 @@ function SeriesCategoryRow(props) {
     // ------------------------------- Drag and drop -------------------------------
 
     /** Acepta arrastres de series de la aplicación cuando esta fila permite moverlas. */
-    function acceptsDrag(event) {
+    function acceptsDrag(event: React.DragEvent<HTMLElement>) {
         return Boolean(onMoveSeries) && Array.from(event.dataTransfer.types).includes(SERIES_DRAG_TYPE);
     }
 
     /** Autoriza soltar una serie sobre la fila y activa el resaltado de destino. */
-    function handleDragOver(event) {
+    function handleDragOver(event: React.DragEvent<HTMLElement>) {
         if (!acceptsDrag(event)) {
             return;
         }
@@ -259,7 +287,7 @@ function SeriesCategoryRow(props) {
     }
 
     /** Quita el resaltado al salir de la sección, pero lo conserva al pasar entre sus elementos. */
-    function handleDragLeave(event) {
+    function handleDragLeave(event: React.DragEvent<HTMLElement>) {
         const remainsInside = event.relatedTarget instanceof Node &&
             event.currentTarget.contains(event.relatedTarget);
         if (!remainsInside) {
@@ -268,7 +296,7 @@ function SeriesCategoryRow(props) {
     }
 
     /** Lee la ruta arrastrada y solicita al padre moverla a la categoría de esta fila. */
-    function handleDrop(event) {
+    function handleDrop(event: React.DragEvent<HTMLElement>) {
         setIsDropTarget(false);
         if (!acceptsDrag(event)) {
             return;
@@ -276,12 +304,12 @@ function SeriesCategoryRow(props) {
         event.preventDefault();
         const seriesPath = event.dataTransfer.getData(SERIES_DRAG_TYPE);
         if (seriesPath) {
-            onMoveSeries(seriesPath, categoryId);
+            onMoveSeries?.(seriesPath, categoryId);
         }
     }
 
     /** Guarda la ruta en el arrastre y bloquea la apertura de la tarjeta mientras se está moviendo. */
-    function handleSeriesDragStart(event, serie) {
+    function handleSeriesDragStart(event: React.DragEvent<HTMLElement>, serie: T) {
         if (!onMoveSeries) {
             return;
         }
@@ -300,15 +328,15 @@ function SeriesCategoryRow(props) {
     // ------------------------- Acciones de las tarjetas --------------------------
 
     /** Abre el elemento mediante el padre si el clic queda fuera del periodo de bloqueo del arrastre. */
-    function handleSelectSeries(serie, clickTime) {
+    function handleSelectSeries(serie: T, clickTime: number) {
         if (clickTime >= suppressClickUntilRef.current) {
             onSelectSeries(serie);
         }
     }
 
     /** Construye las acciones disponibles de la tarjeta y el submenú de destinos para moverla. */
-    function getSeriesMenuItems(serie) {
-        const menuItems = [];
+    function getSeriesMenuItems(serie: T) {
+        const menuItems: import('./HuexCardMenu').HuexCardMenuItem[] = [];
         if (onMoveSeries) {
             menuItems.push({
                 id: 'move',
@@ -336,116 +364,12 @@ function SeriesCategoryRow(props) {
         return menuItems;
     }
 
-    // ----------------------------- Menú de categoría -----------------------------
+    // ------------------------- Eliminación de categoría --------------------------
 
-    // Al abrir el menú de cabecera, enfoca su opción y registra los cierres por clic exterior, scroll y resize.
-    // Al cerrarlo o desmontar la fila, retira los manejadores registrados.
-    useEffect(() => {
-        if (!categoryMenu) {
-            return;
-        }
-        const panel = categoryMenuRef.current;
-        const initialOption = panel?.querySelector('[aria-checked="true"]') ??
-            panel?.querySelector('[role="menuitem"], [role="menuitemradio"]');
-        initialOption?.focus({ preventScroll: true });
-
-        /** Cierra al pulsar fuera del menú y del botón que lo abrió. */
-        function dismissOutside(event) {
-            const isInsideMenu = event.target instanceof Node &&
-                (panel?.contains(event.target) || categoryMenu.anchor.contains(event.target));
-            if (isInsideMenu) {
-                return;
-            }
-            setCategoryMenu(null);
-        }
-        /** Cierra si cambia la ventana o se desplaza el exterior, permitiendo el scroll dentro del menú. */
-        function dismissOnScroll(event) {
-            if (event.target instanceof Node && panel?.contains(event.target)) {
-                return;
-            }
-            setCategoryMenu(null);
-        }
-        document.addEventListener('pointerdown', dismissOutside, true);
-        document.addEventListener('scroll', dismissOnScroll, true);
-        window.addEventListener('resize', dismissOnScroll);
-        return () => {
-            document.removeEventListener('pointerdown', dismissOutside, true);
-            document.removeEventListener('scroll', dismissOnScroll, true);
-            window.removeEventListener('resize', dismissOnScroll);
-        };
-    }, [categoryMenu]);
-
-    /** Cierra el menú y devuelve el foco a su botón, o a la sección si ese botón ya no existe. */
-    function closeCategoryMenu(restoreFocus = true) {
-        const anchor = categoryMenu?.anchor;
-        setCategoryMenu(null);
-        if (restoreFocus) {
-            window.requestAnimationFrame(() => {
-                const focusTarget = anchor?.isConnected ? anchor : sectionRef.current;
-                focusTarget?.focus({ preventScroll: true });
-            });
-        }
-    }
-
-    /** Alterna el menú de cabecera y calcula su posición y altura disponible junto al botón. */
-    function toggleCategoryMenu(event) {
-        event.stopPropagation();
-        if (categoryMenu) {
-            closeCategoryMenu();
-            return;
-        }
-        const anchor = event.currentTarget;
-        const rect = anchor.getBoundingClientRect();
-        const width = Math.min(260, window.innerWidth - 24);
-        const below = window.innerHeight - rect.bottom - 20;
-        const above = rect.top - 20;
-        const openBelow = below >= 160 || below >= above;
-        const maxHeight = Math.max(40, Math.min(340, openBelow ? below : above));
-        setCategoryMenu({
-            anchor,
-            style: {
-                '--huex-accent': window.getComputedStyle(anchor).getPropertyValue('--huex-accent'),
-                width,
-                maxHeight,
-                left: Math.max(12, Math.min(rect.right - width, window.innerWidth - width - 12)),
-                top: Math.max(12, openBelow ? rect.bottom + 8 : rect.top - Math.min(maxHeight, 90) - 8)
-            }
-        });
-    }
-
-    /** Cierra con Escape/Tab y recorre las opciones con las flechas, Home y End. */
-    function handleCategoryMenuKeyDown(event) {
-        if (event.key === 'Escape' || event.key === 'Tab') {
-            event.preventDefault();
-            closeCategoryMenu();
-            return;
-        }
-        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
-            event.preventDefault();
-            const options = Array.from(categoryMenuRef.current.querySelectorAll(
-                '[role="menuitem"], [role="menuitemradio"]'
-            ));
-            const currentIndex = options.indexOf(document.activeElement);
-            let nextIndex;
-            if (event.key === 'Home') {
-                nextIndex = 0;
-            } else if (event.key === 'End') {
-                nextIndex = options.length - 1;
-            } else {
-                const direction = event.key === 'ArrowDown' ? 1 : -1;
-                nextIndex = modulo(currentIndex + direction, options.length);
-            }
-            options[nextIndex]?.focus();
-        }
-    }
-
-    /** Cierra sin recuperar el foco y solicita al padre la confirmación de eliminación. */
+    /** Solicita al padre la confirmación de eliminación de esta categoría. */
     function handleDeleteCategory() {
-        // El diálogo de confirmación se encarga del foco al abrirse.
-        closeCategoryMenu(false);
-        onDeleteCategory({ id: categoryId, name: title });
+        onDeleteCategory?.({ id: categoryId, name: title });
     }
-
     const copies = canLoop ? [0, 1, 2, 3, 4] : [0];
 
     return (
@@ -456,14 +380,23 @@ function SeriesCategoryRow(props) {
             onDrop={handleDrop}>
             {/* Cabecera y opciones de la categoría. */}
             {showHeader && <div className="series-category-header">
-                <h3 className="huex-title">{title}</h3>
+                <h3 className={`huex-title${onRenameCategory ? ' category-title-editable' : ''}`}
+                    onDoubleClick={onRenameCategory ? () => onRenameCategory({ id: categoryId, name: title }) : undefined}
+                    tabIndex={onRenameCategory ? 0 : undefined}
+                    aria-label={onRenameCategory ? `${title}. Doble clic o F2 para cambiar el nombre` : undefined}
+                    onKeyDown={onRenameCategory ? event => {
+                        if (event.key === 'F2' || event.key === 'Enter') {
+                            event.preventDefault();
+                            onRenameCategory({ id: categoryId, name: title });
+                        }
+                    } : undefined}>{title}</h3>
                 <span className="series-category-count">{series.length}</span>
-                {categoryId && onDeleteCategory && <button type="button" className="series-category-options category-header-options"
-                    aria-label={`Opciones de la categoría ${title}`} aria-haspopup="menu"
-                    aria-expanded={Boolean(categoryMenu)} aria-controls={categoryMenu ? `${rowId}-menu` : undefined}
-                    onClick={toggleCategoryMenu}>
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-                        <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+                {categoryId && onDeleteCategory && <button type="button" className="series-category-options category-header-options category-delete-button"
+                    aria-label={`Eliminar categoría ${title}`} title="Eliminar categoría"
+                    onClick={handleDeleteCategory}>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6" />
                     </svg>
                 </button>}
             </div>}
@@ -504,6 +437,8 @@ function SeriesCategoryRow(props) {
                                         menuItems={getSeriesMenuItems(serie)}
                                         menuTitle={`Opciones de la ${typeVariant}`}
                                         onClick={() => handleSelectSeries(serie, Date.now())}
+                                        onRemove={onRemoveItem ? () => { onRemoveItem(serie); } : undefined}
+                                        removeDisabled={actionsDisabled}
                                     />
                                 </div>
                             );
@@ -517,15 +452,6 @@ function SeriesCategoryRow(props) {
                         </svg>
                     </button>}
                 </div>
-            )}
-            {/* El menú de cabecera se dibuja fuera del carrusel para evitar recortes. */}
-            {categoryMenu && createPortal(
-                <div ref={categoryMenuRef} id={`${rowId}-menu`} role="menu" className="series-category-menu"
-                    aria-label={`Opciones de la categoría ${title}`} style={categoryMenu.style}
-                    onKeyDown={handleCategoryMenuKeyDown}>
-                    <div className="series-category-menu-title">Opciones de la categoría</div>
-                    <button type="button" role="menuitem" tabIndex={-1} onClick={handleDeleteCategory}>Eliminar categoría</button>
-                </div>, document.body
             )}
         </section>
     );

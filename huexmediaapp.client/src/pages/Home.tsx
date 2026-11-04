@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import HuexCard from './HuexCard';
-import HuexPageHeader from './HuexPageHeader';
+import HuexCard from '../components/HuexCard';
+import HuexPageHeader from '../components/HuexPageHeader';
 
 // -------------------------- Secciones de biblioteca --------------------------
 
@@ -17,7 +17,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     /** Abre la sección correspondiente a la tarjeta seleccionada. */
-    function openSection(path) {
+    function openSection(path: string) {
         navigate(path);
     }
 

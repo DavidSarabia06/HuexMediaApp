@@ -48,7 +48,22 @@
     width: var(--header-nav-icon-size);
     height: var(--header-nav-icon-size);
 }
-.huex-header-fullscreen { position: relative; justify-self: center; }
+.huex-header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    gap: 16px;
+    min-width: 0;
+}
+.huex-header-controls .library-card-size-control {
+    width: clamp(110px, 10vw, 140px);
+}
+.huex-header-fullscreen { position: relative; }
+.has-library-controls .huex-header-fullscreen {
+    padding-left: 16px;
+    border-left: 1px solid #333;
+}
 .huex-header-fullscreen button { background: transparent; border: 0; padding: 6px; }
 .huex-header-fullscreen button:disabled { opacity: .4; cursor: default; }
 .huex-header-fullscreen svg {
@@ -79,7 +94,22 @@
         --header-padding: 12px 16px;
         grid-template-columns: minmax(0, 1fr) auto;
     }
-    .huex-header-nav { grid-column: 1 / -1; justify-self: center; }
+    .huex-header-brand { grid-column: 1 / -1; }
+    .huex-header-controls {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: start;
+        margin-left: calc(var(--header-logo-size) + var(--header-logo-gap));
+        gap: 10px;
+    }
+    .huex-header-nav {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: end;
+    }
+    .has-library-controls .huex-header-fullscreen {
+        padding-left: 10px;
+    }
 }
 @media (min-width: 901px) and (max-width: 1023px) {
     .huex-app-header {

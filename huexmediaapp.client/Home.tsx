@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 function Home() {
-    const cardStyle = {
+    const cardStyle: import('react').CSSProperties = {
         display: 'inline-block', padding: '30px 50px', margin: '10px',
         backgroundColor: '#1e1e1e', color: 'white', textDecoration: 'none',
         borderRadius: '10px', fontSize: '1.5rem', fontWeight: 'bold',
