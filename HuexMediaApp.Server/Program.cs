@@ -4,6 +4,7 @@ using HuexMediaApp.Server.Services;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
+const string PublishedUrl = "http://localhost:8081";
 
 AppStoragePaths storagePaths = new AppStoragePaths(builder.Environment);
 builder.Services.AddSingleton(storagePaths);
@@ -47,7 +48,7 @@ builder.Services.AddSwaggerGen();
 
 if (!builder.Environment.IsDevelopment())
 {
-    builder.WebHost.UseUrls("http://localhost:8080");
+    builder.WebHost.UseUrls(PublishedUrl);
 }
 
 var app = builder.Build();
@@ -89,7 +90,7 @@ if (!app.Environment.IsDevelopment())
             // Abre el navegador predeterminado en la URL del servidor.
             Process.Start(new ProcessStartInfo
             {
-                FileName = "http://localhost:8080",
+                FileName = PublishedUrl,
                 UseShellExecute = true
             });
         }
@@ -97,7 +98,7 @@ if (!app.Environment.IsDevelopment())
         {
             app.Logger.LogWarning(
                 exception,
-                "No se pudo abrir el navegador. Abre http://localhost:8080.");
+                "No se pudo abrir el navegador. Abre {Url}.", PublishedUrl);
         }
     });
 }
