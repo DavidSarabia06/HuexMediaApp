@@ -44,7 +44,7 @@ El controlador utiliza `PhysicalFile(file.FullPath, file.ContentType)` para crea
 
 El manifiesto contiene referencias a los archivos `.ts`. Hls.js interpreta la lista, solicita los segmentos y prepara sus datos para que el elemento de vídeo los reproduzca. Durante la reproducción actualiza la lista cuando corresponde y repite el recorrido del servidor para cada archivo.
 
-FFmpeg sigue generando contenido en la carpeta de sesión. El manifiesto mantiene una ventana de veinte segmentos, con una duración objetivo de cuatro segundos por segmento. Los segmentos antiguos se eliminan según la configuración de conservación.
+FFmpeg sigue generando segmentos de aproximadamente cuatro segundos en la carpeta de sesión. El manifiesto anuncia todos los segmentos generados y marca el final cuando FFmpeg completa el vídeo. Los segmentos se eliminan al limpiar la sesión.
 
 Al recibirse `MANIFEST_PARSED`, el cliente desactiva `loading` y llama a `playWhenReady`. Si el intento de reproducción queda bloqueado por sonido con `NotAllowedError`, prueba de nuevo con el vídeo silenciado.
 

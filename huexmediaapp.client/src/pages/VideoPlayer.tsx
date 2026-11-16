@@ -523,12 +523,7 @@ export default function VideoPlayer() {
                         maxBufferLength: 30,
                         maxMaxBufferLength: 60,
 
-                        // La lista HLS es deslizante.
-                        // Intentamos mantenernos lejos de su extremo.
-                        liveSyncDurationCount: 15,
-                        liveMaxLatencyDurationCount: 20,
-
-                        // Comienza desde el inicio disponible.
+                        // Cada sesión empieza por el primer segmento de su manifiesto.
                         startPosition: 0
                     });
 

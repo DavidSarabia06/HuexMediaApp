@@ -106,7 +106,7 @@
 <text x="935" y="1548" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#8FE3A7">SESIÓN HLS · continúa preparada mientras el vídeo está en pausa</text>
 <text x="935" y="1596" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Pausar y reanudar actúa sobre el elemento &lt;video&gt; del navegador.</text>
 <text x="935" y="1628" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La sesión HLS conserva su identificador; FFmpeg puede seguir generando segmentos.</text>
-<text x="935" y="1660" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">El manifiesto mantiene una ventana deslizante y el búfer conserva datos del cliente.</text>
+<text x="935" y="1660" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">Los segmentos siguen disponibles durante la pausa.</text>
 <text x="935" y="1692" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#DCE7F2">La detención y el borrado de temporales pertenecen al evento de salir o sustituir la sesión.</text>
 <text x="100" y="1666" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">7 · Controles y estados visuales</text>
 <text x="100" y="1709" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">onWaiting activa buffering.</text>

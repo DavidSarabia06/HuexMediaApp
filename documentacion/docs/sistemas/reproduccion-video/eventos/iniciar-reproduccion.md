@@ -40,7 +40,7 @@ Con esa información comprueba que la pista solicitada pertenezca a los audios d
 
 Genera un GUID sin separadores como `sessionId` y crea `%TEMP%/HuexMedia/Hls/{sessionId}`. Dentro de esa carpeta se escribirán el manifiesto y los segmentos.
 
-`CreateHlsStartInfo` construye los argumentos de FFmpeg. La configuración selecciona el primer vídeo, copia H.264 o convierte a `libx264` y transforma el audio elegido a AAC estéreo. Los segmentos tienen una duración objetivo de cuatro segundos y el manifiesto mantiene una ventana de veinte segmentos.
+`CreateHlsStartInfo` construye los argumentos de FFmpeg. La configuración selecciona el primer vídeo, copia H.264 o convierte a `libx264` y transforma el audio elegido a AAC estéreo. Los segmentos tienen una duración objetivo de cuatro segundos y el manifiesto crece desde el primero hasta el final de la sesión.
 
 El servicio arranca el proceso, lo registra en `_activeSessions` asociado al identificador y empieza a leer sus errores en segundo plano.
 

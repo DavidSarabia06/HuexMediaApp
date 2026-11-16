@@ -159,7 +159,7 @@ La solicitud de parada anterior se inicia sin bloquear la petición de la nueva 
 | `handleHlsError` | `ERROR` | Registra el error vigente; los fallos fatales muestran el mensaje y terminan la carga inicial. |
 | `handleManifestParsed` | `MANIFEST_PARSED` | Termina la carga inicial y llama a `playWhenReady`. |
 
-Hls.js utiliza búferes configurados de 30 y 60 segundos, referencias de sincronización de 15 y 20 segmentos y `startPosition: 0`.
+Hls.js utiliza búferes configurados de 30 y 60 segundos y empieza en el primer segmento de la sesión con `startPosition: 0`.
 
 ### Reproducción HLS nativa
 

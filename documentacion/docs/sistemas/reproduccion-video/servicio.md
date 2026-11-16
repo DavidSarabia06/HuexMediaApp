@@ -226,8 +226,8 @@ Construye un `ProcessStartInfo` con argumentos separados en `ArgumentList` y red
 | Vídeo | Primera pista; copia H.264 o convierte mediante `libx264`. |
 | Audio | Pista solicitada o primera disponible; AAC a 192 kbit/s, 48 kHz y estéreo. |
 | Segmentación | Objetivo de 4 segundos por segmento. |
-| Manifiesto | Ventana de 20 segmentos. |
-| Limpieza de segmentos | `delete_segments+omit_endlist` y umbral de 5 segmentos antiguos. |
+| Manifiesto | `-hls_playlist_type event` conserva todos los segmentos anunciados y FFmpeg añade `#EXT-X-ENDLIST` al terminar. |
+| Limpieza de segmentos | Se eliminan junto con la carpeta temporal de la sesión. |
 | Nombres | `index.m3u8` y `segment_%05d.ts`. |
 
 ### WaitForPlaylistAsync

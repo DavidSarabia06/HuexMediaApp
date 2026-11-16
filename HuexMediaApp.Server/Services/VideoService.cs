@@ -619,22 +619,10 @@ public class VideoService
         startInfo.ArgumentList.Add("-hls_time");
         startInfo.ArgumentList.Add("4");
 
-        // El manifiesto anuncia los últimos 20 segmentos generados.
-        // El reproductor utiliza esa lista para saber qué archivos puede descargar.
-        startInfo.ArgumentList.Add("-hls_list_size");
-        startInfo.ArgumentList.Add("20");
-
-        // Elimina segmentos antiguos cuando salen
-        // de la ventana de reproducción.
-        startInfo.ArgumentList.Add("-hls_flags");
-        startInfo.ArgumentList.Add(
-            "delete_segments+omit_endlist"
-        );
-
-        // Conservamos cinco segmentos adicionales fuera del manifiesto antes de borrarlos.
-        // Esto da margen para terminar descargas que el reproductor ya había solicitado.
-        startInfo.ArgumentList.Add("-hls_delete_threshold");
-        startInfo.ArgumentList.Add("5");
+        // La lista crece desde el inicio de la sesión y se cierra cuando termina FFmpeg.
+        // Conserva los segmentos para poder reanudar desde cualquier punto ya generado.
+        startInfo.ArgumentList.Add("-hls_playlist_type");
+        startInfo.ArgumentList.Add("event");
 
         // Nombres de los segmentos generados.
         startInfo.ArgumentList.Add("-hls_segment_filename");

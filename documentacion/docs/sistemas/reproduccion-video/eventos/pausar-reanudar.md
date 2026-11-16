@@ -67,7 +67,7 @@ Mover el puntero, pulsar, utilizar el teclado o enfocar el contenedor llama a `s
 
 ## 7. Relación con la sesión HLS
 
-La pausa y la reanudación conservan el identificador de sesión y actúan sobre el `<video>`. FFmpeg puede seguir generando segmentos y actualizando la ventana HLS mientras el usuario está en pausa. El cliente conserva sus datos de búfer según el comportamiento del reproductor.
+La pausa y la reanudación conservan el identificador de sesión y actúan sobre el `<video>`. FFmpeg puede seguir añadiendo segmentos al manifiesto HLS durante la pausa. Los segmentos previos siguen disponibles, incluso si el navegador necesita descargarlos otra vez al reanudar.
 
 La detención del proceso y el borrado de su carpeta se solicitan al salir o sustituir la sesión, como ocurre al buscar o cambiar de audio.
 

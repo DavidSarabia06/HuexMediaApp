@@ -101,7 +101,7 @@
 <text x="1100" y="864" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="400" fill="#DCE7F2">segment_*.ts: video/mp2t</text>
 <text x="1890" y="726" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Ventana de contenido HLS</text>
 <text x="1890" y="768" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">FFmpeg sigue preparando segmentos.</text>
-<text x="1890" y="798" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Manifiesto: últimos 20 segmentos.</text>
+<text x="1890" y="798" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Manifiesto: todos los segmentos.</text>
 <text x="1890" y="828" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Objetivo por segmento: 4 segundos.</text>
 <text x="1890" y="858" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="400" fill="#DCE7F2">Retira archivos antiguos según el margen.</text>
 <text x="1100" y="1011" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Devolver el descriptor</text>
