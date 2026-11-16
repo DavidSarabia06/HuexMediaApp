@@ -2,20 +2,20 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 ; Non-commercial use only
 
-#define MyAppName "Huex Media App"
-#define MyAppVersion "1.0"
+#define MyAppName "Huex Media App v2"
+#define MyAppVersion "2.0"
 #define MyAppPublisher "David Sarabia Torres"
 #define MyAppExeName "HuexMediaApp.Server.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{ACCF8F33-CAEC-4920-AB07-C72328194955}
+AppId={{B50E41C4-D504-4B16-9EE8-233FA703B213}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
-DefaultDirName={autopf}\{#MyAppName}
+DefaultDirName={autopf}\Huex Media App\v2
 UninstallDisplayIcon={app}\HuexMediaAppIcon.ico
 PrivilegesRequired=admin
 ArchitecturesAllowed=x64compatible
@@ -28,7 +28,7 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
 OutputDir=C:\Repositorios\.NET\HuexMediaApp\instalador\salida
-OutputBaseFilename=HuexMediaApp-Setup
+OutputBaseFilename=HuexMediaApp-Setup-v2
 SetupIconFile=C:\Repositorios\.NET\HuexMediaApp\Publicaciones\HuexMediaAppIcon.ico
 SolidCompression=yes
 WizardStyle=modern windows11
@@ -41,7 +41,7 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "C:\Repositorios\.NET\HuexMediaApp\Publicaciones\HuexMediaApp\*"; DestDir: "{app}"; Excludes: "App_Data\*,*.pdb,appsettings.Development.json"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\Publicaciones\HuexMediaApp-v2-win-x64\*"; DestDir: "{app}"; Excludes: "App_Data\*,*.pdb,appsettings.Development.json"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Repositorios\.NET\HuexMediaApp\Publicaciones\HuexMediaAppIcon.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
